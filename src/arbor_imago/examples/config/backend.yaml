@@ -1,7 +1,7 @@
 # all relative paths are relative to your current working directory
 
 DB:
-  URL: sqlite+aiosqlite:///../data/gallery.db
+  URL: sqlite+aiosqlite:///./data/gallery.db
 UVICORN:
   host: 0.0.0.0
   port: 8080

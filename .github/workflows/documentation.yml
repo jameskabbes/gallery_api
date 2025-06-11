@@ -1,0 +1,103 @@
+name: gh-pages documentation builder
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install pip and toml
+        run: |
+          python -m pip install --upgrade pip
+          pip install toml
+
+      - name: Read pyproject.toml
+        id: pyproject_toml
+        run: |
+          python -c "
+          import toml
+          import os
+
+          with open('backend/pyproject.toml', 'r') as f:
+            data = toml.load(f)
+
+          project = data.get('project', {})
+          name = project.get('name', '')
+          version = project.get('version', '')
+          dependencies = project.get('dependencies', [])
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              print(f'project_name={name}', file=fh)
+              print(f'version={version}', file=fh)
+
+          with open('backend/requirements.txt', 'w') as req:
+              for dep in dependencies:
+                  req.write(dep + '\\n')
+          "
+
+      - name: Install dependencies from pyproject.toml
+        run: |
+          pip install sphinx sphinx-rtd-theme
+          pip install -r backend/requirements.txt
+
+      - name: Generate documentation
+        run: |
+          # generate the documentation, put it in the docs folder
+          rm -rf backend/docs
+          mkdir backend/docs
+          cd backend/sphinx
+          sphinx-apidoc -o . ../src/arbor_imago/
+          make html 
+          mkdir /tmp/docs/
+          mv _build/html/* /tmp/docs/
+          cd ../..
+
+      - name: Deploy to gh-pages
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+          # check if gh-pages branch exists, if not create it
+          git fetch origin gh-pages || {
+            git checkout --orphan gh-pages
+            git rm -rf .
+            git commit --allow-empty -m "Initialize gh-pages branch"
+            git push origin gh-pages
+            git checkout master
+          }
+
+          # remove all files from the git tracking, then checkout
+          git clean -fdx
+
+          # checkout
+          git checkout gh-pages
+
+          #remove all untracked files
+          git rm -rf .
+
+          # move the docs folder back to the root of the repository
+          cp -r /tmp/docs/* .
+          touch .nojekyll
+
+          git add .
+
+          if git status --porcelain | grep .; then
+            git commit -m "Update documentation for ${{ steps.pyproject_toml.outputs.project_name }} version ${{ steps.pyproject_toml.outputs.version }}"
+            git push origin gh-pages
+          else
+            echo "No changes to commit"
+          fi

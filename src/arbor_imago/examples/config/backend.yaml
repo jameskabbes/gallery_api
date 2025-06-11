@@ -1,0 +1,21 @@
+# all relative paths are relative to your current working directory
+
+DB:
+  URL: sqlite+aiosqlite:///../data/gallery.db
+UVICORN:
+  host: 0.0.0.0
+  port: 8080
+  reload: true
+MEDIA_DIR: ./data/media_root
+AUTH:
+  credential_lifespans:
+    access_token: P7D
+    magic_link: PT10M
+    request_sign_up: PT1H
+    otp: PT10M
+OPENAPI_SCHEMA_PATH: ../../openapi_schema.json
+ACCESS_TOKEN_COOKIE:
+  key: access_token
+  secure: false
+  httponly: true
+  samesite: lax

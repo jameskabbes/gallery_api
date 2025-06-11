@@ -1,0 +1,158 @@
+#signup
+# POST http://localhost:8087/auth/signup/
+# Content-Type: application/x-www-form-urlencoded
+
+# email=a@a.com&password=password
+
+# token
+# POST http://localhost:8087/auth/token/
+# Content-Type: application/x-www-form-urlencoded
+
+# username=a@a.com&password=password
+
+# login 
+# POST http://localhost:8087/auth/login/password/
+# Content-Type: application/x-www-form-urlencoded
+
+# username=a@a.com&password=password
+
+#logout
+# POST http://localhost:8087/auth/logout/
+# Authorization: Bearer 
+
+
+# see common auth status
+# GET http://localhost:8087/auth/
+
+#get token from email magic link 
+# POST http://localhost:8087/auth/login/email-magic-link/
+# Content-Type: application/json
+    
+# {
+#     "email": "a@a.com"
+# }
+
+#verify magic token
+# POST http://localhost:8087/auth/verify-magic-link/
+# Authorization: Bearer token
+
+
+# get user sessions
+# GET http://localhost:8087/user/id/sessions/
+# Cookie: access_token=token
+
+# post auth credential
+# POST http://localhost:8087/auth-credentials/
+# Content-Type: application/json
+# Authorization: Bearer 
+
+# {
+#   "user_id": "dd77c149-fa4c-456a-baee-36c7ebb2e89d",
+#   "type": "api_key",
+#   "expiry": "2023-12-31T23:59:59Z"
+# }
+
+# DELETE http://localhost:8087/auth-credentials/8cfa7dc9-8a6a-4cd6-8da0-6bad8dc414a5
+# Authorization: Bearer token
+
+#test out admin endpoint
+# GET http://localhost:8087/users/d0d60a66-17fd-43c4-885f-71c6648f59a8/admin/
+# Authorization: Bearer token
+
+# GET http://localhost:8087/users/d0d60a66-17fd-43c4-885f-71c6648f59a8/sessions/
+# Authorization: Bearer 
+
+# PATCH http://localhost:8087/user/
+# Authorization: Bearer 
+
+# {
+# "user_role_id": "2"
+# }
+
+# GET http://localhost:8087/api-keys/?order_by=name&order_by=issued&order_by_desc=name
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NGM2MmYxMi0xOGQzLTQxM2MtOWUxNC01YTdjYjVjYTFlYzAiLCJleHAiOjE3MzQwODcxNzQsImlhdCI6MTczMzQ4MjM3NCwidHlwZSI6ImFjY2Vzc190b2tlbiJ9.9fRMULl5lnc7dZLaqwoDimE68DviZkSFI-JcdYLej6w
+
+# GET http://localhost:8087/api-keys/details/count/
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NGM2MmYxMi0xOGQzLTQxM2MtOWUxNC01YTdjYjVjYTFlYzAiLCJleHAiOjE3MzQwODcxNzQsImlhdCI6MTczMzQ4MjM3NCwidHlwZSI6ImFjY2Vzc190b2tlbiJ9.9fRMULl5lnc7dZLaqwoDimE68DviZkSFI-JcdYLej6w
+
+# GET http://localhost:8087/pages/settings/api-keys/
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NGM2MmYxMi0xOGQzLTQxM2MtOWUxNC01YTdjYjVjYTFlYzAiLCJleHAiOjE3MzQwODcxNzQsImlhdCI6MTczMzQ4MjM3NCwidHlwZSI6ImFjY2Vzc190b2tlbiJ9.9fRMULl5lnc7dZLaqwoDimE68DviZkSFI-JcdYLej6w
+
+
+
+# POST http://localhost:8087/api-keys/
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NGM2MmYxMi0xOGQzLTQxM2MtOWUxNC01YTdjYjVjYTFlYzAiLCJleHAiOjE3MzQwODcxNzQsImlhdCI6MTczMzQ4MjM3NCwidHlwZSI6ImFjY2Vzc190b2tlbiJ9.9fRMULl5lnc7dZLaqwoDimE68DviZkSFI-JcdYLej6w
+
+# {
+#     "name": "Key0",
+#     "expiry": "2023-12-31T23:59:59Z"
+# }
+
+
+
+# GET http://localhost:8087/auth/
+# Authorization: Bearer token
+
+# GET http://localhost:8087/profile/page/
+# Authorization: Bearer token
+
+
+# POST http://localhost:8087/api-keys/9fa3e6c4-b63d-4bb8-89de-43b61cd1dd76/scopes/2/
+# Authorization: Bearer token
+
+# DELETE http://localhost:8087/api-keys/9fa3e6c4-b63d-4bb8-89de-43b61cd1dd76/scopes/2/
+# Authorization: Bearer token
+
+# GET http://localhost:8087/api-keys/a2f7275e-75bf-4a1a-a7a1-67c8bce90781/generate-jwt/
+# Authorization: Bearer token
+
+# GET http://localhost:8087/galleries/available/?name=gallery&date=2022-12-12&parent_id=1234
+# Content-Type: application/json
+# Authorization: Bearer token
+
+# GET http://localhost:8087/galleries/details/available/?name=asd&parent_id=asd
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZGQyOGNmZi00ZDlkLTQ4NzAtOWU1OC1hYmZjYjc1ZmEzOTYiLCJleHAiOjE3MzYyMzY1MjgsImlhdCI6MTczNTYzMTcyOCwidHlwZSI6ImFjY2Vzc190b2tlbiJ9.cmQxbLflxdyMGBGfroprC9uxeXcmIMcYvm3Ve_o2uX8
+
+
+# POST http://localhost:8087/galleries/
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZGQyOGNmZi00ZDlkLTQ4NzAtOWU1OC1hYmZjYjc1ZmEzOTYiLCJleHAiOjE3MzYyMzY1MjgsImlhdCI6MTczNTYzMTcyOCwidHlwZSI6ImFjY2Vzc190b2tlbiJ9.cmQxbLflxdyMGBGfroprC9uxeXcmIMcYvm3Ve_o2uX8
+# Content-Type: application/json
+
+# {
+#     "name": "asd",
+#     "parent_id": "5a1c572e-92a0-4e14-8613-c4928b8e6179",
+#     "visibility_level": 1
+# }
+
+
+
+# GET http://localhost:8087/settings/api-keys/page
+# Authorization: Bearer token
+
+# POST http://localhost:8087/api-keys/
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYWJiODEyMy02M2VjLTQyNDAtOWI2ZC01NGNjZjgyMzlhMWIiLCJleHAiOjE3MzMxODAxNDMsImlhdCI6MTczMjU3NTM0MywidHlwZSI6ImFjY2Vzc190b2tlbiJ9.XEAO-ZmNmvDpffkVWv8NQWaNssHilcwOoSf4jKDcBZ4
+
+# {
+#     "name": "new api key",
+#     "lifespan": 100
+# }
+
+# POST http://localhost:8087/auth/login/otp/email
+# Content-Type: application/json
+
+# {
+#     "code": "588793",
+#     "email": "a@a.com"
+# }
+
+# POST http://localhost:8080/auth/login/otp/email
+# Content-Type: application/json
+
+# {
+#     "code": "407637",
+#     "email": "a@a.com"
+# }   
+
+# DELETE http://localhost:8080/user-access-tokens/cae62101-0365-4427-9e51-33025f1ec94f
+# Authorization: Bearer 

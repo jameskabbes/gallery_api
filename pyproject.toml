@@ -1,0 +1,46 @@
+[project]
+name = "arbor_imago"
+version = "0.1.0"
+description = "A web application for managing and sharing images, enabling tree edits, gallery creation, and authentication."
+readme = "README.md"
+requires-python = ">=3.13"
+license = { file = "LICENSE" }
+authors = [
+    { name = "James Kabbes", email = "james.kabbes@gmail.com"}]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "pydantic",
+    "fastapi[standard]",
+    "sqlalchemy",
+    "uvicorn",
+    "google-auth",
+    "httpx",
+    "requests",
+    "bcrypt",
+    "pyjwt",
+    "pytest",
+    "aiosqlite",
+    "sqlmodel",
+    "greenlet",
+    "isodate",
+    "platformdirs",
+    "toml",
+]
+
+
+
+[project.urls]
+Homepage = "https://github.com/jameskabbes/gallery_api"
+Repository = "https://github.com/jameskabbes/gallery_api"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+

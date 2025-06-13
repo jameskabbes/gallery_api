@@ -13,7 +13,9 @@ AUTH:
     magic_link: PT10M
     request_sign_up: PT1H
     otp: PT10M
-OPENAPI_SCHEMA_PATH: ../openapi_schema.json
+OPENAPI_SCHEMA_PATHS:
+  gallery: ../gallery_api_schema.json
+
 ACCESS_TOKEN_COOKIE:
   key: access_token
   secure: false

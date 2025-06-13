@@ -26,11 +26,12 @@ def create_tables():
 
 
 @cli.command()
-def export_openapi():
+def export_api_schema():
     """Export OpenAPI schema to file."""
 
     print('Exporting OpenAPI schema...')
-    config.OPENAPI_SCHEMA_PATH.write_text(json.dumps(fastapi_app.openapi()))
+    config.OPENAPI_SCHEMA_PATHS['gallery'].write_text(
+        json.dumps(fastapi_app.openapi()))
 
 
 if __name__ == "__main__":

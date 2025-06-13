@@ -44,7 +44,7 @@ _config_env_dir = os.getenv('CONFIG_ENV_DIR', None)
 _app_env = os.getenv('APP_ENV', None)
 
 
-def convert_env_path_to_absolute(root_dir: Path, a: str) -> Path:
+def convert_env_path_to_absolute(root_dir: Path, a: str | os.PathLike[str]) -> Path:
     """process a relative path sent to an environment variable"""
     A = Path(a)
     if A.is_absolute():
@@ -212,13 +212,16 @@ class AccessTokenCookie(TypedDict):
     samesite: NotRequired[Literal['lax', 'strict', 'none']]
 
 
+OpenAPISchemaKeys = Literal['gallery']
+
+
 class BackendConfig(TypedDict):
     UVICORN: dict
     DB: DbEnv
     MEDIA_DIR: str
     GOOGLE_CLIENT_PATH: str
     AUTH: AuthEnv
-    OPENAPI_SCHEMA_PATH: str
+    OPENAPI_SCHEMA_PATHS: dict[OpenAPISchemaKeys, str | os.PathLike[str]]
     ACCESS_TOKEN_COOKIE: AccessTokenCookie
 
 
@@ -250,8 +253,11 @@ AUTH: AuthConfig = {
     }
 }
 
-OPENAPI_SCHEMA_PATH = convert_env_path_to_absolute(
-    Path.cwd(), _BACKEND_CONFIG['OPENAPI_SCHEMA_PATH'])
+OPENAPI_SCHEMA_PATHS: dict[OpenAPISchemaKeys, Path] = {
+    d: convert_env_path_to_absolute(
+        Path.cwd(), _BACKEND_CONFIG['OPENAPI_SCHEMA_PATHS'][d]) for d in _BACKEND_CONFIG['OPENAPI_SCHEMA_PATHS']
+}
+
 
 ACCESS_TOKEN_COOKIE: AccessTokenCookie = _BACKEND_CONFIG['ACCESS_TOKEN_COOKIE']
 

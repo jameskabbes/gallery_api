@@ -97,7 +97,7 @@ class UserRouter(_Base):
         })
 
     @classmethod
-    async def check_username_availability(cls, username: custom_types.User.username):
+    async def check_username_availability(cls, username: custom_types.User.username) -> api_schema.IsAvailableResponse:
         async with config.ASYNC_SESSIONMAKER() as session:
             return api_schema.IsAvailableResponse(
                 available=not await UserService.is_username_available(session, username))

@@ -51,15 +51,12 @@ jobs:
         with:
           python-version: ${{ steps.project_info.outputs.python_version }}
 
-      - name: Install pip and toml
+      - name: Install pip and packages
         run: |
           python -m pip install --upgrade pip
           pip install uv
-
-      - name: Install dependencies from pyproject.toml
-        run: |
-          uv add sphinx sphinx-rtd-theme
-          uv sync
+          uv pip install sphinx sphinx-rtd-theme
+          uv pip install -e .
 
       - name: Generate documentation
         run: |

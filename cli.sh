@@ -1,1 +1,1 @@
-python -m src.arbor_imago.cli "$@"
+PYTHONPATH=$(pwd)/src python -m src.arbor_imago.cli "$@"

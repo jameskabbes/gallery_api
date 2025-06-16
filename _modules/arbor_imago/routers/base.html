@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arbor_imago.routers.base &mdash; arbor_imago 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            arbor_imago
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">arbor_imago</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">arbor_imago</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">arbor_imago.routers.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for arbor_imago.routers.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Unpack</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">NotRequired</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Self</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">Query</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span><span class="p">,</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">custom_types</span><span class="p">,</span> <span class="n">models</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.services</span><span class="w"> </span><span class="kn">import</span> <span class="n">base</span> <span class="k">as</span> <span class="n">base_service</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">pagination</span> <span class="k">as</span> <span class="n">pagination_schema</span><span class="p">,</span> <span class="n">order_by</span> <span class="k">as</span> <span class="n">order_by_schema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">auth_utils</span>
+
+
+<div class="viewcode-block" id="get_pagination">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.get_pagination">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pagination</span><span class="p">(</span><span class="n">max_limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">default_limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dependency</span><span class="p">(</span><span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="n">default_limit</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="n">max_limit</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Quantity of results&#39;</span><span class="p">),</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Index of the first result&#39;</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">pagination_schema</span><span class="o">.</span><span class="n">Pagination</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dependency</span></div>
+
+
+
+<div class="viewcode-block" id="order_by_depends">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.order_by_depends">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">order_by_depends</span><span class="p">(</span>
+    <span class="n">order_by</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
+        <span class="p">[],</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Ordered series of fields to sort the results by, in the order they should be applied&#39;</span><span class="p">),</span>
+    <span class="n">order_by_desc</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">]</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span>
+        <span class="p">[],</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Unordered series of fields which should be sorted in a descending manner, must be a subset of &quot;order_by&quot; fields&#39;</span><span class="p">)</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">order_by_schema</span><span class="o">.</span><span class="n">OrderBy</span><span class="p">[</span><span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">]]:</span>
+
+    <span class="n">order_by_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">order_by</span><span class="p">)</span>
+    <span class="n">order_by_desc_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">order_by_desc</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">order_by_desc_set</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">order_by_set</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">,</span>
+                            <span class="n">detail</span><span class="o">=</span><span class="s1">&#39;&quot;order_by_desc&quot; fields must be a subset of &quot;order_by&quot; fields&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">order_by_schema</span><span class="o">.</span><span class="n">OrderBy</span><span class="p">[</span><span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">](</span>
+            <span class="n">field</span><span class="o">=</span><span class="n">field</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">order_by_desc_set</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">order_by</span>
+    <span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="NotFoundError">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.NotFoundError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotFoundError</span><span class="p">(</span><span class="n">HTTPException</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">NotFoundError</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">],</span> <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">base_service</span><span class="o">.</span><span class="n">NotFoundError</span><span class="o">.</span><span class="n">not_found_message</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+        <span class="n">base_service</span><span class="o">.</span><span class="n">NotFoundError</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+        <span class="n">HTTPException</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="RouterVerbParams">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.RouterVerbParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RouterVerbParams</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">authorization</span><span class="p">:</span> <span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span></div>
+
+
+
+<div class="viewcode-block" id="WithId">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.WithId">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WithId</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">],</span> <span class="n">TypedDict</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span></div>
+
+
+
+<div class="viewcode-block" id="GetParams">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.GetParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GetParams</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">],</span> <span class="n">RouterVerbParams</span><span class="p">,</span> <span class="n">WithId</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">]):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="GetManyParams">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.GetManyParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GetManyParams</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">],</span> <span class="n">RouterVerbParams</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">ReadManyBase</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">]):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="PostParams">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.PostParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PostParams</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">base_service</span><span class="o">.</span><span class="n">TCreateModel</span><span class="p">],</span> <span class="n">RouterVerbParams</span><span class="p">):</span>
+    <span class="n">create_model</span><span class="p">:</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TCreateModel</span></div>
+
+
+
+<div class="viewcode-block" id="PatchParams">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.PatchParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PatchParams</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TUpdateModel</span><span class="p">],</span> <span class="n">RouterVerbParams</span><span class="p">,</span> <span class="n">WithId</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">]):</span>
+    <span class="n">update_model</span><span class="p">:</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TUpdateModel</span></div>
+
+
+
+<div class="viewcode-block" id="DeleteParams">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.DeleteParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DeleteParams</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">],</span> <span class="n">RouterVerbParams</span><span class="p">,</span> <span class="n">WithId</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">]):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="HasPrefix">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.HasPrefix">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HasPrefix</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">_PREFIX</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="HasAdmin">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.HasAdmin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HasAdmin</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">_ADMIN</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="HasTag">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.HasTag">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HasTag</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">_TAG</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="Router">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.Router">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Router</span><span class="p">(</span><span class="n">HasPrefix</span><span class="p">,</span> <span class="n">HasAdmin</span><span class="p">,</span> <span class="n">HasTag</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PREFIX</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ADMIN</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;/admin</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Enum</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_TAG</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ADMIN</span><span class="p">:</span>
+            <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Admin&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_routes</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_routes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="NotFoundException">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.NotFoundException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotFoundException</span><span class="p">(</span><span class="n">HTTPException</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">],</span> <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detail</span> <span class="o">=</span> <span class="n">base_service</span><span class="o">.</span><span class="n">NotFoundError</span><span class="o">.</span><span class="n">not_found_message</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">status_code</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="HasService">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.HasService">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HasService</span><span class="p">(</span>
+        <span class="n">Generic</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span>
+                <span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">,</span>
+                <span class="n">base_service</span><span class="o">.</span><span class="n">TCreateModel</span><span class="p">,</span>
+                <span class="n">base_service</span><span class="o">.</span><span class="n">TUpdateModel</span><span class="p">,</span>
+                <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">],</span>
+        <span class="n">Protocol</span><span class="p">):</span>
+
+    <span class="n">_SERVICE</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">base_service</span><span class="o">.</span><span class="n">Service</span><span class="p">[</span>
+        <span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span>
+        <span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">,</span>
+        <span class="n">base_service</span><span class="o">.</span><span class="n">TCreateModel</span><span class="p">,</span>
+        <span class="n">base_service</span><span class="o">.</span><span class="n">TUpdateModel</span><span class="p">,</span>
+        <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">,</span>
+    <span class="p">]]</span></div>
+
+
+
+<div class="viewcode-block" id="ServiceRouter">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.ServiceRouter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ServiceRouter</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span>
+    <span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span>
+    <span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">,</span>
+    <span class="n">base_service</span><span class="o">.</span><span class="n">TCreateModel</span><span class="p">,</span>
+    <span class="n">base_service</span><span class="o">.</span><span class="n">TUpdateModel</span><span class="p">,</span>
+    <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">,</span>
+<span class="p">],</span>
+    <span class="n">Router</span><span class="p">,</span>
+    <span class="n">HasService</span><span class="p">[</span>
+    <span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span>
+    <span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">,</span>
+    <span class="n">base_service</span><span class="o">.</span><span class="n">TCreateModel</span><span class="p">,</span>
+    <span class="n">base_service</span><span class="o">.</span><span class="n">TUpdateModel</span><span class="p">,</span>
+    <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span>
+
+<span class="p">]):</span>
+
+    <span class="c1"># def make_get_many_endpoint(</span>
+    <span class="c1">#         self,</span>
+    <span class="c1">#         response_model: TGetManyResponse,</span>
+    <span class="c1">#         pagination_depends: Callable = get_pagination(),</span>
+    <span class="c1">#         order_by_depends: Callable = order_by_depends,</span>
+    <span class="c1">#         get_auth_kwargs: auth_utils.MakeGetAuthDepedencyKwargs = {}</span>
+    <span class="c1"># ) -&gt; Callable:</span>
+
+    <span class="c1">#     async def endpoint(</span>
+    <span class="c1">#             pagination: Annotated[pagination_schema.Pagination, Depends(pagination_depends)],</span>
+    <span class="c1">#             order_bys: Annotated[list[order_by_schema.OrderBy[base_service.TOrderBy_co]], Depends(order_by_depends)],</span>
+    <span class="c1">#             authorization: Annotated[auth_utils.GetAuthReturn, Depends(</span>
+    <span class="c1">#                 auth_utils.make_get_auth_dependency(</span>
+    <span class="c1">#                     **get_auth_kwargs))],</span>
+    <span class="c1">#     ) -&gt; Sequence[TGetManyResponse]:</span>
+
+    <span class="c1">#         items = await self.get_many({</span>
+    <span class="c1">#             &#39;authorization&#39;: authorization,</span>
+    <span class="c1">#             &#39;pagination&#39;: pagination,</span>
+    <span class="c1">#             &#39;order_bys&#39;: order_bys,</span>
+    <span class="c1">#             &#39;query&#39;: None,</span>
+    <span class="c1">#         })</span>
+    <span class="c1">#         return [response_model.model_validate(model) for model in items]</span>
+
+    <span class="c1">#     return endpoint</span>
+
+    <span class="c1"># def make_get_endpoint(</span>
+    <span class="c1">#     self,</span>
+    <span class="c1">#     response_model: TGetResponse,</span>
+    <span class="c1">#     get_auth_kwargs: auth_utils.MakeGetAuthDepedencyKwargs = {}</span>
+    <span class="c1"># ) -&gt; Callable:</span>
+    <span class="c1">#     async def endpoint(</span>
+    <span class="c1">#             authorization: Annotated[auth_utils.GetAuthReturn, Depends(</span>
+    <span class="c1">#                 auth_utils.make_get_auth_dependency(</span>
+    <span class="c1">#                     **get_auth_kwargs))],</span>
+    <span class="c1">#             id: types.TId,</span>
+    <span class="c1">#     ) -&gt; TGetResponse:</span>
+    <span class="c1">#         item = await self.get({</span>
+    <span class="c1">#             &#39;authorization&#39;: authorization,</span>
+    <span class="c1">#             &#39;id&#39;: id</span>
+    <span class="c1">#         })</span>
+    <span class="c1">#         return response_model.model_validate(item)</span>
+
+    <span class="c1">#     return endpoint</span>
+
+    <span class="c1"># def make_post_endpoint(</span>
+    <span class="c1">#     self,</span>
+    <span class="c1">#     response_model: TPostResponse,</span>
+    <span class="c1">#     create_model_param_name: str = &#39;item&#39;,</span>
+    <span class="c1">#     get_auth_kwargs: auth_utils.MakeGetAuthDependencyNoClientKwargs = {}</span>
+    <span class="c1"># ) -&gt; Callable:</span>
+    <span class="c1">#     async def endpoint(</span>
+    <span class="c1">#             authorization: Annotated[auth_utils.GetAuthReturn, Depends(</span>
+    <span class="c1">#                 auth_utils.make_get_auth_dependency(</span>
+    <span class="c1">#                     **get_auth_kwargs, c=self.client))],</span>
+    <span class="c1">#             **kwargs: Any,</span>
+    <span class="c1">#     ) -&gt; TPostResponse:</span>
+    <span class="c1">#         model = await self.post({</span>
+    <span class="c1">#             &#39;authorization&#39;: authorization,</span>
+    <span class="c1">#             &#39;c&#39;: self.client,</span>
+    <span class="c1">#             &#39;create_model&#39;: cast(</span>
+    <span class="c1">#                 base_service.TCreateModel, kwargs.get(create_model_param_name)),</span>
+    <span class="c1">#         })</span>
+    <span class="c1">#         return response_model.model_validate(model)</span>
+
+    <span class="c1">#     endpoint.__annotations__ = {</span>
+    <span class="c1">#         create_model_param_name: base_service.TCreateModel,</span>
+    <span class="c1">#         &#39;authorization&#39;: Annotated[auth_utils.GetAuthReturn, Depends(</span>
+    <span class="c1">#             auth_utils.make_get_auth_dependency(</span>
+    <span class="c1">#                 **get_auth_kwargs, c=self.client))],</span>
+    <span class="c1">#         &#39;return&#39;: response_model</span>
+    <span class="c1">#     }</span>
+
+    <span class="c1">#     return endpoint</span>
+
+    <span class="c1"># def make_patch_endpoint(</span>
+    <span class="c1">#         self,</span>
+    <span class="c1">#         response_model: TUpdateResponse,</span>
+    <span class="c1">#         id_param_name: str = &#39;id&#39;,</span>
+    <span class="c1">#         get_auth_kwargs: auth_utils.MakeGetAuthDependencyNoClientKwargs = {}</span>
+    <span class="c1"># ) -&gt; Callable:</span>
+
+    <span class="c1">#     async def endpoint(</span>
+    <span class="c1">#             item: base_service.TUpdateModel,</span>
+    <span class="c1">#             authorization: Annotated[auth_utils.GetAuthReturn, Depends(</span>
+    <span class="c1">#                 auth_utils.make_get_auth_dependency(</span>
+    <span class="c1">#                     c=self.client, **get_auth_kwargs))],</span>
+    <span class="c1">#             **kwargs</span>
+    <span class="c1">#     ) -&gt; TUpdateResponse:</span>
+    <span class="c1">#         id = cast(types.TId, kwargs.get(id_param_name))</span>
+
+    <span class="c1">#         model = await self.patch({</span>
+    <span class="c1">#             &#39;authorization&#39;: authorization,</span>
+    <span class="c1">#             &#39;c&#39;: self.client,</span>
+    <span class="c1">#             &#39;id&#39;: id,</span>
+    <span class="c1">#             &#39;update_model&#39;: item,</span>
+    <span class="c1">#         })</span>
+    <span class="c1">#         return response_model.model_validate(model)</span>
+
+    <span class="c1">#     return endpoint</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">GetParams</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">:</span>
+
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">model_inst</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">read</span><span class="p">({</span>
+                    <span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_ADMIN</span><span class="p">,</span>
+                    <span class="s1">&#39;session&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
+                    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;authorized_user_id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_user_id</span><span class="p">,</span>
+                <span class="p">})</span>
+            <span class="k">except</span> <span class="n">base_service</span><span class="o">.</span><span class="n">NotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span>
+                    <span class="n">model</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;raising exception&#39;</span><span class="p">)</span>
+                <span class="k">raise</span>
+
+            <span class="k">return</span> <span class="n">model_inst</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_many</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">GetManyParams</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">]:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">:</span> <span class="n">base_service</span><span class="o">.</span><span class="n">ReadManyParams</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TOrderBy_co</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_ADMIN</span><span class="p">,</span>
+                    <span class="s1">&#39;session&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
+                    <span class="s1">&#39;authorized_user_id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_user_id</span><span class="p">,</span>
+                    <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;pagination&#39;</span><span class="p">]}</span>
+
+                <span class="k">if</span> <span class="s1">&#39;order_bys&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;order_bys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;order_bys&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;query&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]</span>
+
+                <span class="n">model_insts</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span>
+
+            <span class="k">return</span> <span class="n">model_insts</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_post</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">PostParams</span><span class="p">[</span><span class="n">base_service</span><span class="o">.</span><span class="n">TCreateModel</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">model_inst</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">create</span><span class="p">({</span>
+                    <span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_ADMIN</span><span class="p">,</span>
+                    <span class="s1">&#39;session&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
+                    <span class="s1">&#39;authorized_user_id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_user_id</span><span class="p">,</span>
+                    <span class="s1">&#39;create_model&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">],</span>
+                <span class="p">})</span>
+            <span class="k">except</span> <span class="n">base_service</span><span class="o">.</span><span class="n">AlreadyExistsError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span>
+
+            <span class="k">return</span> <span class="n">model_inst</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_patch</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">PatchParams</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">,</span> <span class="n">base_service</span><span class="o">.</span><span class="n">TUpdateModel</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">model_inst</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                    <span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_ADMIN</span><span class="p">,</span>
+                    <span class="s1">&#39;session&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
+                    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;authorized_user_id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_user_id</span><span class="p">,</span>
+                    <span class="s1">&#39;update_model&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;update_model&#39;</span><span class="p">],</span>
+                <span class="p">})</span>
+            <span class="k">except</span> <span class="n">base_service</span><span class="o">.</span><span class="n">NotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span>
+                    <span class="n">model</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span>
+
+            <span class="k">return</span> <span class="n">model_inst</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_delete</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">DeleteParams</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">TId</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">delete</span><span class="p">({</span>
+                    <span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_ADMIN</span><span class="p">,</span>
+                    <span class="s1">&#39;session&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
+                    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;authorized_user_id&#39;</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_user_id</span><span class="p">,</span>
+                <span class="p">})</span>
+            <span class="k">except</span> <span class="n">base_service</span><span class="o">.</span><span class="n">NotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span>
+                    <span class="n">model</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_SERVICE</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span>
+
+<div class="viewcode-block" id="ServiceRouter.get_responses">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.ServiceRouter.get_responses">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_responses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="ServiceRouter.post_responses">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.ServiceRouter.post_responses">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post_responses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="ServiceRouter.patch_responses">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.ServiceRouter.patch_responses">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">patch_responses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="ServiceRouter.delete_responses">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.base.ServiceRouter.delete_responses">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_responses</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+</div>
+
+
+    <span class="c1"># def get_item(self, func: Callable) -&gt; Callable:</span>
+    <span class="c1">#     @wraps(func)</span>
+    <span class="c1">#     async def wrapper(*args, db: Session = Depends(get_session), **kwargs):</span>
+    <span class="c1">#         # Extract the ID value from kwargs based on what the endpoint defined</span>
+    <span class="c1">#         # Get the first parameter value</span>
+    <span class="c1">#         id_value = next(iter(kwargs.values()))</span>
+    <span class="c1">#         id_field = func.__annotations__.get(</span>
+    <span class="c1">#             next(iter(kwargs)), int).__name__</span>
+
+    <span class="c1">#         query = select(self.model).where(</span>
+    <span class="c1">#             getattr(self.model, id_field) == id_value)</span>
+    <span class="c1">#         item = db.exec(query).first()</span>
+    <span class="c1">#         if item is None:</span>
+    <span class="c1">#             raise HTTPException(</span>
+    <span class="c1">#                 status_code=404, detail=f&quot;{self.model.__name__} not found&quot;)</span>
+    <span class="c1">#         return item</span>
+    <span class="c1">#     return wrapper</span>
+
+    <span class="c1"># def setup_routes(self):</span>
+    <span class="c1">#     # Other routes remain similar but could also use decorators if needed</span>
+    <span class="c1">#     model_class = self.model</span>
+
+    <span class="c1">#     @self.router.post(&quot;/&quot;, response_model=model_class, status_code=status.HTTP_201_CREATED)</span>
+    <span class="c1">#     async def create_item(item: model_class, db: Session = Depends(get_session)):</span>
+    <span class="c1">#         db_item = model_class(**item.dict())</span>
+    <span class="c1">#         db.add(db_item)</span>
+    <span class="c1">#         db.commit()</span>
+    <span class="c1">#         db.refresh(db_item)</span>
+    <span class="c1">#         return db_item</span>
+
+    <span class="c1">#     # ... other routes ...</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

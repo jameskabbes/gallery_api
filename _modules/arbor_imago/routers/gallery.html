@@ -1,0 +1,476 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arbor_imago.routers.gallery &mdash; arbor_imago 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            arbor_imago
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">arbor_imago</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">arbor_imago</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">arbor_imago.routers.gallery</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for arbor_imago.routers.gallery</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">UploadFile</span><span class="p">,</span> <span class="n">HTTPException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">custom_types</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">auth_utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.routers</span><span class="w"> </span><span class="kn">import</span> <span class="n">base</span><span class="p">,</span> <span class="n">user</span> <span class="k">as</span> <span class="n">user_router</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.models.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gallery</span> <span class="k">as</span> <span class="n">GalleryTable</span><span class="p">,</span> <span class="n">GalleryPermission</span> <span class="k">as</span> <span class="n">GalleryPermissionTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.services.gallery</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gallery</span> <span class="k">as</span> <span class="n">GalleryService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.services.gallery_permission</span><span class="w"> </span><span class="kn">import</span> <span class="n">GalleryPermission</span> <span class="k">as</span> <span class="n">GalleryPermissionService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">gallery</span> <span class="k">as</span> <span class="n">gallery_schema</span><span class="p">,</span> <span class="n">pagination</span> <span class="k">as</span> <span class="n">pagination_schema</span><span class="p">,</span> <span class="n">api</span> <span class="k">as</span> <span class="n">api_schema</span><span class="p">,</span> <span class="n">gallery_permission</span> <span class="k">as</span> <span class="n">gallery_permission_schema</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_Base</span><span class="p">(</span>
+    <span class="n">base</span><span class="o">.</span><span class="n">ServiceRouter</span><span class="p">[</span>
+        <span class="n">GalleryTable</span><span class="p">,</span>
+        <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminCreate</span><span class="p">,</span>
+        <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminUpdate</span><span class="p">,</span>
+        <span class="nb">str</span>
+    <span class="p">],</span>
+<span class="p">):</span>
+    <span class="n">_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;/galleries&#39;</span>
+    <span class="n">_TAG</span> <span class="o">=</span> <span class="s1">&#39;Gallery&#39;</span>
+    <span class="n">_SERVICE</span> <span class="o">=</span> <span class="n">GalleryService</span>
+
+
+<span class="n">galleries_pagination</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">get_pagination</span><span class="p">()</span>
+
+
+<span class="c1"># class UploadFileToGalleryResponse(BaseModel):</span>
+<span class="c1">#     message: str</span>
+
+
+<div class="viewcode-block" id="GalleryRouter">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GalleryRouter</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+    <span class="n">_ADMIN</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="GalleryRouter.list">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.list">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())],</span>
+        <span class="n">pagination</span><span class="p">:</span> <span class="n">pagination_schema</span><span class="o">.</span><span class="n">Pagination</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">galleries_pagination</span><span class="p">)</span>
+
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">gallery</span><span class="p">)</span> <span class="k">for</span> <span class="n">gallery</span> <span class="ow">in</span>
+                <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_many</span><span class="p">({</span>
+                    <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+                    <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="n">pagination</span><span class="p">,</span>
+                    <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">select</span><span class="p">(</span><span class="n">GalleryTable</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">GalleryTable</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">)</span>
+                <span class="p">})</span>
+                <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="GalleryRouter.by_id">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.by_id">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">by_id</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">raise_exceptions</span><span class="o">=</span><span class="kc">False</span><span class="p">))]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPublic</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPublic</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get</span><span class="p">({</span>
+            <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">gallery_id</span><span class="p">,</span>
+        <span class="p">}))</span></div>
+
+
+<div class="viewcode-block" id="GalleryRouter.create">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.create">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_create</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryCreate</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_post</span><span class="p">({</span>
+            <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+            <span class="s1">&#39;create_model&#39;</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminCreate</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">gallery_create</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">user_id</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">)),</span>
+        <span class="p">}))</span></div>
+
+
+<div class="viewcode-block" id="GalleryRouter.update">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.update">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">gallery_update</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryUpdate</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_patch</span><span class="p">({</span>
+            <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">gallery_id</span><span class="p">,</span>
+            <span class="s1">&#39;update_model&#39;</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminUpdate</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">gallery_update</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
+        <span class="p">}))</span></div>
+
+
+<div class="viewcode-block" id="GalleryRouter.delete">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.delete">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())]</span>
+    <span class="p">):</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_delete</span><span class="p">({</span>
+            <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">gallery_id</span><span class="p">,</span>
+        <span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="GalleryRouter.check_availability">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.check_availability">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check_availability</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())],</span>
+        <span class="n">gallery_available</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAvailable</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(),</span>
+    <span class="p">):</span>
+
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+
+            <span class="k">return</span> <span class="n">api_schema</span><span class="o">.</span><span class="n">IsAvailableResponse</span><span class="p">(</span>
+                <span class="n">available</span><span class="o">=</span><span class="k">await</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">is_available</span><span class="p">(</span>
+                    <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+                    <span class="n">gallery_available_admin</span><span class="o">=</span><span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminAvailable</span><span class="p">(</span>
+                        <span class="o">**</span><span class="n">gallery_available</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                        <span class="n">user_id</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                     <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="p">)</span>
+            <span class="p">)</span></div>
+
+
+    <span class="c1"># @classmethod</span>
+    <span class="c1"># async def get_galleries_by_user(</span>
+    <span class="c1">#     cls,</span>
+    <span class="c1">#     user_id: models.UserTypes.id,</span>
+    <span class="c1">#     authorization: Annotated[auth_utils.GetAuthReturn, Depends(</span>
+    <span class="c1">#         get_auth_from_token(raise_exceptions=False))],</span>
+    <span class="c1">#     pagination: PaginationParams = Depends(get_pagination_params),</span>
+    <span class="c1"># ) -&gt; list[models.GalleryPublic]:</span>
+
+    <span class="c1">#     async with c.AsyncSession() as session:</span>
+    <span class="c1">#         galleries = session.exec(select(models.Gallery).where(</span>
+    <span class="c1">#             models.Gallery.user_id == user_id).offset(pagination.offset).limit(pagination.limit)).all()</span>
+    <span class="c1">#         return [models.GalleryPublic.model_validate(gallery) for gallery in galleries]</span>
+
+<div class="viewcode-block" id="GalleryRouter.upload_file">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.upload_file">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">upload_file</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())],</span>
+        <span class="n">file</span><span class="p">:</span> <span class="n">UploadFile</span>
+    <span class="p">):</span>
+
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+
+            <span class="n">gallery</span> <span class="o">=</span> <span class="k">await</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">fetch_by_id</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">gallery_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">gallery</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">base</span><span class="o">.</span><span class="n">NotFoundError</span><span class="p">(</span><span class="n">GalleryTable</span><span class="p">,</span> <span class="n">gallery_id</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">gallery</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">:</span>
+                <span class="n">gallery_permission</span> <span class="o">=</span> <span class="k">await</span> <span class="n">GalleryPermissionService</span><span class="o">.</span><span class="n">fetch_by_id</span><span class="p">(</span>
+                    <span class="n">session</span><span class="p">,</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">GalleryPermission</span><span class="o">.</span><span class="n">id</span><span class="p">(</span>
+                        <span class="n">gallery_id</span><span class="p">,</span> <span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">))</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">gallery_permission</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">gallery</span><span class="o">.</span><span class="n">visibility_level</span> <span class="o">==</span> <span class="n">config</span><span class="o">.</span><span class="n">VISIBILITY_LEVEL_NAME_MAPPING</span><span class="p">[</span><span class="s1">&#39;private&#39;</span><span class="p">]:</span>
+                        <span class="k">raise</span> <span class="n">base</span><span class="o">.</span><span class="n">NotFoundError</span><span class="p">(</span><span class="n">GalleryTable</span><span class="p">,</span> <span class="n">gallery_id</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">gallery</span><span class="o">.</span><span class="n">visibility_level</span> <span class="o">==</span> <span class="n">config</span><span class="o">.</span><span class="n">VISIBILITY_LEVEL_NAME_MAPPING</span><span class="p">[</span><span class="s1">&#39;public&#39;</span><span class="p">]:</span>
+                        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+                            <span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s1">&#39;User lacks edit permission for this gallery&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">gallery_permission</span><span class="o">.</span><span class="n">permission_level</span> <span class="o">&lt;</span> <span class="n">config</span><span class="o">.</span><span class="n">PERMISSION_LEVEL_NAME_MAPPING</span><span class="p">[</span><span class="s1">&#39;editor&#39;</span><span class="p">]:</span>
+                        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+                            <span class="n">status</span><span class="o">.</span><span class="n">HTTP_403_FORBIDDEN</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s1">&#39;User does not have permission to add files to this gallery&#39;</span><span class="p">)</span>
+
+            <span class="n">file_path</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">get_dir</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">gallery</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">GALLERIES_DIR</span><span class="p">))</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span> <span class="ow">or</span> <span class="s1">&#39;test.jpg&#39;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">buffer</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GalleryRouter.sync">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryRouter.sync">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">sync</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_schema</span><span class="o">.</span><span class="n">DetailOnlyResponse</span><span class="p">:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+
+            <span class="n">gallery</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get</span><span class="p">({</span>
+                <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">gallery_id</span><span class="p">,</span>
+            <span class="p">})</span>
+            <span class="nb">dir</span> <span class="o">=</span> <span class="k">await</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">get_dir</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">gallery</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">GALLERIES_DIR</span><span class="p">)</span>
+
+            <span class="c1"># await gallery.sync_with_local(session, c, dir)</span>
+            <span class="k">return</span> <span class="n">api_schema</span><span class="o">.</span><span class="n">DetailOnlyResponse</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="s1">&#39;Synced gallery&#39;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_routes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="n">user_router</span><span class="o">.</span><span class="n">_Base</span><span class="o">.</span><span class="n">_TAG</span><span class="p">])(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/</span><span class="si">{gallery_id}</span><span class="s1">/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">by_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;/</span><span class="si">{gallery_id}</span><span class="s1">/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+            <span class="s1">&#39;/</span><span class="si">{gallery_id}</span><span class="s1">/&#39;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/details/available/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">check_availability</span><span class="p">)</span>
+
+        <span class="c1"># need to decide how to deal with gallery permissions and how to return</span>
+        <span class="c1"># @self.router.get(&#39;/users/{user_id}/&#39;, tags=[models.User._ROUTER_TAG])(self.get_galleries_by_user)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/</span><span class="si">{gallery_id}</span><span class="s2">/upload/&quot;</span><span class="p">,</span>
+                         <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">upload_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/</span><span class="si">{gallery_id}</span><span class="s1">/sync/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">sync</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GalleryAdminRouter">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryAdminRouter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GalleryAdminRouter</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+    <span class="n">_ADMIN</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="GalleryAdminRouter.by_id">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryAdminRouter.by_id">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">by_id</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">required_scopes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">}))]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
+            <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get</span><span class="p">({</span>
+                <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">gallery_id</span><span class="p">,</span>
+            <span class="p">})</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GalleryAdminRouter.create">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryAdminRouter.create">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_create_admin</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminCreate</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">required_scopes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">}))]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
+            <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_post</span><span class="p">({</span>
+                <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+                <span class="s1">&#39;create_model&#39;</span><span class="p">:</span> <span class="n">gallery_create_admin</span>
+            <span class="p">})</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GalleryAdminRouter.update">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryAdminRouter.update">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">gallery_update_admin</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminUpdate</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">required_scopes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">}))]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
+            <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_patch</span><span class="p">({</span>
+                <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">gallery_id</span><span class="p">,</span>
+                <span class="s1">&#39;update_model&#39;</span><span class="p">:</span> <span class="n">gallery_update_admin</span>
+            <span class="p">})</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GalleryAdminRouter.delete">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryAdminRouter.delete">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">required_scopes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">}))]</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_delete</span><span class="p">({</span>
+            <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">gallery_id</span><span class="p">,</span>
+        <span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="GalleryAdminRouter.check_availability">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryAdminRouter.check_availability">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check_availability</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">required_scopes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">}))],</span>
+        <span class="n">gallery_available_admin</span><span class="p">:</span> <span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminAvailable</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(),</span>
+    <span class="p">):</span>
+
+        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">api_schema</span><span class="o">.</span><span class="n">IsAvailableResponse</span><span class="p">(</span>
+                <span class="n">available</span><span class="o">=</span><span class="k">await</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">is_available</span><span class="p">(</span>
+                    <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+                    <span class="n">gallery_available_admin</span><span class="o">=</span><span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryAdminAvailable</span><span class="p">(</span>
+                        <span class="o">**</span><span class="n">gallery_available_admin</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                        <span class="n">user_id</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                     <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GalleryAdminRouter.list_by_user">
+<a class="viewcode-back" href="../../../arbor_imago.routers.html#arbor_imago.routers.gallery.GalleryAdminRouter.list_by_user">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_by_user</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">required_scopes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">}))],</span>
+        <span class="n">pagination</span><span class="p">:</span> <span class="n">pagination_schema</span><span class="o">.</span><span class="n">Pagination</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span>
+            <span class="n">galleries_pagination</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="p">]:</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">gallery_schema</span><span class="o">.</span><span class="n">GalleryPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">gallery</span><span class="p">)</span> <span class="k">for</span> <span class="n">gallery</span> <span class="ow">in</span>
+                <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_many</span><span class="p">({</span>
+                    <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+                    <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">select</span><span class="p">(</span><span class="n">GalleryTable</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                        <span class="n">GalleryTable</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user_id</span><span class="p">),</span>
+                    <span class="s1">&#39;pagination&#39;</span><span class="p">:</span> <span class="n">pagination</span>
+                <span class="p">})]</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_routes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/</span><span class="si">{gallery_id}</span><span class="s1">/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">by_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;/</span><span class="si">{gallery_id}</span><span class="s1">/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span>
+            <span class="s1">&#39;/</span><span class="si">{gallery_id}</span><span class="s1">/&#39;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/details/available/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">check_availability</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/users/</span><span class="si">{user_id}</span><span class="s1">&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">list_by_user</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arbor_imago.services.image_file_metadata &mdash; arbor_imago 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            arbor_imago
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">arbor_imago</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">arbor_imago</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../services.html">arbor_imago.services</a></li>
+      <li class="breadcrumb-item active">arbor_imago.services.image_file_metadata</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for arbor_imago.services.image_file_metadata</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.services</span><span class="w"> </span><span class="kn">import</span> <span class="n">base</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.models.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageFileMetadata</span> <span class="k">as</span> <span class="n">ImageFileMetadataTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">image_file_metadata</span> <span class="k">as</span> <span class="n">image_file_metadata_schema</span>
+
+
+<div class="viewcode-block" id="ImageFileMetadata">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.image_file_metadata.ImageFileMetadata">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImageFileMetadata</span><span class="p">(</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">Service</span><span class="p">[</span>
+            <span class="n">ImageFileMetadataTable</span><span class="p">,</span>
+            <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageFileMetadata</span><span class="o">.</span><span class="n">file_id</span><span class="p">,</span>
+            <span class="n">image_file_metadata_schema</span><span class="o">.</span><span class="n">ImageFileMetadataAdminCreate</span><span class="p">,</span>
+            <span class="n">image_file_metadata_schema</span><span class="o">.</span><span class="n">ImageFileMetadataAdminUpdate</span><span class="p">,</span>
+            <span class="nb">str</span>
+        <span class="p">]):</span>
+
+    <span class="n">_MODEL</span> <span class="o">=</span> <span class="n">ImageFileMetadataTable</span>
+
+    <span class="n">SUFFIXES</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;.png&#39;</span><span class="p">,</span> <span class="s1">&#39;.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;.bmp&#39;</span><span class="p">,</span> <span class="s1">&#39;.tiff&#39;</span><span class="p">,</span> <span class="s1">&#39;.webp&#39;</span><span class="p">}</span>
+
+<div class="viewcode-block" id="ImageFileMetadata.model_id">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.image_file_metadata.ImageFileMetadata.model_id">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inst</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">file_id</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_select_by_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">select</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">file_id</span> <span class="o">==</span> <span class="nb">id</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImageFileMetadata.parse_file_stem">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.image_file_metadata.ImageFileMetadata.parse_file_stem">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_file_stem</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_stem</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">base_name</span><span class="p">,</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">version</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageFileMetadata</span><span class="o">.</span><span class="n">scale</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+
+        <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="o">:=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;_(\d</span><span class="si">{2}</span><span class="s1">)$&#39;</span><span class="p">,</span> <span class="n">file_stem</span><span class="p">):</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">file_stem</span> <span class="o">=</span> <span class="n">file_stem</span><span class="p">[:</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span>
+
+        <span class="n">version</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="o">:=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;_(.+)$&#39;</span><span class="p">,</span> <span class="n">file_stem</span><span class="p">):</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">file_stem</span> <span class="o">=</span> <span class="n">file_stem</span><span class="p">[:</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span>
+
+        <span class="k">return</span> <span class="n">file_stem</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">scale</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

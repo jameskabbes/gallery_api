@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arbor_imago.services.user &mdash; arbor_imago 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            arbor_imago
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">arbor_imago</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">arbor_imago</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../services.html">arbor_imago.services</a></li>
+      <li class="breadcrumb-item active">arbor_imago.services.user</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for arbor_imago.services.user</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">or_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel.ext.asyncio.session</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">core_utils</span><span class="p">,</span> <span class="n">custom_types</span><span class="p">,</span> <span class="n">config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.models.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span> <span class="k">as</span> <span class="n">UserTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">user</span> <span class="k">as</span> <span class="n">user_schema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.services</span><span class="w"> </span><span class="kn">import</span> <span class="n">base</span>
+
+
+<div class="viewcode-block" id="User">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">(</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">Service</span><span class="p">[</span>
+            <span class="n">UserTable</span><span class="p">,</span>
+            <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="n">user_schema</span><span class="o">.</span><span class="n">UserAdminCreate</span><span class="p">,</span>
+            <span class="n">user_schema</span><span class="o">.</span><span class="n">UserAdminUpdate</span><span class="p">,</span>
+            <span class="nb">str</span>
+        <span class="p">],</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">SimpleIdModelService</span><span class="p">[</span>
+            <span class="n">UserTable</span><span class="p">,</span>
+            <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">]</span>
+<span class="p">):</span>
+
+    <span class="n">_MODEL</span> <span class="o">=</span> <span class="n">UserTable</span>
+    <span class="n">DEFAULT_ROLE_ID</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">USER_ROLE_NAME_MAPPING</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="User.is_inst_public">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.is_inst_public">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_inst_public</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inst</span><span class="p">:</span> <span class="n">UserTable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">username</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="User.get_inst_dir">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.get_inst_dir">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_inst_dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inst</span><span class="p">:</span> <span class="n">UserTable</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_inst_public</span><span class="p">(</span><span class="n">inst</span><span class="p">):</span>
+            <span class="c1"># since username is not None, it is a string (linter)</span>
+            <span class="k">return</span> <span class="n">root</span> <span class="o">/</span> <span class="nb">str</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">root</span> <span class="o">/</span> <span class="nb">str</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="User.fetch_by_email">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.fetch_by_email">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_by_email</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">email</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserTable</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">email</span> <span class="o">==</span> <span class="n">email</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">query</span><span class="p">))</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="User.fetch_by_username">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.fetch_by_username">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_by_username</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserTable</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">username</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">query</span><span class="p">))</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="User.fetch_by_email_or_username">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.fetch_by_email_or_username">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_by_email_or_username</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">username_or_email</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">email</span> <span class="o">|</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserTable</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">or_</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">username_or_email</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">email</span> <span class="o">==</span> <span class="n">username_or_email</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">query</span><span class="p">))</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="User.authenticate">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.authenticate">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">username_or_email</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">email</span> <span class="o">|</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">password</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserTable</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fetch_by_email_or_username</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">username_or_email</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">hashed_password</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">core_utils</span><span class="o">.</span><span class="n">verify_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">hashed_password</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">user</span></div>
+
+
+<div class="viewcode-block" id="User.model_inst_from_create_model">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.model_inst_from_create_model">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_inst_from_create_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">create_model</span><span class="p">):</span>
+
+        <span class="n">d</span> <span class="o">=</span> <span class="n">create_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;password&#39;</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="s1">&#39;password&#39;</span> <span class="ow">in</span> <span class="n">create_model</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">create_model</span><span class="o">.</span><span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;hashed_password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;hashed_password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">hash_password</span><span class="p">(</span>
+                    <span class="n">create_model</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">(</span><span class="n">core_utils</span><span class="o">.</span><span class="n">generate_uuid</span><span class="p">()),</span>
+            <span class="o">**</span> <span class="n">d</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_update_model_inst</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">update_model</span><span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">update_model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;password&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;password&#39;</span> <span class="ow">in</span> <span class="n">update_model</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">update_model</span><span class="o">.</span><span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">inst</span><span class="o">.</span><span class="n">hashed_password</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">inst</span><span class="o">.</span><span class="n">hashed_password</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">hash_password</span><span class="p">(</span>
+                    <span class="n">update_model</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+
+<div class="viewcode-block" id="User.is_username_available">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.is_username_available">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">is_username_available</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">username</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">query</span><span class="p">))</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="User.is_email_available">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.is_email_available">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">is_email_available</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">email</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">email</span> <span class="o">==</span> <span class="n">email</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">query</span><span class="p">))</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_check_authorization_existing</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;model_inst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorized_user_id&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_inst_public</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;model_inst&#39;</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;operation&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;delete&#39;</span> <span class="ow">or</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;operation&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;patch&#39;</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">base</span><span class="o">.</span><span class="n">UnauthorizedError</span><span class="p">(</span>
+                            <span class="s1">&#39;Unauthorized to </span><span class="si">{method}</span><span class="s1"> this user&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;operation&#39;</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">base</span><span class="o">.</span><span class="n">NotFoundError</span><span class="p">(</span>
+                        <span class="n">UserTable</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;model_inst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_check_validation_post</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="s1">&#39;username&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">username</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_username_available</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;session&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;email&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">email</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_email_available</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;session&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_check_validation_patch</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;username&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;update_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;update_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">username</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_username_available</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;session&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;update_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;email&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;update_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;update_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">email</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_email_available</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;session&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;update_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_check_authorization_new</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">CheckAuthorizationNewParams</span><span class="p">[</span><span class="n">user_schema</span><span class="o">.</span><span class="n">UserAdminCreate</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">base</span><span class="o">.</span><span class="n">UnauthorizedError</span><span class="p">(</span><span class="s1">&#39;Unauthorized to create a new user.&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="User.hash_password">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.user.User.hash_password">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hash_password</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">password</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">hashed_password</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">core_utils</span><span class="o">.</span><span class="n">hash_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+
+<span class="sd">    @classmethod</span>
+<span class="sd">    async def api_post_custom(cls, **kwargs):</span>
+<span class="sd">        pass</span>
+<span class="sd">        # root_gallery = await Gallery.api_post(Gallery.ApiPostParams(**params.model_dump(exclude=[&#39;create_model&#39;, &#39;cCreate_method_params&#39;, &#39;authorized_user_id&#39;]), authorized_user_id=new_user._id, create_model=GalleryAdminCreate(</span>
+<span class="sd">        #     name=&#39;root&#39;, user_id=new_user._id, visibility_level=config.VISIBILITY_LEVEL_NAME_MAPPING[&#39;private&#39;]</span>
+<span class="sd">        # )))</span>
+
+
+<span class="sd">    @classmethod</span>
+<span class="sd">    async def api_patch_custom(cls, test=None, **kwargs):</span>
+<span class="sd">        # rename the root gallery if the username is updated</span>
+<span class="sd">        # if &#39;username&#39; in params.update_model.model_fields_set:</span>
+<span class="sd">        #     root_gallery = await Gallery.get_root_gallery(params.session, self._id)</span>
+<span class="sd">        #     await root_gallery.update(</span>
+<span class="sd">        #         Gallery.ApiGetParams(**params.model_dump(exclude=[&#39;update_model&#39;, &#39;update_method_params&#39;]),</span>
+<span class="sd">        #                             update_model=GalleryAdminUserUpdate(</span>
+<span class="sd">        #             name=self._id if self.username == None else self.username</span>
+<span class="sd">        #         ))</span>
+<span class="sd">        #     )</span>
+
+<span class="sd">        pass</span>
+
+<span class="sd">    @classmethod</span>
+<span class="sd">    async def api_delete_custom(cls, **kwargs):</span>
+<span class="sd">        pass</span>
+<span class="sd">        # await (await Gallery.get_root_gallery(params.session, self._id)).delete(session=params.session, c=params.c,</span>
+<span class="sd">        #                                                                         authorized_user_id=params.authorized_user_id, admin=params.admin)</span>
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+arbor\_imago package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   arbor_imago.auth
+   arbor_imago.models
+   arbor_imago.routers
+   arbor_imago.schemas
+   arbor_imago.services
+
+Submodules
+----------
+
+arbor\_imago.app module
+-----------------------
+
+.. automodule:: arbor_imago.app
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+arbor\_imago.cli module
+-----------------------
+
+.. automodule:: arbor_imago.cli
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+arbor\_imago.config module
+--------------------------
+
+.. automodule:: arbor_imago.config
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+arbor\_imago.core\_utils module
+-------------------------------
+
+.. automodule:: arbor_imago.core_utils
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+arbor\_imago.custom\_types module
+---------------------------------
+
+.. automodule:: arbor_imago.custom_types
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+arbor\_imago.utils module
+-------------------------
+
+.. automodule:: arbor_imago.utils
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: arbor_imago
+   :members:
+   :show-inheritance:
+   :undoc-members:

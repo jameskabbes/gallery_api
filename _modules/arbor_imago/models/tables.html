@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arbor_imago.models.tables &mdash; arbor_imago 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            arbor_imago
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">arbor_imago</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">arbor_imago</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../models.html">arbor_imago.models</a></li>
+      <li class="breadcrumb-item active">arbor_imago.models.tables</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for arbor_imago.models.tables</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">Relationship</span><span class="p">,</span> <span class="n">SQLModel</span><span class="p">,</span> <span class="n">PrimaryKeyConstraint</span><span class="p">,</span> <span class="n">Column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">field_serializer</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">ValidationInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">datetime_module</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.models.custom_field_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">timestamp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.models.bases.auth_credential</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthCredentialBase</span>
+
+
+<div class="viewcode-block" id="User">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.User">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">(</span><span class="n">SQLModel</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">email</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">phone_number</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">phone_number</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">username</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">hashed_password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">hashed_password</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">user_role_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">user_role_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">api_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;ApiKey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">user_access_tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;UserAccessToken&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">galleries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;Gallery&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">gallery_permissions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;GalleryPermission&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">otp</span><span class="p">:</span> <span class="s1">&#39;OTP&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_AuthCredentialTableBase</span><span class="p">(</span><span class="n">AuthCredentialBase</span><span class="p">):</span>
+
+    <span class="n">user_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="UserAccessToken">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.UserAccessToken">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UserAccessToken</span><span class="p">(</span><span class="n">_AuthCredentialTableBase</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;user_access_token&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">UserAccessToken</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">issued</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">issued</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sa_column</span><span class="o">=</span><span class="n">Column</span><span class="p">(</span><span class="n">timestamp</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">))</span>
+    <span class="n">expiry</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">expiry</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">sa_column</span><span class="o">=</span><span class="n">Column</span><span class="p">(</span><span class="n">timestamp</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">))</span>
+
+    <span class="n">user</span><span class="p">:</span> <span class="s1">&#39;User&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;user_access_tokens&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="OTP">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.OTP">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OTP</span><span class="p">(</span><span class="n">_AuthCredentialTableBase</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;otp&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">OTP</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">issued</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">issued</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sa_column</span><span class="o">=</span><span class="n">Column</span><span class="p">(</span><span class="n">timestamp</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">))</span>
+    <span class="n">expiry</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">expiry</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">sa_column</span><span class="o">=</span><span class="n">Column</span><span class="p">(</span><span class="n">timestamp</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">))</span>
+
+    <span class="n">hashed_code</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">OTP</span><span class="o">.</span><span class="n">hashed_code</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">user</span><span class="p">:</span> <span class="s1">&#39;User&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;otp&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ApiKey">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.ApiKey">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ApiKey</span><span class="p">(</span><span class="n">_AuthCredentialTableBase</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;api_key&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">issued</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">issued</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sa_column</span><span class="o">=</span><span class="n">Column</span><span class="p">(</span><span class="n">timestamp</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">))</span>
+    <span class="n">expiry</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">expiry</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">sa_column</span><span class="o">=</span><span class="n">Column</span><span class="p">(</span><span class="n">timestamp</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">))</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">user</span><span class="p">:</span> <span class="s1">&#39;User&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;api_keys&#39;</span><span class="p">)</span>
+    <span class="n">api_key_scopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;ApiKeyScope&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;api_key&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ApiKeyScope">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.ApiKeyScope">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ApiKeyScope</span><span class="p">(</span><span class="n">SQLModel</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;api_key_scope&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="n">api_key_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKeyScope</span><span class="o">.</span><span class="n">api_key_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+    <span class="n">scope_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKeyScope</span><span class="o">.</span><span class="n">scope_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">PrimaryKeyConstraint</span><span class="p">(</span><span class="s1">&#39;api_key_id&#39;</span><span class="p">,</span> <span class="s1">&#39;scope_id&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">api_key</span><span class="p">:</span> <span class="s1">&#39;ApiKey&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;api_key_scopes&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Gallery">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.Gallery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Gallery</span><span class="p">(</span><span class="n">SQLModel</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;gallery&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">test</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">user_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+
+    <span class="n">visibility_level</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">visibility_level</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">parent_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">parent_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                               <span class="n">foreign_key</span><span class="o">=</span><span class="s1">&#39;gallery.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+    <span class="n">description</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">user</span><span class="p">:</span> <span class="s1">&#39;User&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;galleries&#39;</span><span class="p">)</span>
+    <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;Gallery&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">,</span> <span class="n">sa_relationship_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;remote_side&#39;</span><span class="p">:</span> <span class="s1">&#39;Gallery.id&#39;</span><span class="p">})</span>
+    <span class="n">children</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;Gallery&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">gallery_permissions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;GalleryPermission&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;gallery&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;gallery&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">image_versions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;ImageVersion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;gallery&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GalleryPermission">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.GalleryPermission">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GalleryPermission</span><span class="p">(</span><span class="n">SQLModel</span><span class="p">,</span>  <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;gallery_permission&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">GalleryPermission</span><span class="o">.</span><span class="n">gallery_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">Gallery</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+    <span class="n">user_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">GalleryPermission</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+
+    <span class="n">__table_args__</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">PrimaryKeyConstraint</span><span class="p">(</span><span class="s1">&#39;gallery_id&#39;</span><span class="p">,</span> <span class="s1">&#39;user_id&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">permission_level</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">GalleryPermission</span><span class="o">.</span><span class="n">permission_level</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+
+    <span class="n">gallery</span><span class="p">:</span> <span class="s1">&#39;Gallery&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;gallery_permissions&#39;</span><span class="p">)</span>
+    <span class="n">user</span><span class="p">:</span> <span class="s1">&#39;User&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;gallery_permissions&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="File">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.File">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">File</span><span class="p">(</span><span class="n">SQLModel</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;file&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">File</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">stem</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">File</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">Field</span><span class="p">()</span>
+    <span class="n">suffix</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">File</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">File</span><span class="o">.</span><span class="n">gallery_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">Gallery</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">File</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">gallery</span><span class="p">:</span> <span class="s1">&#39;Gallery&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span><span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;files&#39;</span><span class="p">)</span>
+    <span class="n">image_file_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;ImageFileMetadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="n">cascade_delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ImageVersion">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.ImageVersion">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImageVersion</span><span class="p">(</span><span class="n">SQLModel</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;image_version&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">base_name</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">base_name</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">parent_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">parent_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="s1">&#39;image_version.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;SET NULL&#39;</span><span class="p">)</span>
+
+    <span class="c1"># BW, Edit1, etc. Original version is null</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">gallery_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">Gallery</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+    <span class="n">datetime</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">description</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">aspect_ratio</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">aspect_ratio</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">average_color</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">average_color</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;ImageVersion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">,</span> <span class="n">sa_relationship_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;remote_side&#39;</span><span class="p">:</span> <span class="s1">&#39;ImageVersion.id&#39;</span><span class="p">})</span>
+    <span class="n">children</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;ImageVersion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;parent&#39;</span><span class="p">)</span>
+
+    <span class="n">image_file_metadatas</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;ImageFileMetadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;version&#39;</span><span class="p">)</span>
+    <span class="n">gallery</span><span class="p">:</span> <span class="s1">&#39;Gallery&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;image_versions&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ImageFileMetadata">
+<a class="viewcode-back" href="../../../arbor_imago.models.html#arbor_imago.models.tables.ImageFileMetadata">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImageFileMetadata</span><span class="p">(</span><span class="n">SQLModel</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;image_file_metadata&#39;</span>  <span class="c1"># type: ignore</span>
+
+    <span class="n">file_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageFileMetadata</span><span class="o">.</span><span class="n">file_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">File</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+    <span class="n">version_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ImageFileMetadata</span><span class="o">.</span><span class="n">version_id</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreign_key</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">ImageVersion</span><span class="o">.</span><span class="n">__tablename__</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">)</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ImageFileMetadata</span><span class="o">.</span><span class="n">scale</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
+
+    <span class="n">version</span><span class="p">:</span> <span class="s1">&#39;ImageVersion&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;image_file_metadatas&#39;</span><span class="p">)</span>
+    <span class="n">file</span><span class="p">:</span> <span class="s1">&#39;File&#39;</span> <span class="o">=</span> <span class="n">Relationship</span><span class="p">(</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s1">&#39;image_file_metadata&#39;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

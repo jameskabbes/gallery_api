@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -15,15 +15,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Extract Python version
+        id: python_version
+        run: |
+          python -c "
+          import toml
+          with open('pyproject.toml', 'r') as f:
+              data = toml.load(f)
+          version = data.get('project', {}).get('requires-python', '>=3.13').replace('>', '').replace('=', '').strip()
+          print(f'version={version}', file=open('$GITHUB_OUTPUT', 'a'))
+          print(f'Using Python version: {version}')
+          "
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: ${{ steps.python_version.outputs.version }}
 
       - name: Install pip and toml
         run: |
           python -m pip install --upgrade pip
-          pip install toml
+          pip install uv
 
       - name: Read pyproject.toml
         id: pyproject_toml
@@ -32,34 +44,29 @@ jobs:
           import toml
           import os
 
-          with open('backend/pyproject.toml', 'r') as f:
+          with open('pyproject.toml', 'r') as f:
             data = toml.load(f)
 
           project = data.get('project', {})
           name = project.get('name', '')
           version = project.get('version', '')
-          dependencies = project.get('dependencies', [])
 
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
               print(f'project_name={name}', file=fh)
               print(f'version={version}', file=fh)
-
-          with open('backend/requirements.txt', 'w') as req:
-              for dep in dependencies:
-                  req.write(dep + '\\n')
           "
 
       - name: Install dependencies from pyproject.toml
         run: |
-          pip install sphinx sphinx-rtd-theme
-          pip install -r backend/requirements.txt
+          uv sync
+          uv add sphinx sphinx-rtd-theme
 
       - name: Generate documentation
         run: |
           # generate the documentation, put it in the docs folder
-          rm -rf backend/docs
-          mkdir backend/docs
-          cd backend/sphinx
+          rm -rf docs
+          mkdir docs
+          cd sphinx
           sphinx-apidoc -o . ../src/arbor_imago/
           make html 
           mkdir /tmp/docs/
@@ -77,7 +84,7 @@ jobs:
             git rm -rf .
             git commit --allow-empty -m "Initialize gh-pages branch"
             git push origin gh-pages
-            git checkout master
+            git checkout main
           }
 
           # remove all files from the git tracking, then checkout

@@ -18,6 +18,7 @@ jobs:
       - name: Extract Python version
         id: python_version
         run: |
+          pip install toml
           python -c "
           import toml
           with open('pyproject.toml', 'r') as f:

@@ -138,13 +138,22 @@
 #     "lifespan": 100
 # }
 
-# POST http://localhost:8087/auth/login/otp/email
+# POST http://localhost:8080/auth/request/otp/email/
 # Content-Type: application/json
 
 # {
-#     "code": "588793",
 #     "email": "a@a.com"
 # }
+
+
+
+POST http://localhost:8080/auth/login/otp/email
+Content-Type: application/json
+
+{
+    "code": "725748",
+    "email": "a@a.com"
+}
 
 # POST http://localhost:8080/auth/login/otp/email
 # Content-Type: application/json

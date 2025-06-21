@@ -169,7 +169,6 @@ class UserAdminRouter(_Base):
         authorization: Annotated[auth_utils.GetAuthReturn, Depends(
             auth_utils.make_get_auth_dependency(required_scopes={'admin'}))]
     ) -> user_schema.UserPrivate:
-
         return user_schema.UserPrivate.model_validate(await cls._patch({
             'authorization': authorization,
             'id': user_id,

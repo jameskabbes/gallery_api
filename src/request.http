@@ -147,13 +147,13 @@
 
 
 
-POST http://localhost:8080/auth/login/otp/email
-Content-Type: application/json
+# POST http://localhost:8080/auth/login/otp/email
+# Content-Type: application/json
 
-{
-    "code": "725748",
-    "email": "a@a.com"
-}
+# {
+#     "code": "725748",
+#     "email": "a@a.com"
+# }
 
 # POST http://localhost:8080/auth/login/otp/email
 # Content-Type: application/json
@@ -165,3 +165,5 @@ Content-Type: application/json
 
 # DELETE http://localhost:8080/user-access-tokens/cae62101-0365-4427-9e51-33025f1ec94f
 # Authorization: Bearer 
+
+GET http://localhost:8080/pages/settings/user-access-tokens/?limit=2

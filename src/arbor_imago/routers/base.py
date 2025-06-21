@@ -19,11 +19,15 @@ def get_pagination(max_limit: int = 100, default_limit: int = 10):
     return dependency
 
 
-def order_by_depends(
-    order_by: list[base_service.TOrderBy_co] = Query(
-        [], description='Ordered series of fields to sort the results by, in the order they should be applied'),
-    order_by_desc: list[base_service.TOrderBy_co] = Query(
-        [], description='Unordered series of fields which should be sorted in a descending manner, must be a subset of "order_by" fields')
+ORDER_BY_QUERY = Query(
+    description='Ordered series of fields to sort the results by, in the order they should be applied')
+ORDER_BY_DESC_QUERY = Query(
+    description='Unordered series of fields which should be sorted in a descending manner, must be a subset of "order_by" fields')
+
+
+def order_by_depends_converter(
+    order_by: list[base_service.TOrderBy_co],
+    order_by_desc: list[base_service.TOrderBy_co]
 ) -> list[order_by_schema.OrderBy[base_service.TOrderBy_co]]:
 
     order_by_set = set(order_by)

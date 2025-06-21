@@ -1,7 +1,7 @@
-from fastapi import Depends, status
+from fastapi import Depends, status, HTTPException, Query
 from sqlmodel import select, func
 from pydantic import BaseModel
-from typing import Annotated, cast
+from typing import Annotated, cast, Literal
 
 from arbor_imago import config, custom_types, utils
 from arbor_imago.models.tables import ApiKey as ApiKeyTable
@@ -17,15 +17,24 @@ class _Base(
         custom_types.User.id,
         api_key_schema.ApiKeyAdminCreate,
         api_key_schema.ApiKeyAdminUpdate,
-        custom_types.ApiKey.order_by,
+        custom_types.ApiKey.order_by
     ],
 ):
     _PREFIX = '/api-keys'
     _TAG = 'API Key'
     _SERVICE = ApiKeyService
 
+    @classmethod
+    def order_by_depends(cls,
+                         order_by: Annotated[list[custom_types.ApiKey.order_by], base.ORDER_BY_QUERY] = [
+                         ],
+                         order_by_desc: Annotated[list[custom_types.ApiKey.order_by], base.ORDER_BY_DESC_QUERY] = [
+                         ]
+                         ) -> list[order_by_schema.OrderBy[custom_types.ApiKey.order_by]]:
+        return base.order_by_depends_converter(order_by, order_by_desc)
 
-api_key_pagination = base.get_pagination()
+
+PAGINATION = base.get_pagination()
 
 
 class ApiKeyJWTResponse(BaseModel):
@@ -41,9 +50,9 @@ class ApiKeyRouter(_Base):
         cls,
         authorization: Annotated[auth_utils.GetAuthReturn, Depends(
             auth_utils.make_get_auth_dependency())],
-        pagination: Annotated[pagination_schema.Pagination, Depends(api_key_pagination)],
+        pagination: Annotated[pagination_schema.Pagination, Depends(PAGINATION)],
         order_bys: Annotated[list[order_by_schema.OrderBy[custom_types.ApiKey.order_by]], Depends(
-            base.order_by_depends)]
+            _Base.order_by_depends)]
     ) -> list[api_key_schema.ApiKeyPrivate]:
 
         return [api_key_schema.ApiKeyPrivate.model_validate(api_key) for api_key in await cls._get_many({
@@ -188,9 +197,9 @@ class ApiKeyAdminRouter(_Base):
         user_id: custom_types.User.id,
         authorization: Annotated[auth_utils.GetAuthReturn, Depends(
             auth_utils.make_get_auth_dependency(required_scopes={'admin'}))],
-        pagination: Annotated[pagination_schema.Pagination, Depends(api_key_pagination)],
+        pagination: Annotated[pagination_schema.Pagination, Depends(PAGINATION)],
         order_bys: Annotated[list[order_by_schema.OrderBy[custom_types.ApiKey.order_by]], Depends(
-            base.order_by_depends)]
+            _Base.order_by_depends)]
 
     ) -> list[api_key_schema.ApiKeyPrivate]:
 

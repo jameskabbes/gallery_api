@@ -88,9 +88,10 @@ class PagesRouter(_Base):
         cls,
         authorization: Annotated[auth_utils.GetAuthReturn, Depends(auth_utils.make_get_auth_dependency())],
         pagination: pagination_schema.Pagination = Depends(
-            api_key_router.api_key_pagination),
+            api_key_router.PAGINATION),
         order_by: list[order_by_schema.OrderBy[custom_types.ApiKey.order_by]] = Depends(
-            base.order_by_depends)
+            api_key_router._Base.order_by_depends
+        )
     ) -> SettingsApiKeysPageResponse:
         return SettingsApiKeysPageResponse(
             **auth_utils.get_user_session_info(authorization).model_dump(),

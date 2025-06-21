@@ -18,7 +18,7 @@ def Base(status_code: int, detail: str, logout: bool) -> HTTPException:
 def different_tokens_provided(types: set[str], n: int) -> HTTPException:
     return Base(
         status_code=status.HTTP_400_BAD_REQUEST,
-        detail="{n} different tokens provided from the following sources: {}. Only one unique token may be provided".format(
+        detail="{} different tokens provided from the following sources: {}. Only one unique token may be provided".format(
             n, ", ".join(types)),
         logout=False
     )

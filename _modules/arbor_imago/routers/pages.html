@@ -193,9 +193,10 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())],</span>
         <span class="n">pagination</span><span class="p">:</span> <span class="n">pagination_schema</span><span class="o">.</span><span class="n">Pagination</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span>
-            <span class="n">api_key_router</span><span class="o">.</span><span class="n">api_key_pagination</span><span class="p">),</span>
+            <span class="n">api_key_router</span><span class="o">.</span><span class="n">PAGINATION</span><span class="p">),</span>
         <span class="n">order_by</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">order_by_schema</span><span class="o">.</span><span class="n">OrderBy</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">order_by</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span>
-            <span class="n">base</span><span class="o">.</span><span class="n">order_by_depends</span><span class="p">)</span>
+            <span class="n">api_key_router</span><span class="o">.</span><span class="n">_Base</span><span class="o">.</span><span class="n">order_by_depends</span>
+        <span class="p">)</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SettingsApiKeysPageResponse</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SettingsApiKeysPageResponse</span><span class="p">(</span>
             <span class="o">**</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">get_user_session_info</span><span class="p">(</span><span class="n">authorization</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>

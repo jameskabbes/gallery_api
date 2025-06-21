@@ -274,7 +274,6 @@
         <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
             <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">required_scopes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;admin&#39;</span><span class="p">}))]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">user_schema</span><span class="o">.</span><span class="n">UserPrivate</span><span class="p">:</span>
-
         <span class="k">return</span> <span class="n">user_schema</span><span class="o">.</span><span class="n">UserPrivate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_patch</span><span class="p">({</span>
             <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
             <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span>

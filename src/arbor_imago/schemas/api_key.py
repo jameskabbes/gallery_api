@@ -1,5 +1,8 @@
+from arbor_imago import custom_types
+
 from pydantic import BaseModel
 from typing import Optional
+
 
 from arbor_imago import custom_types
 from arbor_imago.schemas import auth_credential as auth_credential_schema
@@ -18,8 +21,8 @@ class ApiKeyImport(BaseModel):
 
 
 class ApiKeyUpdate(ApiKeyImport):
-    name: Optional[custom_types.ApiKey.name] = None
-    expiry: custom_types.AuthCredential.expiry | None = None
+    name: custom_types.Omissible[custom_types.ApiKey.name] = None
+    expiry: custom_types.Omissible[custom_types.AuthCredential.expiry] = None
 
 
 class ApiKeyAdminUpdate(ApiKeyUpdate, BaseModel):

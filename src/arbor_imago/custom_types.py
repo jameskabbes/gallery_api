@@ -1,5 +1,6 @@
-from typing import Annotated, Literal, Union, NamedTuple, TypeVar, NewType
-from pydantic import EmailStr, StringConstraints
+from typing import Annotated, Literal, Union, NamedTuple, TypeVar, NewType, Type, Any, Optional
+from pydantic import EmailStr, StringConstraints, GetCoreSchemaHandler, BaseModel
+from pydantic_core import core_schema
 import re
 import datetime as datetime_module
 
@@ -195,3 +196,18 @@ TSimpleId_contra = TypeVar(
 TId = TypeVar('TId', bound=Id)
 TId_co = TypeVar('TId_co', bound=Id, covariant=True)
 TId_contra = TypeVar('TId_contra', bound=Id, contravariant=True)
+
+
+class NotNullable:
+    def __get_pydantic_core_schema__(self, source: Type[Any], handler: GetCoreSchemaHandler) -> core_schema.CoreSchema:
+        schema = handler(source)
+        assert schema["type"] == "nullable"
+        return schema["schema"]
+
+
+T = TypeVar("T")
+Omissible = Annotated[Optional[T], NotNullable()]
+
+
+class _Testing(BaseModel):
+    omitted: Omissible[int] = None  # type hinting will work

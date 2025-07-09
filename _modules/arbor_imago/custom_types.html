@@ -69,8 +69,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for arbor_imago.custom_types</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">NewType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmailStr</span><span class="p">,</span> <span class="n">StringConstraints</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">NewType</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmailStr</span><span class="p">,</span> <span class="n">StringConstraints</span><span class="p">,</span> <span class="n">GetCoreSchemaHandler</span><span class="p">,</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">core_schema</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">datetime_module</span>
 
@@ -323,6 +324,24 @@
 <span class="n">TId</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;TId&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Id</span><span class="p">)</span>
 <span class="n">TId_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;TId_co&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Id</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">TId_contra</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;TId_contra&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Id</span><span class="p">,</span> <span class="n">contravariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NotNullable">
+<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.NotNullable">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotNullable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core_schema</span><span class="o">.</span><span class="n">CoreSchema</span><span class="p">:</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">handler</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;nullable&quot;</span>
+        <span class="k">return</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;schema&quot;</span><span class="p">]</span></div>
+
+
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+<span class="n">Omissible</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">NotNullable</span><span class="p">()]</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_Testing</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">omitted</span><span class="p">:</span> <span class="n">Omissible</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type hinting will work</span>
 </pre></div>
 
            </div>

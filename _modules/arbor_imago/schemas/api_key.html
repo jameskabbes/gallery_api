@@ -70,8 +70,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for arbor_imago.schemas.api_key</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth_credential</span> <span class="k">as</span> <span class="n">auth_credential_schema</span>
@@ -101,8 +104,8 @@
 <div class="viewcode-block" id="ApiKeyUpdate">
 <a class="viewcode-back" href="../../../arbor_imago.schemas.html#arbor_imago.schemas.api_key.ApiKeyUpdate">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApiKeyUpdate</span><span class="p">(</span><span class="n">ApiKeyImport</span><span class="p">):</span>
-    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">expiry</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">expiry</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="n">name</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Omissible</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">expiry</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Omissible</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">AuthCredential</span><span class="o">.</span><span class="n">expiry</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 

@@ -70,15 +70,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for arbor_imago.services.api_key</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span><span class="p">,</span> <span class="n">core_utils</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.models.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">ApiKey</span> <span class="k">as</span> <span class="n">ApiKeyTable</span><span class="p">,</span> <span class="n">ApiKeyScope</span> <span class="k">as</span> <span class="n">ApiKeyScopeTable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_key</span> <span class="k">as</span> <span class="n">api_key_schema</span><span class="p">,</span> <span class="n">auth_credential</span> <span class="k">as</span> <span class="n">auth_credential_schema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.services</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth_credential</span> <span class="k">as</span> <span class="n">auth_credential_service</span><span class="p">,</span> <span class="n">base</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span><span class="p">,</span> <span class="n">col</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sqlmodel.ext.asyncio.session</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">datetime_module</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span><span class="p">,</span> <span class="n">core_utils</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.models.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">ApiKey</span> <span class="k">as</span> <span class="n">ApiKeyTable</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_key</span> <span class="k">as</span> <span class="n">api_key_schema</span><span class="p">,</span> <span class="n">auth_credential</span> <span class="k">as</span> <span class="n">auth_credential_schema</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.services</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth_credential</span> <span class="k">as</span> <span class="n">auth_credential_service</span><span class="p">,</span> <span class="n">base</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 
 
 <div class="viewcode-block" id="ApiKey">
@@ -113,6 +114,20 @@
         <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="ApiKey.get_scope_ids_by_api_key_ids">
+<a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.api_key.ApiKey.get_scope_ids_by_api_key_ids">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_scope_ids_by_api_key_ids</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">api_key_ids</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">id</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]]:</span>
+        <span class="n">api_key_scopes</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">ApiKeyScopeTable</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="n">ApiKeyScopeTable</span><span class="o">.</span><span class="n">api_key_id</span><span class="p">)</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">api_key_ids</span><span class="p">))))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+        <span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">custom_types</span><span class="o">.</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">api_key_scope</span> <span class="ow">in</span> <span class="n">api_key_scopes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">api_key_scope</span><span class="o">.</span><span class="n">api_key_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">api_key_scope</span><span class="o">.</span><span class="n">api_key_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">api_key_scope</span><span class="o">.</span><span class="n">api_key_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">api_key_scope</span><span class="o">.</span><span class="n">scope_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">d</span></div>
+
+
 <div class="viewcode-block" id="ApiKey.get_scope_ids">
 <a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.api_key.ApiKey.get_scope_ids">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -127,7 +142,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">api_key_available_admin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="o">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">api_key_available_admin</span><span class="o">.</span><span class="n">user_id</span>
-                                       <span class="p">))))</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+                                       <span class="p">))))</span><span class="o">.</span><span class="n">one_or_none</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span></div>
 
 
     <span class="nd">@classmethod</span>
@@ -150,7 +165,7 @@
     <span class="nd">@classmethod</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_check_validation_post</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_available</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;session&#39;</span><span class="p">],</span> <span class="n">api_key_schema</span><span class="o">.</span><span class="n">ApiKeyAdminAvailable</span><span class="p">(</span>
-            <span class="o">**</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">user_id</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorized_user_id&#39;</span><span class="p">]),</span>
+            <span class="o">**</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;create_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
         <span class="p">)):</span>
             <span class="k">raise</span> <span class="n">base</span><span class="o">.</span><span class="n">NotAvailableError</span><span class="p">(</span>
                 <span class="s1">&#39;Cannot create API Key </span><span class="si">{}</span><span class="s1"> for user </span><span class="si">{}</span><span class="s1">, not available&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>

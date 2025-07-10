@@ -321,7 +321,15 @@
     <span class="n">_BACKEND_CONFIG</span><span class="p">:</span> <span class="n">BackendConfig</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 
-<span class="n">DB_ASYNC_ENGINE</span> <span class="o">=</span> <span class="n">create_async_engine</span><span class="p">(</span><span class="n">_BACKEND_CONFIG</span><span class="p">[</span><span class="s1">&#39;DB&#39;</span><span class="p">][</span><span class="s1">&#39;URL&#39;</span><span class="p">])</span>
+<span class="n">DB_ASYNC_ENGINE</span> <span class="o">=</span> <span class="n">create_async_engine</span><span class="p">(</span>
+    <span class="n">_BACKEND_CONFIG</span><span class="p">[</span><span class="s1">&#39;DB&#39;</span><span class="p">][</span><span class="s1">&#39;URL&#39;</span><span class="p">],</span>
+    <span class="n">echo_pool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Log all pool operations</span>
+    <span class="n">pool_pre_ping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pool_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">max_overflow</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">pool_timeout</span><span class="o">=</span><span class="mi">30</span>
+<span class="p">)</span>
+
 <span class="n">ASYNC_SESSIONMAKER</span> <span class="o">=</span> <span class="n">async_sessionmaker</span><span class="p">(</span>
     <span class="n">bind</span><span class="o">=</span><span class="n">DB_ASYNC_ENGINE</span><span class="p">,</span>
     <span class="n">class_</span><span class="o">=</span><span class="n">SQLMAsyncSession</span><span class="p">,</span>

@@ -290,14 +290,13 @@
         <span class="k">return</span> <span class="n">GetAuthReturn</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">exceptions</span><span class="o">.</span><span class="n">authorization_expired</span><span class="p">())</span>
 
     <span class="c1"># if no user is associated with the auth_credential, raise an exception</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-        <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">UserService</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="s1">&#39;session&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
-                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">auth_credential_table_inst</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
-                <span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s1">&#39;authorized_user_id&#39;</span><span class="p">:</span> <span class="n">auth_credential_table_inst</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
-            <span class="p">})</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">UserService</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;session&#39;</span><span class="p">:</span> <span class="n">session</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">auth_credential_table_inst</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
+            <span class="s1">&#39;admin&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s1">&#39;authorized_user_id&#39;</span><span class="p">:</span> <span class="n">auth_credential_table_inst</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
+        <span class="p">})</span>
 
     <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">GetAuthReturn</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">exceptions</span><span class="o">.</span><span class="n">user_not_found</span><span class="p">())</span>

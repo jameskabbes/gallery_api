@@ -77,7 +77,7 @@
 
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth_credential</span> <span class="k">as</span> <span class="n">auth_credential_schema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">auth_credential</span> <span class="k">as</span> <span class="n">auth_credential_schema</span><span class="p">,</span> <span class="n">FromAttributes</span>
 
 
 <div class="viewcode-block" id="ApiKeyAvailable">
@@ -133,7 +133,7 @@
 
 <div class="viewcode-block" id="ApiKeyExport">
 <a class="viewcode-back" href="../../../arbor_imago.schemas.html#arbor_imago.schemas.api_key.ApiKeyExport">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ApiKeyExport</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ApiKeyExport</span><span class="p">(</span><span class="n">FromAttributes</span><span class="p">):</span>
     <span class="nb">id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">id</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">name</span>

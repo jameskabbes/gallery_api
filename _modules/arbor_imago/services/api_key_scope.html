@@ -122,9 +122,14 @@
     <span class="nd">@classmethod</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_check_authorization_existing</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
 
+        <span class="n">api_key</span> <span class="o">=</span> <span class="k">await</span> <span class="n">api_key_service</span><span class="o">.</span><span class="n">ApiKey</span><span class="o">.</span><span class="n">fetch_by_id_with_exception</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;session&#39;</span><span class="p">],</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">api_key_id</span>
+        <span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">]:</span>
             <span class="c1"># if user is not admin, check if the api key belongs to the user</span>
-            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;model_inst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">api_key</span><span class="o">.</span><span class="n">user_id</span> <span class="o">!=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorized_user_id&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">api_key</span><span class="o">.</span><span class="n">user_id</span> <span class="o">!=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;authorized_user_id&#39;</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="n">base</span><span class="o">.</span><span class="n">NotFoundError</span><span class="p">(</span>
                     <span class="n">ApiKeyTable</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;model_inst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">api_key_id</span><span class="p">)</span>
 

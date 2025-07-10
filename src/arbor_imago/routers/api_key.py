@@ -1,14 +1,15 @@
-from fastapi import Depends, status, HTTPException, Query
-from sqlmodel import select, func
-from pydantic import BaseModel
-from typing import Annotated, cast, Literal
-
 from arbor_imago import config, custom_types, utils
 from arbor_imago.models.tables import ApiKey as ApiKeyTable
 from arbor_imago.services.api_key import ApiKey as ApiKeyService
 from arbor_imago.schemas import api_key as api_key_schema, pagination as pagination_schema, api as api_schema, order_by as order_by_schema
 from arbor_imago.routers import user as user_router, base
 from arbor_imago.auth import utils as auth_utils
+
+from fastapi import Depends, status, HTTPException, Query
+from sqlmodel import select, func
+from sqlalchemy.orm import selectinload
+from pydantic import BaseModel
+from typing import Annotated, cast, Literal
 
 
 class _Base(
@@ -52,7 +53,7 @@ class ApiKeyRouter(_Base):
             auth_utils.make_get_auth_dependency())],
         pagination: Annotated[pagination_schema.Pagination, Depends(PAGINATION)],
         order_bys: Annotated[list[order_by_schema.OrderBy[custom_types.ApiKey.order_by]], Depends(
-            _Base.order_by_depends)]
+            _Base.order_by_depends)],
     ) -> list[api_key_schema.ApiKeyPrivate]:
 
         return [api_key_schema.ApiKeyPrivate.model_validate(api_key) for api_key in await cls._get_many({
@@ -176,14 +177,14 @@ class ApiKeyRouter(_Base):
     def _set_routes(self):
 
         self.router.get('/')(self.list)
-        self.router.get('/{api_key_id}/')(self.by_id)
+        self.router.get('/{api_key_id}')(self.by_id)
         self.router.post('/')(self.create)
-        self.router.patch('/{api_key_id}/')(self.update)
+        self.router.patch('/{api_key_id}')(self.update)
         self.router.delete(
-            '/{api_key_id}/', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
-        self.router.get('/{api_key_id}/generate-jwt/')(self.jwt)
-        self.router.get('/details/available/')(self.check_availability)
-        self.router.get('/details/count/')(self.count)
+            '/{api_key_id}', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
+        self.router.get('/{api_key_id}/generate-jwt')(self.jwt)
+        self.router.get('/details/available')(self.check_availability)
+        self.router.get('/details/count')(self.count)
 
 
 class ApiKeyAdminRouter(_Base):
@@ -289,9 +290,9 @@ class ApiKeyAdminRouter(_Base):
 
         self.router.get(
             '/users/{user_id}/', tags=[user_router._Base._TAG])(self.list_by_user)
-        self.router.get('/{api_key_id}/')(self.by_id)
+        self.router.get('/{api_key_id}')(self.by_id)
         self.router.post('/')(self.create)
-        self.router.patch('/{api_key_id}/')(self.update)
+        self.router.patch('/{api_key_id}')(self.update)
         self.router.delete(
-            '/{api_key_id}/', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
-        self.router.get('/details/available/')(self.check_availability)
+            '/{api_key_id}', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
+        self.router.get('/details/available')(self.check_availability)

@@ -190,14 +190,13 @@ async def get_auth_from_auth_credential_table_inst(
         return GetAuthReturn(exception=exceptions.authorization_expired())
 
     # if no user is associated with the auth_credential, raise an exception
-    async with config.ASYNC_SESSIONMAKER() as session:
-        user = await UserService.read(
-            {
-                'session': session,
-                'id': auth_credential_table_inst.user_id,
-                'admin': True,
-                'authorized_user_id': auth_credential_table_inst.user_id,
-            })
+    user = await UserService.read(
+        {
+            'session': session,
+            'id': auth_credential_table_inst.user_id,
+            'admin': True,
+            'authorized_user_id': auth_credential_table_inst.user_id,
+        })
 
     if user is None:
         return GetAuthReturn(exception=exceptions.user_not_found())

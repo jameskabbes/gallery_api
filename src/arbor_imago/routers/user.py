@@ -105,13 +105,13 @@ class UserRouter(_Base):
     def _set_routes(self):
 
         self.router.get('/')(self.list)
-        self.router.get('/me/')(self.get_me)
-        self.router.get('/{user_id}/')(self.by_id)
-        self.router.patch('/me/')(self.update_me)
+        self.router.get('/me')(self.get_me)
+        self.router.get('/{user_id}')(self.by_id)
+        self.router.patch('/me')(self.update_me)
         self.router.delete(
-            '/me/', status_code=status.HTTP_204_NO_CONTENT)(self.delete_me)
+            '/me', status_code=status.HTTP_204_NO_CONTENT)(self.delete_me)
         self.router.get(
-            '/available/username/{username}/')(self.check_username_availability)
+            '/available/username/{username}')(self.check_username_availability)
 
 
 class UserAdminRouter(_Base):
@@ -189,8 +189,8 @@ class UserAdminRouter(_Base):
 
     def _set_routes(self):
         self.router.get('/')(self.list)
-        self.router.get('/{user_id}/')(self.by_id)
+        self.router.get('/{user_id}')(self.by_id)
         self.router.post('/')(self.create)
-        self.router.patch('/{user_id}/')(self.update)
+        self.router.patch('/{user_id}')(self.update)
         self.router.delete(
-            '/{user_id}/', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
+            '/{user_id}', status_code=status.HTTP_204_NO_CONTENT)(self.delete)

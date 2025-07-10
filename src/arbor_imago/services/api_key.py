@@ -1,12 +1,13 @@
-from sqlmodel import select
+from arbor_imago import custom_types, core_utils
+from arbor_imago.models.tables import ApiKey as ApiKeyTable, ApiKeyScope as ApiKeyScopeTable
+from arbor_imago.schemas import api_key as api_key_schema, auth_credential as auth_credential_schema
+from arbor_imago.services import auth_credential as auth_credential_service, base
+
+from sqlmodel import select, col
 from sqlmodel.ext.asyncio.session import AsyncSession
 import datetime as datetime_module
 from typing import cast
-
-from arbor_imago import custom_types, core_utils
-from arbor_imago.models.tables import ApiKey as ApiKeyTable
-from arbor_imago.schemas import api_key as api_key_schema, auth_credential as auth_credential_schema
-from arbor_imago.services import auth_credential as auth_credential_service, base
+from collections.abc import Sequence
 
 
 class ApiKey(
@@ -37,6 +38,17 @@ class ApiKey(
         )
 
     @classmethod
+    async def get_scope_ids_by_api_key_ids(cls, session: AsyncSession, api_key_ids: Sequence[custom_types.ApiKey.id]) -> dict[custom_types.ApiKey.id, list[custom_types.Scope.id]]:
+        api_key_scopes = (await session.exec(select(ApiKeyScopeTable).where(col(ApiKeyScopeTable.api_key_id).in_(api_key_ids)))).all()
+
+        d: dict[custom_types.ApiKey.id, list[custom_types.Scope.id]] = {}
+        for api_key_scope in api_key_scopes:
+            if api_key_scope.api_key_id not in d:
+                d[api_key_scope.api_key_id] = []
+            d[api_key_scope.api_key_id].append(api_key_scope.scope_id)
+        return d
+
+    @classmethod
     async def get_scope_ids(cls, session, inst):
         return [api_key_scope.scope_id for api_key_scope in inst.api_key_scopes]
 
@@ -45,7 +57,7 @@ class ApiKey(
         return (await session.exec(select(cls._MODEL).where(
             cls._MODEL.name == api_key_available_admin.name,
             cls._MODEL.user_id == cast(custom_types.User.id, api_key_available_admin.user_id
-                                       )))).one_or_none() is not None
+                                       )))).one_or_none() is None
 
     @classmethod
     async def _check_authorization_new(cls, params):
@@ -67,7 +79,7 @@ class ApiKey(
     @classmethod
     async def _check_validation_post(cls, params):
         if not await cls.is_available(params['session'], api_key_schema.ApiKeyAdminAvailable(
-            **params['create_model'].model_dump(exclude_unset=True), user_id=cast(custom_types.User.id, params['authorized_user_id']),
+            **params['create_model'].model_dump(exclude_unset=True),
         )):
             raise base.NotAvailableError(
                 'Cannot create API Key {} for user {}, not available'.format(

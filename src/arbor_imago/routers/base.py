@@ -312,6 +312,7 @@ class ServiceRouter(Generic[
                 })
             except base_service.AlreadyExistsError as e:
                 raise
+
             except Exception as e:
                 raise
 

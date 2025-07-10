@@ -454,23 +454,23 @@ class AuthRouter(base.Router):
 
     def _set_routes(self):
 
-        self.router.get('/')(self.auth_root)
-        self.router.post('/token/')(self.token)
-        self.router.post('/login/password/', responses={status.HTTP_401_UNAUTHORIZED: {
+        self.router.get('')(self.auth_root)
+        self.router.post('/token')(self.token)
+        self.router.post('/login/password', responses={status.HTTP_401_UNAUTHORIZED: {
                          'description': 'Could not validate credentials', 'model': api_schema.DetailOnlyResponse}})(self.login_password)
-        self.router.post('/login/magic-link/', responses={status.HTTP_401_UNAUTHORIZED: {
+        self.router.post('/login/magic-link', responses={status.HTTP_401_UNAUTHORIZED: {
                          'description': 'Invalid token', 'model': api_schema.DetailOnlyResponse}})(self.login_magic_link)
-        self.router.post('/login/otp/email/')(self.login_otp_email)
+        self.router.post('/login/otp/email')(self.login_otp_email)
         self.router.post(
-            '/login/otp/phone_number/')(self.login_otp_phone_number)
-        self.router.post('/signup/')(self.signup)
-        self.router.post("/login/google/", responses={status.HTTP_400_BAD_REQUEST: {
+            '/login/otp/phone_number')(self.login_otp_phone_number)
+        self.router.post('/signup')(self.signup)
+        self.router.post("/login/google", responses={status.HTTP_400_BAD_REQUEST: {
                          'description': 'Invalid token', 'model': api_schema.DetailOnlyResponse}})(self.login_google)
-        self.router.post('/request/signup/')(self.request_sign_up_email)
+        self.router.post('/request/signup')(self.request_sign_up_email)
         self.router.post(
-            '/request/magic-link/email/')(self.request_magic_link_email)
+            '/request/magic-link/email')(self.request_magic_link_email)
         self.router.post(
-            '/request/magic-link/sms/')(self.request_magic_link_sms)
-        self.router.post('/request/otp/email/')(self.request_otp_email)
-        self.router.post('/request/otp/sms/')(self.request_otp_sms)
-        self.router.post('/logout/')(self.logout)
+            '/request/magic-link/sms')(self.request_magic_link_sms)
+        self.router.post('/request/otp/email')(self.request_otp_email)
+        self.router.post('/request/otp/sms')(self.request_otp_sms)
+        self.router.post('/logout')(self.logout)

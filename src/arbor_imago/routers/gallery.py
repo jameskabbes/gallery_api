@@ -203,19 +203,19 @@ class GalleryRouter(_Base):
     def _set_routes(self):
 
         self.router.get('/', tags=[user_router._Base._TAG])(self.list)
-        self.router.get('/{gallery_id}/')(self.by_id)
+        self.router.get('/{gallery_id}')(self.by_id)
         self.router.post('/')(self.create)
-        self.router.patch('/{gallery_id}/')(self.update)
+        self.router.patch('/{gallery_id}')(self.update)
         self.router.delete(
-            '/{gallery_id}/', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
-        self.router.get('/details/available/')(self.check_availability)
+            '/{gallery_id}', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
+        self.router.get('/details/available')(self.check_availability)
 
         # need to decide how to deal with gallery permissions and how to return
         # @self.router.get('/users/{user_id}/', tags=[models.User._ROUTER_TAG])(self.get_galleries_by_user)
 
-        self.router.post("/{gallery_id}/upload/",
+        self.router.post("/{gallery_id}/upload",
                          status_code=status.HTTP_201_CREATED)(self.upload_file)
-        self.router.post('/{gallery_id}/sync/')(self.sync)
+        self.router.post('/{gallery_id}/sync')(self.sync)
 
 
 class GalleryAdminRouter(_Base):
@@ -318,10 +318,10 @@ class GalleryAdminRouter(_Base):
 
     def _set_routes(self):
 
-        self.router.get('/{gallery_id}/')(self.by_id)
+        self.router.get('/{gallery_id}')(self.by_id)
         self.router.post('/')(self.create)
-        self.router.patch('/{gallery_id}/')(self.update)
+        self.router.patch('/{gallery_id}')(self.update)
         self.router.delete(
-            '/{gallery_id}/', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
-        self.router.get('/details/available/')(self.check_availability)
+            '/{gallery_id}', status_code=status.HTTP_204_NO_CONTENT)(self.delete)
+        self.router.get('/details/available')(self.check_availability)
         self.router.get('/users/{user_id}')(self.list_by_user)

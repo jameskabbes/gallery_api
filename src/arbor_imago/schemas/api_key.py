@@ -5,7 +5,7 @@ from typing import Optional
 
 
 from arbor_imago import custom_types
-from arbor_imago.schemas import auth_credential as auth_credential_schema
+from arbor_imago.schemas import auth_credential as auth_credential_schema, FromAttributes
 
 
 class ApiKeyAvailable(BaseModel):
@@ -38,7 +38,7 @@ class ApiKeyAdminCreate(ApiKeyCreate, BaseModel):
     user_id: custom_types.User.id
 
 
-class ApiKeyExport(BaseModel):
+class ApiKeyExport(FromAttributes):
     id: custom_types.ApiKey.id
     user_id: custom_types.User.id
     name: custom_types.ApiKey.name

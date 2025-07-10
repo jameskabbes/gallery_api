@@ -45,9 +45,14 @@ class ApiKeyScope(base.Service[
     @classmethod
     async def _check_authorization_existing(cls, params):
 
+        api_key = await api_key_service.ApiKey.fetch_by_id_with_exception(
+            params['session'],
+            params['id'].api_key_id
+        )
+
         if not params['admin']:
             # if user is not admin, check if the api key belongs to the user
-            if params['model_inst'].api_key.user_id != params['authorized_user_id']:
+            if api_key.user_id != params['authorized_user_id']:
                 raise base.NotFoundError(
                     ApiKeyTable, params['model_inst'].api_key_id)
 

@@ -229,7 +229,15 @@ with BACKEND_CONFIG_PATH.open('r') as f:
     _BACKEND_CONFIG: BackendConfig = yaml.safe_load(f)
 
 
-DB_ASYNC_ENGINE = create_async_engine(_BACKEND_CONFIG['DB']['URL'])
+DB_ASYNC_ENGINE = create_async_engine(
+    _BACKEND_CONFIG['DB']['URL'],
+    echo_pool=True,  # Log all pool operations
+    pool_pre_ping=True,
+    pool_size=5,
+    max_overflow=10,
+    pool_timeout=30
+)
+
 ASYNC_SESSIONMAKER = async_sessionmaker(
     bind=DB_ASYNC_ENGINE,
     class_=SQLMAsyncSession,

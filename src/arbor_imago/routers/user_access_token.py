@@ -99,10 +99,10 @@ class UserAccessTokenRouter(_Base):
     def _set_routes(self):
 
         self.router.get('/', tags=[user_router._Base._TAG])(self.list)
-        self.router.get('/{user_access_token_id}/')(self.by_id)
-        self.router.delete('/{user_access_token_id}/',
+        self.router.get('/{user_access_token_id}')(self.by_id)
+        self.router.delete('/{user_access_token_id}',
                            status_code=status.HTTP_204_NO_CONTENT)(self.delete)
-        self.router.get('/details/count/')(self.count)
+        self.router.get('/details/count')(self.count)
 
 
 class UserAccessTokenAdminRouter(_Base):
@@ -176,7 +176,7 @@ class UserAccessTokenAdminRouter(_Base):
 
         self.router.get(
             '/users/{user_id}/', tags=[user_router._Base._TAG])(self.list_by_user)
-        self.router.get('/{user_access_token_id}/')(self.by_id)
+        self.router.get('/{user_access_token_id}')(self.by_id)
         self.router.post('/')(self.create)
-        self.router.delete('/{user_access_token_id}/',
+        self.router.delete('/{user_access_token_id}',
                            status_code=status.HTTP_204_NO_CONTENT)(self.delete)

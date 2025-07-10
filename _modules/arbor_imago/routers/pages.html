@@ -240,37 +240,27 @@
     <span class="nd">@classmethod</span>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">gallery</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">authorization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">GetAuthReturn</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span>
-            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">(</span><span class="n">raise_exceptions</span><span class="o">=</span><span class="kc">False</span><span class="p">))],</span>
-        <span class="n">root</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span>
+            <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())],</span>
+        <span class="n">gallery_id</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Gallery</span><span class="o">.</span><span class="n">id</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GalleryPageResponse</span><span class="p">:</span>
 
-        <span class="k">if</span> <span class="n">root</span><span class="p">:</span>
+        <span class="c1"># if gallery_id is None, get the root gallery for the user, then find that gallery</span>
+        <span class="k">if</span> <span class="n">gallery_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">authorization</span><span class="o">.</span><span class="n">isAuthorized</span><span class="p">:</span>
+                <span class="n">root_gallery</span> <span class="o">=</span> <span class="k">await</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">get_root_gallery</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">root_gallery</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
-                        <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">,</span>
-                        <span class="n">detail</span><span class="o">=</span><span class="s1">&#39;Root gallery does not exist for this user&#39;</span><span class="p">,</span>
+                        <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">,</span>
+                        <span class="n">detail</span><span class="o">=</span><span class="s1">&#39;Root gallery could not be found. This is a server error.&#39;</span>
                     <span class="p">)</span>
+                <span class="n">gallery_id</span> <span class="o">=</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">model_id</span><span class="p">(</span><span class="n">root_gallery</span><span class="p">)</span>
 
-                <span class="n">gallery</span> <span class="o">=</span> <span class="k">await</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">get_root_gallery</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">cast</span><span class="p">(</span><span class="n">custom_types</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">authorization</span><span class="o">.</span><span class="n">_user_id</span><span class="p">))</span>
-
-                <span class="k">if</span> <span class="n">gallery</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">pass</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">gallery_id</span> <span class="o">=</span> <span class="n">GalleryService</span><span class="o">.</span><span class="n">model_id</span><span class="p">(</span><span class="n">gallery</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">gallery_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
-                    <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">,</span>
-                    <span class="n">detail</span><span class="o">=</span><span class="s1">&#39;Must provide a gallery_id or set root=True&#39;</span><span class="p">,</span>
-                <span class="p">)</span>
-
-            <span class="n">gallery</span> <span class="o">=</span> <span class="n">gallery_router</span><span class="o">.</span><span class="n">GalleryRouter</span><span class="o">.</span><span class="n">by_id</span><span class="p">(</span>
-                <span class="n">gallery_id</span><span class="o">=</span><span class="n">gallery_id</span><span class="p">,</span>
-                <span class="n">authorization</span><span class="o">=</span><span class="n">authorization</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="c1"># refetch the root gallery to utilize the Router handlings of authorization and exceptions</span>
+        <span class="n">gallery</span> <span class="o">=</span> <span class="n">gallery_router</span><span class="o">.</span><span class="n">GalleryRouter</span><span class="o">.</span><span class="n">by_id</span><span class="p">(</span>
+            <span class="n">gallery_id</span><span class="o">=</span><span class="n">gallery_id</span><span class="p">,</span>
+            <span class="n">authorization</span><span class="o">=</span><span class="n">authorization</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">GalleryPageResponse</span><span class="p">(</span>
             <span class="o">**</span><span class="n">auth_utils</span><span class="o">.</span><span class="n">get_user_session_info</span><span class="p">(</span><span class="n">authorization</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
@@ -294,7 +284,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/settings/user-access-tokens/&#39;</span><span class="p">,</span>
                         <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="n">user_access_token_router</span><span class="o">.</span><span class="n">_Base</span><span class="o">.</span><span class="n">_TAG</span><span class="p">])(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings_user_access_tokens</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/styles/&#39;</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/galleries/</span><span class="si">{gallery_id}</span><span class="s1">/&#39;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/galleries/&#39;</span><span class="p">,</span>
                         <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="n">gallery_router</span><span class="o">.</span><span class="n">_Base</span><span class="o">.</span><span class="n">_TAG</span><span class="p">])(</span><span class="bp">self</span><span class="o">.</span><span class="n">gallery</span><span class="p">)</span></div>
 
 

@@ -248,7 +248,6 @@
         <span class="n">api_key_available</span><span class="p">:</span> <span class="n">api_key_schema</span><span class="o">.</span><span class="n">ApiKeyAvailable</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(),</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_schema</span><span class="o">.</span><span class="n">IsAvailableResponse</span><span class="p">:</span>
         <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-
             <span class="k">return</span> <span class="n">api_schema</span><span class="o">.</span><span class="n">IsAvailableResponse</span><span class="p">(</span>
                 <span class="n">available</span><span class="o">=</span><span class="k">await</span> <span class="n">ApiKeyService</span><span class="o">.</span><span class="n">is_available</span><span class="p">(</span>
                     <span class="n">session</span><span class="p">,</span> <span class="n">api_key_schema</span><span class="o">.</span><span class="n">ApiKeyAdminAvailable</span><span class="p">(</span>

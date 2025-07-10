@@ -42,10 +42,10 @@ class ApiKey(
 
     @classmethod
     async def is_available(cls, session: AsyncSession, api_key_available_admin: api_key_schema.ApiKeyAdminAvailable) -> bool:
-        return (await session.exec(select(cls).where(
-            api_key_schema.ApiKeyAdminAvailable.name == api_key_available_admin.name,
-            api_key_schema.ApiKeyAdminAvailable.user_id == api_key_available_admin.user_id
-        ))).one_or_none() is not None
+        return (await session.exec(select(cls._MODEL).where(
+            cls._MODEL.name == api_key_available_admin.name,
+            cls._MODEL.user_id == cast(custom_types.User.id, api_key_available_admin.user_id
+                                       )))).one_or_none() is not None
 
     @classmethod
     async def _check_authorization_new(cls, params):

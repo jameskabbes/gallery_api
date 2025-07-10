@@ -152,7 +152,6 @@ class ApiKeyRouter(_Base):
         api_key_available: api_key_schema.ApiKeyAvailable = Depends(),
     ) -> api_schema.IsAvailableResponse:
         async with config.ASYNC_SESSIONMAKER() as session:
-
             return api_schema.IsAvailableResponse(
                 available=await ApiKeyService.is_available(
                     session, api_key_schema.ApiKeyAdminAvailable(

@@ -126,37 +126,27 @@ class PagesRouter(_Base):
     @classmethod
     async def gallery(
         cls,
-        gallery_id: custom_types.Gallery.id | None,
         authorization: Annotated[auth_utils.GetAuthReturn, Depends(
-            auth_utils.make_get_auth_dependency(raise_exceptions=False))],
-        root: bool = Query(False),
+            auth_utils.make_get_auth_dependency())],
+        gallery_id: custom_types.Gallery.id | None = Query(None),
     ) -> GalleryPageResponse:
 
-        if root:
+        # if gallery_id is None, get the root gallery for the user, then find that gallery
+        if gallery_id is None:
             async with config.ASYNC_SESSIONMAKER() as session:
-                if not authorization.isAuthorized:
+                root_gallery = await GalleryService.get_root_gallery(session, cast(custom_types.User.id, authorization._user_id))
+                if root_gallery is None:
                     raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
-                        detail='Root gallery does not exist for this user',
+                        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                        detail='Root gallery could not be found. This is a server error.'
                     )
+                gallery_id = GalleryService.model_id(root_gallery)
 
-                gallery = await GalleryService.get_root_gallery(session, cast(custom_types.User.id, authorization._user_id))
-
-                if gallery is None:
-                    pass
-                else:
-                    gallery_id = GalleryService.model_id(gallery)
-        else:
-            if gallery_id is None:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail='Must provide a gallery_id or set root=True',
-                )
-
-            gallery = gallery_router.GalleryRouter.by_id(
-                gallery_id=gallery_id,
-                authorization=authorization,
-            )
+        # refetch the root gallery to utilize the Router handlings of authorization and exceptions
+        gallery = gallery_router.GalleryRouter.by_id(
+            gallery_id=gallery_id,
+            authorization=authorization,
+        )
 
         return GalleryPageResponse(
             **auth_utils.get_user_session_info(authorization).model_dump(),
@@ -179,7 +169,7 @@ class PagesRouter(_Base):
         self.router.get('/settings/user-access-tokens/',
                         tags=[user_access_token_router._Base._TAG])(self.settings_user_access_tokens)
         self.router.get('/styles/')(self.styles)
-        self.router.get('/galleries/{gallery_id}/',
+        self.router.get('/galleries/',
                         tags=[gallery_router._Base._TAG])(self.gallery)
 
 

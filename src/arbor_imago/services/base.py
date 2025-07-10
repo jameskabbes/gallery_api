@@ -208,8 +208,9 @@ class Service(
 
     @classmethod
     def build_order_by(cls, query: SelectOfScalar[models.TModel], order_by: list[OrderBy[TOrderBy_co]]):
+
         for order in order_by:
-            field: InstrumentedAttribute = getattr(cls, order.field)
+            field: InstrumentedAttribute = getattr(cls._MODEL, order.field)
             if order.ascending:
                 query = query.order_by(field.asc())
             else:

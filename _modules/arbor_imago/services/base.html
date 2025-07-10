@@ -383,8 +383,9 @@
 <a class="viewcode-back" href="../../../arbor_imago.services.html#arbor_imago.services.base.Service.build_order_by">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_order_by</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">SelectOfScalar</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TModel</span><span class="p">],</span> <span class="n">order_by</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">OrderBy</span><span class="p">[</span><span class="n">TOrderBy_co</span><span class="p">]]):</span>
+
         <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">order_by</span><span class="p">:</span>
-            <span class="n">field</span><span class="p">:</span> <span class="n">InstrumentedAttribute</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+            <span class="n">field</span><span class="p">:</span> <span class="n">InstrumentedAttribute</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">ascending</span><span class="p">:</span>
                 <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">asc</span><span class="p">())</span>
             <span class="k">else</span><span class="p">:</span>

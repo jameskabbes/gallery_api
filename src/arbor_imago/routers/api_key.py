@@ -136,14 +136,13 @@ class ApiKeyRouter(_Base):
             auth_utils.make_get_auth_dependency())]
     ) -> ApiKeyJWTResponse:
 
-        async with config.ASYNC_SESSIONMAKER() as session:
-            api_key = await cls._get({
-                'authorization': authorization,
-                'id': api_key_id,
-            })
+        api_key = await cls._get({
+            'authorization': authorization,
+            'id': api_key_id,
+        })
 
-            return ApiKeyJWTResponse(
-                jwt=utils.jwt_encode(cast(dict, ApiKeyService.to_jwt_payload(api_key))))
+        return ApiKeyJWTResponse(
+            jwt=utils.jwt_encode(cast(dict, ApiKeyService.to_jwt_payload(api_key))))
 
     @classmethod
     async def check_availability(

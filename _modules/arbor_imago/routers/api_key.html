@@ -229,14 +229,13 @@
             <span class="n">auth_utils</span><span class="o">.</span><span class="n">make_get_auth_dependency</span><span class="p">())]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ApiKeyJWTResponse</span><span class="p">:</span>
 
-        <span class="k">async</span> <span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">ASYNC_SESSIONMAKER</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-            <span class="n">api_key</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get</span><span class="p">({</span>
-                <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
-                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">api_key_id</span><span class="p">,</span>
-            <span class="p">})</span>
+        <span class="n">api_key</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get</span><span class="p">({</span>
+            <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="n">authorization</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">api_key_id</span><span class="p">,</span>
+        <span class="p">})</span>
 
-            <span class="k">return</span> <span class="n">ApiKeyJWTResponse</span><span class="p">(</span>
-                <span class="n">jwt</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">jwt_encode</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ApiKeyService</span><span class="o">.</span><span class="n">to_jwt_payload</span><span class="p">(</span><span class="n">api_key</span><span class="p">))))</span></div>
+        <span class="k">return</span> <span class="n">ApiKeyJWTResponse</span><span class="p">(</span>
+            <span class="n">jwt</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">jwt_encode</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">ApiKeyService</span><span class="o">.</span><span class="n">to_jwt_payload</span><span class="p">(</span><span class="n">api_key</span><span class="p">))))</span></div>
 
 
 <div class="viewcode-block" id="ApiKeyRouter.check_availability">

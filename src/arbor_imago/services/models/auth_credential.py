@@ -3,12 +3,13 @@ from typing import Optional, TypedDict, ClassVar, cast, Self, Literal, Protocol
 from sqlmodel.ext.asyncio.session import AsyncSession
 from typing import ClassVar, TypedDict, cast, TypeVar, Generic, Type
 
-from arbor_imago import custom_types, schemas
+from arbor_imago import schemas
+from arbor_imago.core import types
 from arbor_imago.schemas import auth_credential as auth_credential_schema
-from arbor_imago.services import base
+from arbor_imago.services.models import base
 
 
-def lifespan_to_expiry(lifespan: datetime_module.timedelta) -> custom_types.AuthCredential.expiry:
+def lifespan_to_expiry(lifespan: datetime_module.timedelta) -> types.AuthCredential.expiry:
     return datetime_module.datetime.now().astimezone(datetime_module.UTC) + lifespan
 
 
@@ -65,7 +66,7 @@ class Table(
             cls,
             session: AsyncSession,
             inst: TAuthCredentialTable,
-    ) -> list[custom_types.Scope.id]:
+    ) -> list[types.Scope.id]:
         return []
 
 
@@ -102,12 +103,12 @@ class JwtIO(
 
 
 class JwtAndSimpleIdTable(
-        Generic[TAuthCredentialJwtAndTable, custom_types.TSimpleId],
-        HasModelSub[TAuthCredentialJwtAndTable, custom_types.TSimpleId],
-        base.HasModelId[TAuthCredentialJwtAndTable, custom_types.TSimpleId]):
+        Generic[TAuthCredentialJwtAndTable, types.TSimpleId],
+        HasModelSub[TAuthCredentialJwtAndTable, types.TSimpleId],
+        base.HasModelId[TAuthCredentialJwtAndTable, types.TSimpleId]):
 
     @classmethod
-    def _model_sub(cls, inst: TAuthCredentialJwtAndTable) -> custom_types.TSimpleId:
+    def _model_sub(cls, inst: TAuthCredentialJwtAndTable) -> types.TSimpleId:
         return cls.model_id(inst)
 
 

@@ -1,7 +1,8 @@
-from arbor_imago import custom_types, core_utils
+from arbor_imago import utils
+from arbor_imago.core import types
 from arbor_imago.models.tables import ApiKey as ApiKeyTable, ApiKeyScope as ApiKeyScopeTable
 from arbor_imago.schemas import api_key as api_key_schema, auth_credential as auth_credential_schema
-from arbor_imago.services import auth_credential as auth_credential_service, base
+from arbor_imago.services.models import auth_credential as auth_credential_service, base
 
 from sqlmodel import select, col
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -13,16 +14,16 @@ from collections.abc import Sequence
 class ApiKey(
         base.Service[
             ApiKeyTable,
-            custom_types.ApiKey.id,
+            types.ApiKey.id,
             api_key_schema.ApiKeyAdminCreate,
             api_key_schema.ApiKeyAdminUpdate,
-            custom_types.ApiKey.order_by
+            types.ApiKey.order_by
         ],
-        base.SimpleIdModelService[ApiKeyTable, custom_types.ApiKey.id],
-        auth_credential_service.JwtIO[ApiKeyTable, custom_types.ApiKey.id],
+        base.SimpleIdModelService[ApiKeyTable, types.ApiKey.id],
+        auth_credential_service.JwtIO[ApiKeyTable, types.ApiKey.id],
         auth_credential_service.Table[ApiKeyTable],
         auth_credential_service.JwtAndSimpleIdTable[ApiKeyTable,
-                                                    custom_types.ApiKey.id],
+                                                    types.ApiKey.id],
 ):
 
     auth_type = auth_credential_schema.Type.API_KEY
@@ -32,16 +33,16 @@ class ApiKey(
     def model_inst_from_create_model(cls, create_model):
 
         return cls._MODEL(
-            id=custom_types.ApiKey.id(core_utils.generate_uuid()),
+            id=types.ApiKey.id(utils.generate_uuid()),
             issued=datetime_module.datetime.now().astimezone(datetime_module.UTC),
             **create_model.model_dump()
         )
 
     @classmethod
-    async def get_scope_ids_by_api_key_ids(cls, session: AsyncSession, api_key_ids: Sequence[custom_types.ApiKey.id]) -> dict[custom_types.ApiKey.id, list[custom_types.Scope.id]]:
+    async def get_scope_ids_by_api_key_ids(cls, session: AsyncSession, api_key_ids: Sequence[types.ApiKey.id]) -> dict[types.ApiKey.id, list[types.Scope.id]]:
         api_key_scopes = (await session.exec(select(ApiKeyScopeTable).where(col(ApiKeyScopeTable.api_key_id).in_(api_key_ids)))).all()
 
-        d: dict[custom_types.ApiKey.id, list[custom_types.Scope.id]] = {}
+        d: dict[types.ApiKey.id, list[types.Scope.id]] = {}
         for api_key_scope in api_key_scopes:
             if api_key_scope.api_key_id not in d:
                 d[api_key_scope.api_key_id] = []
@@ -56,7 +57,7 @@ class ApiKey(
     async def is_available(cls, session: AsyncSession, api_key_available_admin: api_key_schema.ApiKeyAdminAvailable) -> bool:
         return (await session.exec(select(cls._MODEL).where(
             cls._MODEL.name == api_key_available_admin.name,
-            cls._MODEL.user_id == cast(custom_types.User.id, api_key_available_admin.user_id
+            cls._MODEL.user_id == cast(types.User.id, api_key_available_admin.user_id
                                        )))).one_or_none() is None
 
     @classmethod
@@ -91,7 +92,7 @@ class ApiKey(
     async def _check_validation_patch(cls, params):
         if 'name' in params['update_model'].model_fields_set:
             if not await cls.is_available(params['session'], api_key_schema.ApiKeyAdminAvailable(
-                    name=cast(custom_types.ApiKey.name, params['update_model'].name), user_id=cast(custom_types.User.id, params['authorized_user_id']))):
+                    name=cast(types.ApiKey.name, params['update_model'].name), user_id=cast(types.User.id, params['authorized_user_id']))):
                 raise base.NotAvailableError(
                     'Cannot update API Key {} for user {}, not available'.format(
                         str(params['update_model']

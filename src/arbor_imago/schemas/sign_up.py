@@ -1,8 +1,8 @@
 from sqlmodel import Field
 from pydantic import BaseModel
-from arbor_imago import custom_types
+from arbor_imago.core import types
 
 
 class SignUpAdminCreate(BaseModel):
-    email: custom_types.SignUp.email
-    expiry: custom_types.AuthCredential.expiry
+    email: types.SignUp.email
+    expiry: types.AuthCredential.expiry

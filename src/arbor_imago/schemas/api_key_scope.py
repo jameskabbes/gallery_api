@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from arbor_imago import custom_types
+from arbor_imago.core import types
 
 
 class ApiKeyScopeAdminUpdate(BaseModel):
@@ -7,5 +7,5 @@ class ApiKeyScopeAdminUpdate(BaseModel):
 
 
 class ApiKeyScopeAdminCreate(BaseModel):
-    api_key_id: custom_types.ApiKeyScope.api_key_id
-    scope_id: custom_types.ApiKeyScope.scope_id
+    api_key_id: types.ApiKeyScope.api_key_id
+    scope_id: types.ApiKeyScope.scope_id

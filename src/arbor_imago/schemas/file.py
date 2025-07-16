@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
-from arbor_imago import custom_types
+from arbor_imago.core import types
 
 
 class FileExport(BaseModel):
-    id: custom_types.File.id
-    stem: custom_types.File.stem
-    suffix: custom_types.File.suffix | None
-    size: custom_types.File.size
+    id: types.File.id
+    stem: types.File.stem
+    suffix: types.File.suffix | None
+    size: types.File.size
 
 
 class FileImport(BaseModel):
@@ -15,8 +15,8 @@ class FileImport(BaseModel):
 
 
 class FileUpdate(FileImport):
-    stem: Optional[custom_types.File.stem] = None
-    gallery_id: Optional[custom_types.File.gallery_id] = None
+    stem: Optional[types.File.stem] = None
+    gallery_id: Optional[types.File.gallery_id] = None
 
 
 class FileAdminUpdate(FileUpdate):
@@ -24,10 +24,10 @@ class FileAdminUpdate(FileUpdate):
 
 
 class FileCreate(FileImport):
-    stem: custom_types.File.stem
-    suffix: custom_types.File.suffix | None
-    gallery_id: custom_types.File.gallery_id
-    size: custom_types.File.size | None
+    stem: types.File.stem
+    suffix: types.File.suffix | None
+    gallery_id: types.File.gallery_id
+    size: types.File.size | None
 
 
 class FileAdminCreate(FileCreate):

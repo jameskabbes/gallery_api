@@ -6,7 +6,8 @@ from typing import Any, Protocol, Unpack, TypeVar, TypedDict, Generic, NotRequir
 from pydantic import BaseModel
 from collections.abc import Sequence
 
-from arbor_imago import custom_types, models
+from arbor_imago import models
+from arbor_imago.core import types
 from arbor_imago.schemas.pagination import Pagination
 from arbor_imago.schemas.order_by import OrderBy
 
@@ -25,12 +26,12 @@ TOrderBy_co = TypeVar('TOrderBy_co', bound=str, covariant=True)
 
 class CRUDParamsBase(TypedDict):
     session: AsyncSession
-    authorized_user_id: Optional[custom_types.User.id]
+    authorized_user_id: Optional[types.User.id]
     admin: bool
 
 
-class WithId(Generic[custom_types.TId], TypedDict):
-    id: custom_types.TId
+class WithId(Generic[types.TId], TypedDict):
+    id: types.TId
 
 
 class WithModelInst(Generic[models.TModel_contra], TypedDict):
@@ -41,7 +42,7 @@ class CreateParams(Generic[TCreateModel_contra], CRUDParamsBase):
     create_model: TCreateModel_contra
 
 
-class ReadParams(Generic[custom_types.TId], CRUDParamsBase, WithId[custom_types.TId]):
+class ReadParams(Generic[types.TId], CRUDParamsBase, WithId[types.TId]):
     pass
 
 
@@ -55,18 +56,18 @@ class ReadManyParams(Generic[models.TModel, TOrderBy_co], CRUDParamsBase, ReadMa
     pass
 
 
-class UpdateParams(Generic[custom_types.TId, TUpdateModel_contra], CRUDParamsBase, WithId[custom_types.TId]):
+class UpdateParams(Generic[types.TId, TUpdateModel_contra], CRUDParamsBase, WithId[types.TId]):
     update_model: TUpdateModel_contra
 
 
-class DeleteParams(Generic[custom_types.TId], CRUDParamsBase, WithId[custom_types.TId]):
+class DeleteParams(Generic[types.TId], CRUDParamsBase, WithId[types.TId]):
     pass
 
 
 CheckAuthorizationExistingOperation = Literal['read', 'update', 'delete']
 
 
-class CheckAuthorizationExistingParams(Generic[models.TModel_contra, custom_types.TId], CRUDParamsBase, WithId[custom_types.TId], WithModelInst[models.TModel_contra]):
+class CheckAuthorizationExistingParams(Generic[models.TModel_contra, types.TId], CRUDParamsBase, WithId[types.TId], WithModelInst[models.TModel_contra]):
     operation: CheckAuthorizationExistingOperation
 
 
@@ -78,11 +79,11 @@ class CheckAuthorizationReadManyParams(Generic[models.TModel, TOrderBy_co], Read
     pass
 
 
-class CheckValidationDeleteParams(Generic[custom_types.TId], DeleteParams[custom_types.TId]):
+class CheckValidationDeleteParams(Generic[types.TId], DeleteParams[types.TId]):
     pass
 
 
-class CheckValidationPatchParams(Generic[models.TModel, custom_types.TId, TUpdateModel_contra], UpdateParams[custom_types.TId, TUpdateModel_contra], WithModelInst[models.TModel]):
+class CheckValidationPatchParams(Generic[models.TModel, types.TId, TUpdateModel_contra], UpdateParams[types.TId, TUpdateModel_contra], WithModelInst[models.TModel]):
     pass
 
 
@@ -100,33 +101,33 @@ class HasModelInstFromCreateModel(Protocol[models.TModel_co, TCreateModel_contra
         ...
 
 
-class HasModelId(Protocol[models.TModel_contra, custom_types.TId_co]):
+class HasModelId(Protocol[models.TModel_contra, types.TId_co]):
     @classmethod
-    def model_id(cls, inst: models.TModel_contra) -> custom_types.TId_co:
+    def model_id(cls, inst: models.TModel_contra) -> types.TId_co:
         ...
 
 
-class HasBuildSelectById(Protocol[models.TModel, custom_types.TId_contra]):
+class HasBuildSelectById(Protocol[models.TModel, types.TId_contra]):
     @classmethod
-    def _build_select_by_id(cls, id: custom_types.TId_contra) -> SelectOfScalar[models.TModel]:
+    def _build_select_by_id(cls, id: types.TId_contra) -> SelectOfScalar[models.TModel]:
         ...
 
 
 class SimpleIdModelService(
-    Generic[models.TSimpleModel, custom_types.TSimpleId],
+    Generic[models.TSimpleModel, types.TSimpleId],
     HasModel[models.TSimpleModel],
-    HasModelId[models.TSimpleModel, custom_types.TSimpleId],
-    HasBuildSelectById[models.TSimpleModel, custom_types.TSimpleId],
+    HasModelId[models.TSimpleModel, types.TSimpleId],
+    HasBuildSelectById[models.TSimpleModel, types.TSimpleId],
 ):
 
     _MODEL: Type[models.TSimpleModel]
 
     @classmethod
-    def model_id(cls, inst: models.TSimpleModel) -> custom_types.TSimpleId:
+    def model_id(cls, inst: models.TSimpleModel) -> types.TSimpleId:
         return inst.id  # type: ignore
 
     @classmethod
-    def _build_select_by_id(cls, id: custom_types.TSimpleId) -> SelectOfScalar[models.TSimpleModel]:
+    def _build_select_by_id(cls, id: types.TSimpleId) -> SelectOfScalar[models.TSimpleModel]:
         return select(cls._MODEL).where(cls._MODEL.id == id)
 
 
@@ -140,17 +141,17 @@ class ServiceError(Exception):
 
 class NotFoundError(ValueError, ServiceError):
 
-    def __init__(self, model: Type[models.Model], id: custom_types.Id):
+    def __init__(self, model: Type[models.Model], id: types.Id):
         self.error_message = NotFoundError.not_found_message(model, id)
         super().__init__(self.error_message)
 
     @staticmethod
-    def not_found_message(model: Type[models.Model], id: custom_types.Id) -> str:
+    def not_found_message(model: Type[models.Model], id: types.Id) -> str:
         return model.__name__ + ' with id `' + str(id) + '` not found'
 
 
 class AlreadyExistsError(ServiceError):
-    def __init__(self, model: Type[models.Model], id: custom_types.Id):
+    def __init__(self, model: Type[models.Model], id: types.Id):
         self.error_message = model.__name__ + \
             ' with id `' + str(id) + '` already exists'
         super().__init__(self.error_message)
@@ -167,15 +168,15 @@ class UnauthorizedError(ServiceError):
 class Service(
     Generic[
         models.TModel,
-        custom_types.TId,
+        types.TId,
         TCreateModel,
         TUpdateModel,
         TOrderBy_co
     ],
     HasModel[models.TModel],
     HasModelInstFromCreateModel[models.TModel, TCreateModel],
-    HasModelId[models.TModel, custom_types.TId],
-    HasBuildSelectById[models.TModel, custom_types.TId],
+    HasModelId[models.TModel, types.TId],
+    HasBuildSelectById[models.TModel, types.TId],
 
 ):
 
@@ -195,12 +196,12 @@ class Service(
         return (await session.exec(query)).all()
 
     @classmethod
-    async def fetch_by_id(cls, session: AsyncSession, id: custom_types.TId) -> models.TModel | None:
+    async def fetch_by_id(cls, session: AsyncSession, id: types.TId) -> models.TModel | None:
         query = cls._build_select_by_id(id)
         return await cls.fetch_one(session, query)
 
     @classmethod
-    async def fetch_by_id_with_exception(cls, session: AsyncSession, id: custom_types.TId) -> models.TModel:
+    async def fetch_by_id_with_exception(cls, session: AsyncSession, id: types.TId) -> models.TModel:
         inst = await cls.fetch_by_id(session, id)
         if inst is None:
             raise NotFoundError(cls._MODEL, id)
@@ -219,7 +220,7 @@ class Service(
         return query
 
     @classmethod
-    async def _check_authorization_existing(cls, params: CheckAuthorizationExistingParams[models.TModel, custom_types.TId]) -> None:
+    async def _check_authorization_existing(cls, params: CheckAuthorizationExistingParams[models.TModel, types.TId]) -> None:
         """Check if the user is authorized to access the instance"""
         pass
 
@@ -234,12 +235,12 @@ class Service(
         pass
 
     @classmethod
-    async def _check_validation_delete(cls, params: CheckValidationDeleteParams[custom_types.TId]) -> None:
+    async def _check_validation_delete(cls, params: CheckValidationDeleteParams[types.TId]) -> None:
         """Check if the user is authorized to delete the instance"""
         pass
 
     @classmethod
-    async def _check_validation_patch(cls, params: CheckValidationPatchParams[models.TModel, custom_types.TId, TUpdateModel]) -> None:
+    async def _check_validation_patch(cls, params: CheckValidationPatchParams[models.TModel, types.TId, TUpdateModel]) -> None:
         """Check if the user is authorized to update the instance"""
         pass
 
@@ -249,7 +250,7 @@ class Service(
         pass
 
     @classmethod
-    async def read(cls, params: ReadParams[custom_types.TId]) -> models.TModel:
+    async def read(cls, params: ReadParams[types.TId]) -> models.TModel:
         """Used in conjunction with API endpoints, raises exceptions while trying to get an instance of the model by ID"""
 
         model_inst = await cls.fetch_by_id_with_exception(params['session'], params['id'])
@@ -292,7 +293,7 @@ class Service(
         return cls._MODEL(**create_model.model_dump())
 
     @classmethod
-    async def update(cls, params: UpdateParams[custom_types.TId, TUpdateModel]) -> models.TModel:
+    async def update(cls, params: UpdateParams[types.TId, TUpdateModel]) -> models.TModel:
         """Used in conjunction with API endpoints, raises exceptions while trying to update an instance of the model by ID"""
 
         # when changing this, be sure to update the services/gallery.py file as well
@@ -321,7 +322,7 @@ class Service(
         inst.sqlmodel_update(update_model.model_dump(exclude_unset=True))
 
     @classmethod
-    async def delete(cls, params: DeleteParams[custom_types.TId]) -> None:
+    async def delete(cls, params: DeleteParams[types.TId]) -> None:
         """Used in conjunction with API endpoints, raises exceptions while trying to delete an instance of the model by ID"""
 
         model_inst = await cls.fetch_by_id_with_exception(params['session'], params['id'])

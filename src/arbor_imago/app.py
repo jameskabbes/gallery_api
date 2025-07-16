@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from arbor_imago import config
+from arbor_imago.core import config
 from arbor_imago.routers import user, auth, user_access_token, api_key_scope, gallery, api_key, pages
 from arbor_imago.auth import utils as auth_utils
 

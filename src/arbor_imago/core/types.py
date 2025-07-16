@@ -1,4 +1,5 @@
-from typing import Annotated, Literal, Union, NamedTuple, TypeVar, NewType, Type, Any, Optional
+import os
+from typing import Annotated, Literal, Union, NamedTuple, TypeVar, NewType, Type, Any, Optional, TypedDict, NotRequired
 from pydantic import EmailStr, StringConstraints, GetCoreSchemaHandler, BaseModel
 from pydantic_core import core_schema
 import re
@@ -209,5 +210,62 @@ T = TypeVar("T")
 Omissible = Annotated[Optional[T], NotNullable()]
 
 
-class _Testing(BaseModel):
-    omitted: Omissible[int] = None  # type hinting will work
+class SharedConfig(TypedDict):
+    BACKEND_URL: str
+    FRONTEND_URL: str
+    AUTH_KEY: str
+    HEADER_KEYS: dict[str, str]
+    FRONTEND_ROUTES: dict[str, str]
+    SCOPE_NAME_MAPPING: dict[Scope.name, Scope.id]
+    VISIBILITY_LEVEL_NAME_MAPPING: dict[VisibilityLevel.name,
+                                        VisibilityLevel.id]
+    PERMISSION_LEVEL_NAME_MAPPING: dict[PermissionLevel.name,
+                                        PermissionLevel.id]
+    USER_ROLE_NAME_MAPPING: dict[UserRole.name,
+                                 UserRole.id]
+    USER_ROLE_SCOPES: dict[UserRole.name,
+                           list[Scope.name]]
+    OTP_LENGTH: int
+    GOOGLE_CLIENT_ID: str
+
+
+class DbEnv(TypedDict):
+    URL: str
+
+
+CredentialNames = Literal['access_token',
+                          'magic_link', 'request_sign_up', 'otp']
+
+
+class AuthEnv(TypedDict):
+    credential_lifespans: dict[CredentialNames,
+                               ISO8601DurationStr]
+
+
+class AccessTokenCookie(TypedDict):
+    key: str
+    secure: NotRequired[bool]
+    httponly: NotRequired[bool]
+    samesite: NotRequired[Literal['lax', 'strict', 'none']]
+
+
+OpenAPISchemaKeys = Literal['gallery']
+
+
+class BackendConfig(TypedDict):
+    UVICORN: dict
+    DB: DbEnv
+    MEDIA_DIR: str
+    GOOGLE_CLIENT_PATH: str
+    AUTH: AuthEnv
+    OPENAPI_SCHEMA_PATHS: dict[OpenAPISchemaKeys, str | os.PathLike[str]]
+    ACCESS_TOKEN_COOKIE: AccessTokenCookie
+
+
+class AuthConfig(TypedDict):
+    credential_lifespans: dict[CredentialNames, datetime_module.timedelta]
+
+
+class BackendSecrets(TypedDict):
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str

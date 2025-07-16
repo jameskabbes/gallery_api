@@ -3,32 +3,32 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 import re
 import datetime as datetime_module
 import pathlib
-import shutil
 
-from arbor_imago import config, custom_types, utils, core_utils
+from arbor_imago import utils
+from arbor_imago.core import config, types
 from arbor_imago.models.tables import Gallery as GalleryTable
-from arbor_imago.services.gallery_permission import GalleryPermission as GalleryPermissionService, base
+from arbor_imago.services.models.gallery_permission import GalleryPermission as GalleryPermissionService, base
 from arbor_imago.schemas import gallery as gallery_schema
 
 
 class Gallery(
         base.Service[
             GalleryTable,
-            custom_types.Gallery.id,
+            types.Gallery.id,
             gallery_schema.GalleryAdminCreate,
             gallery_schema.GalleryAdminUpdate,
             str
         ],
         base.SimpleIdModelService[
             GalleryTable,
-            custom_types.Gallery.id,
+            types.Gallery.id,
         ],
 ):
 
     _MODEL = GalleryTable
 
     @classmethod
-    def model_folder_name(cls, inst: GalleryTable) -> custom_types.Gallery.folder_name:
+    def model_folder_name(cls, inst: GalleryTable) -> types.Gallery.folder_name:
 
         if inst.parent_id == None and inst.name == 'root':
             return inst.user_id
@@ -38,18 +38,18 @@ class Gallery(
             return inst.date.isoformat() + ' ' + inst.name
 
     @classmethod
-    def get_date_and_name_from_folder_name(cls, folder_name: custom_types.Gallery.folder_name) -> custom_types.GalleryDateAndName:
+    def get_date_and_name_from_folder_name(cls, folder_name: types.Gallery.folder_name) -> types.GalleryDateAndName:
 
         match = re.match(r'^(\d{4}-\d{2}-\d{2}) (.+)$', folder_name)
         if match:
             date_str, name = match.groups()
             date = datetime_module.date.fromisoformat(date_str)
-            return custom_types.GalleryDateAndName(
+            return types.GalleryDateAndName(
                 date=date,
                 name=name
             )
         else:
-            return custom_types.GalleryDateAndName(
+            return types.GalleryDateAndName(
                 date=None,
                 name=folder_name
             )
@@ -89,7 +89,7 @@ class Gallery(
                         'Unauthorized to {operation} this gallery'.format(operation=params['operation']))
 
                 gallery_permission = await GalleryPermissionService.fetch_by_id(
-                    params['session'], custom_types.GalleryPermissionId(
+                    params['session'], types.GalleryPermissionId(
                         gallery_id=params['id'],
                         user_id=params['authorized_user_id']
                     )
@@ -144,13 +144,13 @@ class Gallery(
             return parents
 
     @classmethod
-    async def get_root_gallery(cls, session: AsyncSession, user_id: custom_types.Gallery.user_id) -> GalleryTable | None:
+    async def get_root_gallery(cls, session: AsyncSession, user_id: types.Gallery.user_id) -> GalleryTable | None:
         return (await session.exec(select(cls._MODEL).where(cls._MODEL.user_id == user_id).where(cls._MODEL.parent_id == None))).one_or_none()
 
     @classmethod
     def model_inst_from_create_model(cls, create_model):
         return cls._MODEL(
-            id=core_utils.generate_uuid(),
+            id=utils.generate_uuid(),
             ** create_model.model_dump(exclude_unset=True, exclude_defaults=True, exclude_none=True)
         )
 

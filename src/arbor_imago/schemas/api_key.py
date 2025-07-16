@@ -1,19 +1,19 @@
-from arbor_imago import custom_types
+from arbor_imago.core import types
 
 from pydantic import BaseModel
 from typing import Optional
 
 
-from arbor_imago import custom_types
+from arbor_imago.core import types
 from arbor_imago.schemas import auth_credential as auth_credential_schema, FromAttributes
 
 
 class ApiKeyAvailable(BaseModel):
-    name: custom_types.ApiKey.name
+    name: types.ApiKey.name
 
 
 class ApiKeyAdminAvailable(ApiKeyAvailable):
-    user_id: custom_types.User.id
+    user_id: types.User.id
 
 
 class ApiKeyImport(BaseModel):
@@ -21,8 +21,8 @@ class ApiKeyImport(BaseModel):
 
 
 class ApiKeyUpdate(ApiKeyImport):
-    name: custom_types.Omissible[custom_types.ApiKey.name] = None
-    expiry: custom_types.Omissible[custom_types.AuthCredential.expiry] = None
+    name: types.Omissible[types.ApiKey.name] = None
+    expiry: types.Omissible[types.AuthCredential.expiry] = None
 
 
 class ApiKeyAdminUpdate(ApiKeyUpdate, BaseModel):
@@ -30,20 +30,20 @@ class ApiKeyAdminUpdate(ApiKeyUpdate, BaseModel):
 
 
 class ApiKeyCreate(ApiKeyImport):
-    name: custom_types.ApiKey.name
-    expiry: custom_types.AuthCredential.expiry
+    name: types.ApiKey.name
+    expiry: types.AuthCredential.expiry
 
 
 class ApiKeyAdminCreate(ApiKeyCreate, BaseModel):
-    user_id: custom_types.User.id
+    user_id: types.User.id
 
 
 class ApiKeyExport(FromAttributes):
-    id: custom_types.ApiKey.id
-    user_id: custom_types.User.id
-    name: custom_types.ApiKey.name
-    issued: custom_types.ApiKey.issued
-    expiry: custom_types.ApiKey.expiry
+    id: types.ApiKey.id
+    user_id: types.User.id
+    name: types.ApiKey.name
+    issued: types.ApiKey.issued
+    expiry: types.ApiKey.expiry
 
 
 class ApiKeyPublic(ApiKeyExport):

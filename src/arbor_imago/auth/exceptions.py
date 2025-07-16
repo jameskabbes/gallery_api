@@ -1,6 +1,7 @@
 import typing
 from fastapi import Request, HTTPException, status, Response
-from arbor_imago import custom_types, auth, config
+from arbor_imago import auth
+from arbor_imago.core import config, types
 
 
 def Base(status_code: int, detail: str, logout: bool) -> HTTPException:
@@ -90,7 +91,7 @@ def invalid_otp() -> HTTPException:
     )
 
 
-def authorization_type_not_permitted(type: custom_types.AuthCredential.type) -> HTTPException:
+def authorization_type_not_permitted(type: types.AuthCredential.type) -> HTTPException:
     return Base(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="Authorization type '{}' not permitted for this endpoint".format(

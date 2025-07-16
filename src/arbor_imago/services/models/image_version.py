@@ -1,7 +1,7 @@
 from sqlmodel import select
 
-from arbor_imago import custom_types
-from arbor_imago.services import base
+from arbor_imago.core import types
+from arbor_imago.services.models import base
 from arbor_imago.models.tables import ImageVersion as ImageVersionTable
 from arbor_imago.schemas import file as file_schema
 
@@ -9,7 +9,7 @@ from arbor_imago.schemas import file as file_schema
 class ImageVersion(
         base.Service[
             ImageVersionTable,
-            custom_types.ImageVersion.id,
+            types.ImageVersion.id,
             file_schema.FileAdminCreate,
             file_schema.FileAdminUpdate,
             str
@@ -17,7 +17,7 @@ class ImageVersion(
 
         base.SimpleIdModelService[
             ImageVersionTable,
-            custom_types.ImageVersion.id,
+            types.ImageVersion.id,
         ],
 
 ):

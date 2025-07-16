@@ -3,34 +3,35 @@ from sqlmodel import select
 from pydantic import BaseModel
 import datetime as datetime_module
 
-from arbor_imago import config, core_utils, custom_types
+from arbor_imago import utils
+from arbor_imago.core import config, types
 from arbor_imago.models.tables import UserAccessToken as UserAccessTokenTable
 from arbor_imago.schemas import user_access_token as user_access_token_schema, auth_credential as auth_credential_schema
-from arbor_imago.services import auth_credential as auth_credential_service, base, user as user_service
+from arbor_imago.services.models import auth_credential as auth_credential_service, base, user as user_service
 
 
 class UserAccessToken(
     base.Service[
         UserAccessTokenTable,
-        custom_types.UserAccessToken.id,
+        types.UserAccessToken.id,
         user_access_token_schema.UserAccessTokenAdminCreate,
         user_access_token_schema.UserAccessTokenAdminUpdate,
         str
     ],
     base.SimpleIdModelService[
         UserAccessTokenTable,
-        custom_types.UserAccessToken.id,
+        types.UserAccessToken.id,
     ],
     auth_credential_service.JwtIO[
         UserAccessTokenTable,
-        custom_types.UserAccessToken.id,
+        types.UserAccessToken.id,
     ],
     auth_credential_service.Table[
         UserAccessTokenTable,
     ],
     auth_credential_service.JwtAndSimpleIdTable[
         UserAccessTokenTable,
-        custom_types.UserAccessToken.id,
+        types.UserAccessToken.id,
     ]
 ):
 
@@ -41,7 +42,7 @@ class UserAccessToken(
     def model_inst_from_create_model(cls, create_model):
 
         return cls._MODEL(
-            id=custom_types.UserAccessToken.id(core_utils.generate_uuid()),
+            id=types.UserAccessToken.id(utils.generate_uuid()),
             issued=datetime_module.datetime.now().astimezone(datetime_module.UTC),
             **create_model.model_dump(exclude_unset=True, exclude_defaults=True, exclude_none=True)
         )

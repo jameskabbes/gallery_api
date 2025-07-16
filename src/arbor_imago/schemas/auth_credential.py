@@ -1,7 +1,7 @@
 from enum import Enum
 from sqlmodel import SQLModel
 from typing import TypedDict, Generic, TypeVar
-from arbor_imago import custom_types
+from arbor_imago.core import types
 
 
 TSub = TypeVar('TSub')
@@ -16,6 +16,6 @@ class Type(Enum):
 
 class JwtPayload(Generic[TSub], TypedDict):
     sub: TSub
-    exp: custom_types.AuthCredential.expiry_timestamp
-    iat: custom_types.AuthCredential.issued_timestamp
-    type: custom_types.AuthCredential.type
+    exp: types.AuthCredential.expiry_timestamp
+    iat: types.AuthCredential.issued_timestamp
+    type: types.AuthCredential.type

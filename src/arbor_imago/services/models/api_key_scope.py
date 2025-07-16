@@ -1,15 +1,15 @@
 from sqlmodel import Field, Relationship, select, SQLModel
 from typing import TYPE_CHECKING, TypedDict, Optional, ClassVar, Annotated, Type
 
-from arbor_imago import custom_types
+from arbor_imago.core import types
 from arbor_imago.models.tables import ApiKeyScope as ApiKeyScopeTable, ApiKey as ApiKeyTable
-from arbor_imago.services import api_key as api_key_service, base
+from arbor_imago.services.models import api_key as api_key_service, base
 from arbor_imago.schemas import api_key_scope as api_key_scope_schema
 
 
 class ApiKeyScope(base.Service[
     ApiKeyScopeTable,
-    custom_types.ApiKeyScope.id,
+    types.ApiKeyScope.id,
     api_key_scope_schema.ApiKeyScopeAdminCreate,
     api_key_scope_schema.ApiKeyScopeAdminUpdate,
     str
@@ -19,7 +19,7 @@ class ApiKeyScope(base.Service[
 
     @classmethod
     def model_id(cls, inst: ApiKeyScopeTable):
-        return custom_types.ApiKeyScopeId(
+        return types.ApiKeyScopeId(
             api_key_id=inst.api_key_id,
             scope_id=inst.scope_id,
         )
@@ -59,7 +59,7 @@ class ApiKeyScope(base.Service[
     @classmethod
     async def _check_validation_post(cls, params):
 
-        id = custom_types.ApiKeyScopeId(
+        id = types.ApiKeyScopeId(
             api_key_id=params['create_model'].api_key_id,
             scope_id=params['create_model'].scope_id
         )

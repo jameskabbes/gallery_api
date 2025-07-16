@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel
 from typing import Protocol, TypeVar, Generic
 
-from arbor_imago import custom_types
+from arbor_imago.core import types
 from arbor_imago.models.tables import User, UserAccessToken, OTP, ApiKey, ApiKeyScope, Gallery, GalleryPermission, File, ImageVersion, ImageFileMetadata
 from arbor_imago.models.models import SignUp
 
@@ -20,5 +20,5 @@ TSimpleModel_contra = TypeVar(
     'TSimpleModel_contra', bound=ModelSimple, contravariant=True)
 
 
-class HasSimpleId(Generic[custom_types.TSimpleId], Protocol):
-    id: custom_types.TSimpleId
+class HasSimpleId(Generic[types.TSimpleId], Protocol):
+    id: types.TSimpleId

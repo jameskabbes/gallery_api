@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "arbor_imago"
 version = "0.1.0"
@@ -41,3 +45,8 @@ Homepage = "https://github.com/jameskabbes/gallery_api"
 Repository = "https://github.com/jameskabbes/gallery_api"
 
 
+[tool.hatch.build]
+sources = ["src"]
+include = [
+    "src/arbor_imago/**"
+]

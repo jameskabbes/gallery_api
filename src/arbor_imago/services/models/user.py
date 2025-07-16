@@ -3,23 +3,24 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from pydantic import BaseModel
 import pathlib
 
-from arbor_imago import core_utils, custom_types, config
+from arbor_imago import utils
+from arbor_imago.core import config, types
 from arbor_imago.models.tables import User as UserTable
 from arbor_imago.schemas import user as user_schema
-from arbor_imago.services import base
+from arbor_imago.services.models import base
 
 
 class User(
         base.Service[
             UserTable,
-            custom_types.User.id,
+            types.User.id,
             user_schema.UserAdminCreate,
             user_schema.UserAdminUpdate,
             str
         ],
         base.SimpleIdModelService[
             UserTable,
-            custom_types.User.id,
+            types.User.id,
         ]
 ):
 
@@ -39,19 +40,19 @@ class User(
             return root / str(inst.id)
 
     @classmethod
-    async def fetch_by_email(cls, session: AsyncSession, email: custom_types.User.email) -> UserTable | None:
+    async def fetch_by_email(cls, session: AsyncSession, email: types.User.email) -> UserTable | None:
 
         query = select(cls._MODEL).where(cls._MODEL.email == email)
         return (await session.exec(query)).one_or_none()
 
     @classmethod
-    async def fetch_by_username(cls, session: AsyncSession, username: custom_types.User.username) -> UserTable | None:
+    async def fetch_by_username(cls, session: AsyncSession, username: types.User.username) -> UserTable | None:
 
         query = select(cls._MODEL).where(cls._MODEL.username == username)
         return (await session.exec(query)).one_or_none()
 
     @classmethod
-    async def fetch_by_email_or_username(cls, session: AsyncSession, username_or_email: custom_types.User.email | custom_types.User.username) -> UserTable | None:
+    async def fetch_by_email_or_username(cls, session: AsyncSession, username_or_email: types.User.email | types.User.username) -> UserTable | None:
 
         query = select(cls._MODEL).where(
             or_(cls._MODEL.username == username_or_email, cls._MODEL.email == username_or_email))
@@ -59,7 +60,7 @@ class User(
         return (await session.exec(query)).one_or_none()
 
     @classmethod
-    async def authenticate(cls, session: AsyncSession, username_or_email: custom_types.User.email | custom_types.User.username, password: custom_types.User.password) -> UserTable | None:
+    async def authenticate(cls, session: AsyncSession, username_or_email: types.User.email | types.User.username, password: types.User.password) -> UserTable | None:
 
         user = await cls.fetch_by_email_or_username(session, username_or_email)
 
@@ -67,7 +68,7 @@ class User(
             return None
         if user.hashed_password is None:
             return None
-        if not core_utils.verify_password(password, user.hashed_password):
+        if not utils.verify_password(password, user.hashed_password):
             return None
         return user
 
@@ -84,7 +85,7 @@ class User(
                     create_model.password)
 
         return cls._MODEL(
-            id=custom_types.User.id(core_utils.generate_uuid()),
+            id=types.User.id(utils.generate_uuid()),
             ** d,
         )
 
@@ -102,13 +103,13 @@ class User(
                     update_model.password)
 
     @classmethod
-    async def is_username_available(cls, session: AsyncSession, username: custom_types.User.username) -> bool:
+    async def is_username_available(cls, session: AsyncSession, username: types.User.username) -> bool:
 
         query = select(cls._MODEL).where(cls._MODEL.username == username)
         return (await session.exec(query)).one_or_none() is not None
 
     @classmethod
-    async def is_email_available(cls, session: AsyncSession, email: custom_types.User.email) -> bool:
+    async def is_email_available(cls, session: AsyncSession, email: types.User.email) -> bool:
 
         query = select(cls._MODEL).where(cls._MODEL.email == email)
         return (await session.exec(query)).one_or_none() is not None
@@ -152,8 +153,8 @@ class User(
             raise base.UnauthorizedError('Unauthorized to create a new user.')
 
     @classmethod
-    def hash_password(cls, password: custom_types.User.password) -> custom_types.User.hashed_password:
-        return core_utils.hash_password(password)
+    def hash_password(cls, password: types.User.password) -> types.User.hashed_password:
+        return utils.hash_password(password)
 
 
 '''

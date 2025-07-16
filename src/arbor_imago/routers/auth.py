@@ -1,3 +1,15 @@
+from arbor_imago import core
+from arbor_imago.core import utils
+from arbor_imago.auth import utils as auth_utils, exceptions as auth_exceptions
+from arbor_imago.core import config, types
+from arbor_imago.schemas import user_access_token as user_access_token_schema, user as user_schema, api as api_schema, sign_up as sign_up_schema
+from arbor_imago.models.tables import User, UserAccessToken
+from arbor_imago.models.models import SignUp
+from arbor_imago.services.models import auth_credential as auth_credential_service
+from arbor_imago.services.models.user import User as UserService
+from arbor_imago.services.models.user_access_token import UserAccessToken as UserAccessTokenService
+from arbor_imago.routers import base
+
 import httpx
 from fastapi import Depends, Request, Response, Form, status, BackgroundTasks, HTTPException
 from sqlmodel import select
@@ -7,19 +19,9 @@ from typing import Annotated, cast
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 
-from arbor_imago import config, custom_types, utils
-from arbor_imago.auth import utils as auth_utils, exceptions as auth_exceptions
-from arbor_imago.schemas import user_access_token as user_access_token_schema, user as user_schema, api as api_schema, sign_up as sign_up_schema
-from arbor_imago.models.tables import User, UserAccessToken
-from arbor_imago.models.models import SignUp
-from arbor_imago.services import auth_credential as auth_credential_service
-from arbor_imago.services.user import User as UserService
-from arbor_imago.services.user_access_token import UserAccessToken as UserAccessTokenService
-from arbor_imago.routers import base
-
 
 class TokenResponse(BaseModel):
-    access_token: custom_types.JwtEncodedStr
+    access_token: types.JwtEncodedStr
     token_type: str
 
 
@@ -28,7 +30,7 @@ class LoginWithPasswordResponse(auth_utils.GetUserSessionInfoNestedReturn):
 
 
 class LoginWithMagicLinkRequest(BaseModel):
-    token: custom_types.JwtEncodedStr
+    token: types.JwtEncodedStr
 
 
 class LoginWithMagicLinkResponse(auth_utils.GetUserSessionInfoNestedReturn):
@@ -36,8 +38,8 @@ class LoginWithMagicLinkResponse(auth_utils.GetUserSessionInfoNestedReturn):
 
 
 class LoginWithOTPEmailRequest(BaseModel):
-    code: custom_types.OTP.code
-    email: custom_types.User.email
+    code: types.OTP.code
+    email: types.User.email
 
 
 class LoginWithGoogleRequest(BaseModel):
@@ -49,12 +51,12 @@ class LoginWithGoogleResponse(auth_utils.GetUserSessionInfoNestedReturn):
 
 
 class LoginWithOTPPhoneNumberRequest(BaseModel):
-    code: custom_types.OTP.code
-    phone_number: custom_types.User.phone_number
+    code: types.OTP.code
+    phone_number: types.User.phone_number
 
 
 class SignUpRequest(BaseModel):
-    token: custom_types.JwtEncodedStr
+    token: types.JwtEncodedStr
 
 
 class SignUpResponse(auth_utils.GetUserSessionInfoNestedReturn):
@@ -62,27 +64,27 @@ class SignUpResponse(auth_utils.GetUserSessionInfoNestedReturn):
 
 
 class RequestSignUpEmailRequest(BaseModel):
-    email: custom_types.User.email
+    email: types.User.email
 
 
 class RequestSignUpSMSRequest(BaseModel):
-    phone_number: custom_types.User.phone_number
+    phone_number: types.User.phone_number
 
 
 class RequestMagicLinkEmailRequest(BaseModel):
-    email: custom_types.User.email
+    email: types.User.email
 
 
 class RequestMagicLinkSMSRequest(BaseModel):
-    phone_number: custom_types.User.phone_number
+    phone_number: types.User.phone_number
 
 
 class RequestOTPEmailRequest(BaseModel):
-    email: custom_types.User.email
+    email: types.User.email
 
 
 class RequestOTPSMSRequest(BaseModel):
-    phone_number: custom_types.User.phone_number
+    phone_number: types.User.phone_number
 
 
 class AuthRouter(base.Router):
@@ -106,7 +108,7 @@ class AuthRouter(base.Router):
         response: Response,
         stay_signed_in: bool = Form(False)
     ) -> TokenResponse:
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
 
             user_access_token = await UserAccessTokenService.create({
                 'session': session,
@@ -135,7 +137,7 @@ class AuthRouter(base.Router):
         stay_signed_in: bool = Form(False)
     ) -> LoginWithPasswordResponse:
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
 
             tokken_lifespan = config.AUTH['credential_lifespans']['access_token']
 
@@ -187,7 +189,7 @@ class AuthRouter(base.Router):
         auth_credential = cast(
             UserAccessToken, authorization.auth_credential)
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             token_lifespan = config.AUTH['credential_lifespans']['access_token']
             user_access_token = await UserAccessTokenService.create(
                 {
@@ -228,7 +230,7 @@ class AuthRouter(base.Router):
         response: Response
     ) -> auth_utils.LoginWithOTPResponse:
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             user = (await session.exec(select(User).where(
                 User.email == model.email))).one_or_none()
             return await auth_utils.login_otp(session, user, response, model.code)
@@ -240,7 +242,7 @@ class AuthRouter(base.Router):
         response: Response
     ) -> auth_utils.LoginWithOTPResponse:
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             user = (await session.exec(select(User).where(
                 User.phone_number == model.phone_number))).one_or_none()
             return await auth_utils.login_otp(session, user, response, model.code)
@@ -254,7 +256,7 @@ class AuthRouter(base.Router):
             override_lifetime=config.AUTH['credential_lifespans']['request_sign_up'])
 
         # double check the user doesn't already exist
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
 
             if (await session.exec(select(User).where(
                     User.email == cast(SignUp, authorization.auth_credential).email))).one_or_none() is not None:
@@ -264,7 +266,7 @@ class AuthRouter(base.Router):
                     logout=False
                 )
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             sign_up = cast(SignUp,
                            authorization.auth_credential)
 
@@ -329,7 +331,7 @@ class AuthRouter(base.Router):
                 logout=False
             )
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
 
             user = await UserService.fetch_by_email(session=session, email=email)
 
@@ -376,7 +378,7 @@ class AuthRouter(base.Router):
         background_tasks: BackgroundTasks
     ):
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             user = (await session.exec(select(User).where(
                 User.email == model.email))).one_or_none()
             background_tasks.add_task(
@@ -386,7 +388,7 @@ class AuthRouter(base.Router):
     @classmethod
     async def request_magic_link_email(cls, model: RequestMagicLinkEmailRequest, background_tasks: BackgroundTasks):
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             user = (await session.exec(select(User).where(
                 User.email == model.email))).one_or_none()
             if user:
@@ -398,7 +400,7 @@ class AuthRouter(base.Router):
 
     @classmethod
     async def request_magic_link_sms(cls, model: RequestMagicLinkSMSRequest, background_tasks: BackgroundTasks):
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             user = (await session.exec(select(User).where(
                 User.phone_number == model.phone_number))).one_or_none()
 
@@ -412,7 +414,7 @@ class AuthRouter(base.Router):
     @classmethod
     async def request_otp_email(cls, model: RequestOTPEmailRequest, background_tasks: BackgroundTasks):
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             user = (await session.exec(select(User).where(
                 User.email == model.email))).one_or_none()
 
@@ -426,7 +428,7 @@ class AuthRouter(base.Router):
     @classmethod
     async def request_otp_sms(cls, model: RequestOTPSMSRequest, background_tasks: BackgroundTasks):
 
-        async with config.ASYNC_SESSIONMAKER() as session:
+        async with core.ASYNC_SESSIONMAKER() as session:
             user = (await session.exec(select(User).where(
                 User.phone_number == model.phone_number))).one_or_none()
             if user:
@@ -441,11 +443,11 @@ class AuthRouter(base.Router):
             auth_utils.make_get_auth_dependency(raise_exceptions=False, permitted_types={'access_token'}))]) -> api_schema.DetailOnlyResponse:
 
         if authorization.isAuthorized:
-            async with config.ASYNC_SESSIONMAKER() as session:
+            async with core.ASYNC_SESSIONMAKER() as session:
                 await UserAccessTokenService.delete({
                     'session': session,
                     'admin': False,
-                    'authorized_user_id': cast(custom_types.User.id, authorization._user_id),
+                    'authorized_user_id': cast(types.User.id, authorization._user_id),
                     'id': UserAccessTokenService.model_id(cast(UserAccessToken, authorization.auth_credential))
                 })
 

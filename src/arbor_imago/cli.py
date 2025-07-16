@@ -3,8 +3,9 @@ import asyncio
 import json
 from sqlmodel import SQLModel
 import uvicorn
-from arbor_imago import models, config
+from arbor_imago import models
 from arbor_imago.app import app as fastapi_app
+from arbor_imago.core import config
 
 cli = typer.Typer()
 

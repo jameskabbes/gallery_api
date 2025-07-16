@@ -69,43 +69,59 @@
            <div itemprop="articleBody">
              
   <h1>Source code for arbor_imago.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">typing</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">arbor_imago</span><span class="w"> </span><span class="kn">import</span> <span class="n">custom_types</span><span class="p">,</span> <span class="n">config</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bcrypt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">secrets</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 
-<div class="viewcode-block" id="jwt_encode">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.utils.jwt_encode">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">jwt_encode</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">JwtEncodedStr</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">BACKEND_SECRETS</span><span class="p">[</span><span class="s1">&#39;JWT_SECRET_KEY&#39;</span><span class="p">],</span> <span class="n">algorithm</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">BACKEND_SECRETS</span><span class="p">[</span><span class="s1">&#39;JWT_ALGORITHM&#39;</span><span class="p">])</span></div>
-
-
-
-<div class="viewcode-block" id="jwt_decode">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.utils.jwt_decode">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">jwt_decode</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">JwtEncodedStr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">BACKEND_SECRETS</span><span class="p">[</span><span class="s1">&#39;JWT_SECRET_KEY&#39;</span><span class="p">],</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">BACKEND_SECRETS</span><span class="p">[</span><span class="s1">&#39;JWT_ALGORITHM&#39;</span><span class="p">]])</span></div>
-
-
-
-<div class="viewcode-block" id="send_email">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.utils.send_email">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">send_email</span><span class="p">(</span><span class="n">recipient</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">Email</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">Email sent to: </span><span class="si">{}</span>
-<span class="s1">Subject: </span><span class="si">{}</span>
-<span class="s1">Body: </span><span class="si">{}</span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">))</span></div>
+<div class="viewcode-block" id="deep_merge_dicts">
+<a class="viewcode-back" href="../../arbor_imago.utils.html#arbor_imago.utils.deep_merge_dicts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">deep_merge_dicts</span><span class="p">(</span><span class="n">primary_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">secondary_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Recursive dict merge. Inspired by :meth:``dict.update()``, instead of</span>
+<span class="sd">    updating only top-level keys, dict_merge recurses down into dicts nested</span>
+<span class="sd">    to an arbitrary depth, updating keys. The ``secondary_dict`` is merged into</span>
+<span class="sd">    ``primary_dict``.</span>
+<span class="sd">    :param primary_dict: dict onto which the merge is executed</span>
+<span class="sd">    :param secondary_dict: primary_dict merged into primary_dict</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">secondary_dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">primary_dict</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">primary_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">secondary_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)):</span>  <span class="c1"># noqa</span>
+            <span class="n">deep_merge_dicts</span><span class="p">(</span><span class="n">primary_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">secondary_dict</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">primary_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">secondary_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">primary_dict</span></div>
 
 
 
-<div class="viewcode-block" id="send_sms">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.utils.send_sms">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">send_sms</span><span class="p">(</span><span class="n">recipient</span><span class="p">:</span> <span class="n">custom_types</span><span class="o">.</span><span class="n">PhoneNumber</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="hash_password">
+<a class="viewcode-back" href="../../arbor_imago.utils.html#arbor_imago.utils.hash_password">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hash_password</span><span class="p">(</span><span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">salt</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">gensalt</span><span class="p">()</span>
+    <span class="n">hashed_password</span> <span class="o">=</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">hashpw</span><span class="p">(</span><span class="n">password</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">salt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hashed_password</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">SMS sent to: </span><span class="si">{}</span>
-<span class="s1">Message: </span><span class="si">{}</span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">recipient</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="verify_password">
+<a class="viewcode-back" href="../../arbor_imago.utils.html#arbor_imago.utils.verify_password">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">verify_password</span><span class="p">(</span><span class="n">plain_password</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">hashed_password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">checkpw</span><span class="p">(</span><span class="n">plain_password</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">hashed_password</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="generate_uuid">
+<a class="viewcode-back" href="../../arbor_imago.utils.html#arbor_imago.utils.generate_uuid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_uuid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="generate_jwt_secret_key">
+<a class="viewcode-back" href="../../arbor_imago.utils.html#arbor_imago.utils.generate_jwt_secret_key">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_jwt_secret_key</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">secrets</span><span class="o">.</span><span class="n">token_hex</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span></div>
 
 </pre></div>
 

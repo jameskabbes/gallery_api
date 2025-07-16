@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>arbor_imago.models package &mdash; arbor_imago 0.1.0 documentation</title>
+  <title>arbor_imago.models.bases package &mdash; arbor_imago 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="arbor_imago.models.bases package" href="arbor_imago.models.bases.html" />
-    <link rel="prev" title="arbor_imago.core package" href="arbor_imago.core.html" /> 
+    <link rel="next" title="arbor_imago.models.custom_field_types package" href="arbor_imago.models.custom_field_types.html" />
+    <link rel="prev" title="arbor_imago.models package" href="arbor_imago.models.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,7 +49,7 @@
 <li class="toctree-l3 current"><a class="reference internal" href="arbor_imago.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="arbor_imago.auth.html">arbor_imago.auth package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arbor_imago.core.html">arbor_imago.core package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">arbor_imago.models package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="arbor_imago.models.html">arbor_imago.models package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arbor_imago.routers.html">arbor_imago.routers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arbor_imago.schemas.html">arbor_imago.schemas package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arbor_imago.services.html">arbor_imago.services package</a></li>
@@ -82,9 +82,10 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="modules.html">arbor_imago</a></li>
           <li class="breadcrumb-item"><a href="arbor_imago.html">arbor_imago package</a></li>
-      <li class="breadcrumb-item active">arbor_imago.models package</li>
+          <li class="breadcrumb-item"><a href="arbor_imago.models.html">arbor_imago.models package</a></li>
+      <li class="breadcrumb-item active">arbor_imago.models.bases package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/arbor_imago.models.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/arbor_imago.models.bases.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -92,35 +93,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="arbor-imago-models-package">
-<h1>arbor_imago.models package<a class="headerlink" href="#arbor-imago-models-package" title="Link to this heading"></a></h1>
-<section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="arbor_imago.models.bases.html">arbor_imago.models.bases package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="arbor_imago.models.bases.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arbor_imago.models.bases.html#arbor-imago-models-bases-auth-credential-module">arbor_imago.models.bases.auth_credential module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arbor_imago.models.bases.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="arbor_imago.models.custom_field_types.html">arbor_imago.models.custom_field_types package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="arbor_imago.models.custom_field_types.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arbor_imago.models.custom_field_types.html#arbor-imago-models-custom-field-types-timestamp-module">arbor_imago.models.custom_field_types.timestamp module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arbor_imago.models.custom_field_types.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
+  <section id="arbor-imago-models-bases-package">
+<h1>arbor_imago.models.bases package<a class="headerlink" href="#arbor-imago-models-bases-package" title="Link to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="arbor-imago-models-models-module">
-<h2>arbor_imago.models.models module<a class="headerlink" href="#arbor-imago-models-models-module" title="Link to this heading"></a></h2>
-</section>
-<section id="arbor-imago-models-tables-module">
-<h2>arbor_imago.models.tables module<a class="headerlink" href="#arbor-imago-models-tables-module" title="Link to this heading"></a></h2>
+<section id="arbor-imago-models-bases-auth-credential-module">
+<h2>arbor_imago.models.bases.auth_credential module<a class="headerlink" href="#arbor-imago-models-bases-auth-credential-module" title="Link to this heading"></a></h2>
 </section>
 <section id="module-contents">
 <h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
@@ -131,8 +110,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="arbor_imago.core.html" class="btn btn-neutral float-left" title="arbor_imago.core package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="arbor_imago.models.bases.html" class="btn btn-neutral float-right" title="arbor_imago.models.bases package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="arbor_imago.models.html" class="btn btn-neutral float-left" title="arbor_imago.models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="arbor_imago.models.custom_field_types.html" class="btn btn-neutral float-right" title="arbor_imago.models.custom_field_types package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,0 +1,21 @@
+arbor\_imago.models.bases package
+=================================
+
+Submodules
+----------
+
+arbor\_imago.models.bases.auth\_credential module
+-------------------------------------------------
+
+.. automodule:: arbor_imago.models.bases.auth_credential
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: arbor_imago.models.bases
+   :members:
+   :show-inheritance:
+   :undoc-members:

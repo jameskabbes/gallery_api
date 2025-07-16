@@ -1,0 +1,1111 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>arbor_imago.core package &mdash; arbor_imago 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="arbor_imago.models package" href="arbor_imago.models.html" />
+    <link rel="prev" title="arbor_imago.auth package" href="arbor_imago.auth.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            arbor_imago
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">arbor_imago</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="arbor_imago.html">arbor_imago package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="arbor_imago.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="arbor_imago.auth.html">arbor_imago.auth package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">arbor_imago.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arbor_imago.models.html">arbor_imago.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arbor_imago.routers.html">arbor_imago.routers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arbor_imago.schemas.html">arbor_imago.schemas package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arbor_imago.services.html">arbor_imago.services package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arbor_imago.utils.html">arbor_imago.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="arbor_imago.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arbor_imago.html#arbor-imago-app-module">arbor_imago.app module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arbor_imago.html#arbor-imago-cli-module">arbor_imago.cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arbor_imago.html#module-arbor_imago">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">arbor_imago</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">arbor_imago</a></li>
+          <li class="breadcrumb-item"><a href="arbor_imago.html">arbor_imago package</a></li>
+      <li class="breadcrumb-item active">arbor_imago.core package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/arbor_imago.core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="arbor-imago-core-package">
+<h1>arbor_imago.core package<a class="headerlink" href="#arbor-imago-core-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="arbor-imago-core-config-module">
+<h2>arbor_imago.core.config module<a class="headerlink" href="#arbor-imago-core-config-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-arbor_imago.core.types">
+<span id="arbor-imago-core-types-module"></span><h2>arbor_imago.core.types module<a class="headerlink" href="#module-arbor_imago.core.types" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookie">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AccessTokenCookie</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AccessTokenCookie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookie" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookie.httponly">
+<span class="sig-name descname"><span class="pre">httponly</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookie.httponly" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookie.key">
+<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookie.key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookie.samesite">
+<span class="sig-name descname"><span class="pre">samesite</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'lax'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'strict'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'none'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookie.samesite" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookie.secure">
+<span class="sig-name descname"><span class="pre">secure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookie.secure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKey">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">ApiKey</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#ApiKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.ApiKey" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#arbor_imago.core.types.AuthCredential" title="arbor_imago.core.types.AuthCredential"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthCredential</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKey.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.ApiKey.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKey.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#arbor_imago.core.types.ApiKey.name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=1, max_length=256, pattern=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>)]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKey.order_by">
+<span class="sig-name descname"><span class="pre">order_by</span></span><a class="headerlink" href="#arbor_imago.core.types.ApiKey.order_by" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘issued’, ‘expiry’, ‘name’]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKeyScope">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">ApiKeyScope</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#ApiKeyScope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.ApiKeyScope" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ApiKeyScopeBase</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKeyScope.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.ApiKeyScope.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#arbor_imago.core.types.ApiKeyScopeId" title="arbor_imago.core.types.ApiKeyScopeId"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiKeyScopeId</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKeyScopeId">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">ApiKeyScopeId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arbor_imago/core/types.html#ApiKeyScopeId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.ApiKeyScopeId" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKeyScopeId.api_key_id">
+<span class="sig-name descname"><span class="pre">api_key_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.ApiKeyScopeId.api_key_id" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ApiKeyScopeId.scope_id">
+<span class="sig-name descname"><span class="pre">scope_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#arbor_imago.core.types.ApiKeyScopeId.scope_id" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AuthConfig</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AuthConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AuthConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthConfig.credential_lifespans">
+<span class="sig-name descname"><span class="pre">credential_lifespans</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'access_token'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'magic_link'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'request_sign_up'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'otp'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">timedelta</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AuthConfig.credential_lifespans" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthCredential">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AuthCredential</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AuthCredential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AuthCredential" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthCredential.expiry">
+<span class="sig-name descname"><span class="pre">expiry</span></span><a class="headerlink" href="#arbor_imago.core.types.AuthCredential.expiry" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<a class="reference internal" href="#arbor_imago.core.types.ImageVersion.datetime" title="datetime.datetime"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code></a>, ‘The datetime at which the auth credential will expire’]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthCredential.expiry_timestamp">
+<span class="sig-name descname"><span class="pre">expiry_timestamp</span></span><a class="headerlink" href="#arbor_imago.core.types.AuthCredential.expiry_timestamp" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, ‘The datetime at which the auth credential will expire’]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthCredential.issued">
+<span class="sig-name descname"><span class="pre">issued</span></span><a class="headerlink" href="#arbor_imago.core.types.AuthCredential.issued" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<a class="reference internal" href="#arbor_imago.core.types.ImageVersion.datetime" title="datetime.datetime"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code></a>, ‘The datetime at which the auth credential was issued’]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthCredential.issued_timestamp">
+<span class="sig-name descname"><span class="pre">issued_timestamp</span></span><a class="headerlink" href="#arbor_imago.core.types.AuthCredential.issued_timestamp" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, ‘The datetime at which the auth credential was issued’]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthCredential.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#arbor_imago.core.types.AuthCredential.type" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘access_token’, ‘api_key’, ‘otp’, ‘sign_up’]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthEnv">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AuthEnv</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AuthEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AuthEnv" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthEnv.credential_lifespans">
+<span class="sig-name descname"><span class="pre">credential_lifespans</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'access_token'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'magic_link'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'request_sign_up'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'otp'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ISO</span> <span class="pre">8601</span> <span class="pre">duration</span> <span class="pre">string'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AuthEnv.credential_lifespans" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">BackendConfig</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#BackendConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.BackendConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.ACCESS_TOKEN_COOKIE">
+<span class="sig-name descname"><span class="pre">ACCESS_TOKEN_COOKIE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.AccessTokenCookie" title="arbor_imago.core.types.AccessTokenCookie"><span class="pre">AccessTokenCookie</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.ACCESS_TOKEN_COOKIE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.AUTH">
+<span class="sig-name descname"><span class="pre">AUTH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.AuthEnv" title="arbor_imago.core.types.AuthEnv"><span class="pre">AuthEnv</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.AUTH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.DB">
+<span class="sig-name descname"><span class="pre">DB</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.DbEnv" title="arbor_imago.core.types.DbEnv"><span class="pre">DbEnv</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.DB" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.GOOGLE_CLIENT_PATH">
+<span class="sig-name descname"><span class="pre">GOOGLE_CLIENT_PATH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.GOOGLE_CLIENT_PATH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.MEDIA_DIR">
+<span class="sig-name descname"><span class="pre">MEDIA_DIR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.MEDIA_DIR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.OPENAPI_SCHEMA_PATHS">
+<span class="sig-name descname"><span class="pre">OPENAPI_SCHEMA_PATHS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'gallery'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PathLike</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.OPENAPI_SCHEMA_PATHS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.UVICORN">
+<span class="sig-name descname"><span class="pre">UVICORN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.UVICORN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendSecrets">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">BackendSecrets</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#BackendSecrets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.BackendSecrets" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendSecrets.JWT_ALGORITHM">
+<span class="sig-name descname"><span class="pre">JWT_ALGORITHM</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendSecrets.JWT_ALGORITHM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendSecrets.JWT_SECRET_KEY">
+<span class="sig-name descname"><span class="pre">JWT_SECRET_KEY</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendSecrets.JWT_SECRET_KEY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.DbEnv">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">DbEnv</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#DbEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.DbEnv" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.DbEnv.URL">
+<span class="sig-name descname"><span class="pre">URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.DbEnv.URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.File">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">File</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#File"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.File" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.File.gallery_id">
+<span class="sig-name descname"><span class="pre">gallery_id</span></span><a class="headerlink" href="#arbor_imago.core.types.File.gallery_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.File.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.File.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.File.size">
+<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#arbor_imago.core.types.File.size" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.File.stem">
+<span class="sig-name descname"><span class="pre">stem</span></span><a class="headerlink" href="#arbor_imago.core.types.File.stem" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.File.suffix">
+<span class="sig-name descname"><span class="pre">suffix</span></span><a class="headerlink" href="#arbor_imago.core.types.File.suffix" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=True, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, max_length=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, pattern=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>)]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">Gallery</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#Gallery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.Gallery" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">date</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>date(year, month, day) –&gt; date object</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.ctime">
+<span class="sig-name descname"><span class="pre">ctime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.ctime" title="Link to this definition"></a></dt>
+<dd><p>Return ctime() style string.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.day">
+<span class="sig-name descname"><span class="pre">day</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.day" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.fromisocalendar">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromisocalendar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.fromisocalendar" title="Link to this definition"></a></dt>
+<dd><p>int, int, int -&gt; Construct a date from the ISO year, week number and weekday.</p>
+<p>This is the inverse of the date.isocalendar() function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.fromisoformat">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromisoformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.fromisoformat" title="Link to this definition"></a></dt>
+<dd><p>str -&gt; Construct a date from a string in ISO 8601 format.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.fromordinal">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromordinal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.fromordinal" title="Link to this definition"></a></dt>
+<dd><p>int -&gt; date corresponding to a proleptic Gregorian ordinal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.fromtimestamp">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromtimestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.fromtimestamp" title="Link to this definition"></a></dt>
+<dd><p>Create a date from a POSIX timestamp.</p>
+<p>The timestamp is a number, e.g. created via time.time(), that is interpreted
+as local time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.isocalendar">
+<span class="sig-name descname"><span class="pre">isocalendar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.isocalendar" title="Link to this definition"></a></dt>
+<dd><p>Return a named tuple containing ISO year, week number, and weekday.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.isoformat">
+<span class="sig-name descname"><span class="pre">isoformat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.isoformat" title="Link to this definition"></a></dt>
+<dd><p>Return string in ISO 8601 format, YYYY-MM-DD.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.isoweekday">
+<span class="sig-name descname"><span class="pre">isoweekday</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.isoweekday" title="Link to this definition"></a></dt>
+<dd><p>Return the day of the week represented by the date.
+Monday == 1 … Sunday == 7</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.max">
+<span class="sig-name descname"><span class="pre">max</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.date(9999,</span> <span class="pre">12,</span> <span class="pre">31)</span></em><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.max" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.min">
+<span class="sig-name descname"><span class="pre">min</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.date(1,</span> <span class="pre">1,</span> <span class="pre">1)</span></em><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.min" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.month">
+<span class="sig-name descname"><span class="pre">month</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.month" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.replace" title="Link to this definition"></a></dt>
+<dd><p>Return date with new specified fields.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.resolution">
+<span class="sig-name descname"><span class="pre">resolution</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.timedelta(days=1)</span></em><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.resolution" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.strftime">
+<span class="sig-name descname"><span class="pre">strftime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.strftime" title="Link to this definition"></a></dt>
+<dd><p>format -&gt; strftime() style string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.timetuple">
+<span class="sig-name descname"><span class="pre">timetuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.timetuple" title="Link to this definition"></a></dt>
+<dd><p>Return time tuple, compatible with time.localtime().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.today">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">today</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.today" title="Link to this definition"></a></dt>
+<dd><p>Current date or datetime:  same as self.__class__.fromtimestamp(time.time()).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.toordinal">
+<span class="sig-name descname"><span class="pre">toordinal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.toordinal" title="Link to this definition"></a></dt>
+<dd><p>Return proleptic Gregorian ordinal.  January 1 of year 1 is day 1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.weekday">
+<span class="sig-name descname"><span class="pre">weekday</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.weekday" title="Link to this definition"></a></dt>
+<dd><p>Return the day of the week represented by the date.
+Monday == 0 … Sunday == 6</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.date.year">
+<span class="sig-name descname"><span class="pre">year</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.date.year" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.description" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=0, max_length=20000, pattern=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>)]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.folder_name">
+<span class="sig-name descname"><span class="pre">folder_name</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.folder_name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=1, max_length=256, pattern=re.compile(‘^(?!\d{4}-\d{2}-\d{2} ).*’))]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.parent_id">
+<span class="sig-name descname"><span class="pre">parent_id</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.parent_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.user_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Gallery.visibility_level">
+<span class="sig-name descname"><span class="pre">visibility_level</span></span><a class="headerlink" href="#arbor_imago.core.types.Gallery.visibility_level" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryDateAndName">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">GalleryDateAndName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arbor_imago/core/types.html#GalleryDateAndName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.GalleryDateAndName" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryDateAndName.date">
+<span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.Gallery.date" title="datetime.date"><span class="pre">date</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#arbor_imago.core.types.GalleryDateAndName.date" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryDateAndName.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.GalleryDateAndName.name" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryPermission">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">GalleryPermission</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#GalleryPermission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.GalleryPermission" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_GalleryPermissionBase</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryPermission.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.GalleryPermission.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#arbor_imago.core.types.GalleryPermissionId" title="arbor_imago.core.types.GalleryPermissionId"><code class="xref py py-class docutils literal notranslate"><span class="pre">GalleryPermissionId</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryPermissionId">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">GalleryPermissionId</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gallery_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arbor_imago/core/types.html#GalleryPermissionId"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.GalleryPermissionId" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryPermissionId.gallery_id">
+<span class="sig-name descname"><span class="pre">gallery_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.GalleryPermissionId.gallery_id" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.GalleryPermissionId.user_id">
+<span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.GalleryPermissionId.user_id" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageFileMetadata">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">ImageFileMetadata</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#ImageFileMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.ImageFileMetadata" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageFileMetadata.file_id">
+<span class="sig-name descname"><span class="pre">file_id</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageFileMetadata.file_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageFileMetadata.scale">
+<span class="sig-name descname"><span class="pre">scale</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageFileMetadata.scale" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageFileMetadata.version_id">
+<span class="sig-name descname"><span class="pre">version_id</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageFileMetadata.version_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">ImageVersion</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#ImageVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.ImageVersion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.aspect_ratio">
+<span class="sig-name descname"><span class="pre">aspect_ratio</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.aspect_ratio" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.average_color">
+<span class="sig-name descname"><span class="pre">average_color</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.average_color" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.base_name">
+<span class="sig-name descname"><span class="pre">base_name</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.base_name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=1, max_length=240, pattern=re.compile(‘^(?!.*_).+$’))]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">day</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">hour</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">minute</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">second</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">microsecond</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">tzinfo</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#arbor_imago.core.types.Gallery.date" title="datetime.date"><code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code></a></p>
+<p>The year, month and day arguments are required. tzinfo may be None, or an
+instance of a tzinfo subclass. The remaining arguments may be ints.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.astimezone">
+<span class="sig-name descname"><span class="pre">astimezone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.astimezone" title="Link to this definition"></a></dt>
+<dd><p>tz -&gt; convert to local time in new timezone tz</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.combine">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">combine</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.combine" title="Link to this definition"></a></dt>
+<dd><p>date, time -&gt; datetime with same date and time fields</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.ctime">
+<span class="sig-name descname"><span class="pre">ctime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.ctime" title="Link to this definition"></a></dt>
+<dd><p>Return ctime() style string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.date">
+<span class="sig-name descname"><span class="pre">date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.date" title="Link to this definition"></a></dt>
+<dd><p>Return date object with same year, month and day.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.dst">
+<span class="sig-name descname"><span class="pre">dst</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.dst" title="Link to this definition"></a></dt>
+<dd><p>Return self.tzinfo.dst(self).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.fold">
+<span class="sig-name descname"><span class="pre">fold</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.fold" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.fromisoformat">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromisoformat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.fromisoformat" title="Link to this definition"></a></dt>
+<dd><p>string -&gt; datetime from a string in most ISO 8601 formats</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.fromtimestamp">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fromtimestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.fromtimestamp" title="Link to this definition"></a></dt>
+<dd><p>timestamp[, tz] -&gt; tz’s local time from POSIX timestamp.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.hour">
+<span class="sig-name descname"><span class="pre">hour</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.hour" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.isoformat">
+<span class="sig-name descname"><span class="pre">isoformat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.isoformat" title="Link to this definition"></a></dt>
+<dd><p>[sep] -&gt; string in ISO 8601 format, YYYY-MM-DDT[HH[:MM[:SS[.mmm[uuu]]]]][+HH:MM].
+sep is used to separate the year from the time, and defaults to ‘T’.
+The optional argument timespec specifies the number of additional terms
+of the time to include. Valid options are ‘auto’, ‘hours’, ‘minutes’,
+‘seconds’, ‘milliseconds’ and ‘microseconds’.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.max">
+<span class="sig-name descname"><span class="pre">max</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.datetime(9999,</span> <span class="pre">12,</span> <span class="pre">31,</span> <span class="pre">23,</span> <span class="pre">59,</span> <span class="pre">59,</span> <span class="pre">999999)</span></em><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.max" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.microsecond">
+<span class="sig-name descname"><span class="pre">microsecond</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.microsecond" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.min">
+<span class="sig-name descname"><span class="pre">min</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.datetime(1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">0,</span> <span class="pre">0)</span></em><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.min" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.minute">
+<span class="sig-name descname"><span class="pre">minute</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.minute" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.now">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.now" title="Link to this definition"></a></dt>
+<dd><p>Returns new datetime object representing current time local to tz.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>tz</dt><dd><p>Timezone object.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>If no tz is specified, uses local timezone.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.replace">
+<span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.replace" title="Link to this definition"></a></dt>
+<dd><p>Return datetime with new specified fields.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.resolution">
+<span class="sig-name descname"><span class="pre">resolution</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">datetime.timedelta(microseconds=1)</span></em><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.resolution" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.second">
+<span class="sig-name descname"><span class="pre">second</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.second" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.strptime">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">strptime</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.strptime" title="Link to this definition"></a></dt>
+<dd><p>string, format -&gt; new datetime parsed from a string (like time.strptime()).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.time">
+<span class="sig-name descname"><span class="pre">time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.time" title="Link to this definition"></a></dt>
+<dd><p>Return time object with same time but with tzinfo=None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.timestamp" title="Link to this definition"></a></dt>
+<dd><p>Return POSIX timestamp as float.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.timetuple">
+<span class="sig-name descname"><span class="pre">timetuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.timetuple" title="Link to this definition"></a></dt>
+<dd><p>Return time tuple, compatible with time.localtime().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.timetz">
+<span class="sig-name descname"><span class="pre">timetz</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.timetz" title="Link to this definition"></a></dt>
+<dd><p>Return time object with same time and tzinfo.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.tzinfo">
+<span class="sig-name descname"><span class="pre">tzinfo</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.tzinfo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.tzname">
+<span class="sig-name descname"><span class="pre">tzname</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.tzname" title="Link to this definition"></a></dt>
+<dd><p>Return self.tzinfo.tzname(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.utcfromtimestamp">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">utcfromtimestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.utcfromtimestamp" title="Link to this definition"></a></dt>
+<dd><p>Construct a naive UTC datetime from a POSIX timestamp.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.utcnow">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">utcnow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.utcnow" title="Link to this definition"></a></dt>
+<dd><p>Return a new datetime representing UTC day and time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.utcoffset">
+<span class="sig-name descname"><span class="pre">utcoffset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.utcoffset" title="Link to this definition"></a></dt>
+<dd><p>Return self.tzinfo.utcoffset(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.datetime.utctimetuple">
+<span class="sig-name descname"><span class="pre">utctimetuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.datetime.utctimetuple" title="Link to this definition"></a></dt>
+<dd><p>Return UTC time tuple, compatible with time.localtime().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.description" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=0, max_length=20000, pattern=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>)]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.gallery_id">
+<span class="sig-name descname"><span class="pre">gallery_id</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.gallery_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.parent_id">
+<span class="sig-name descname"><span class="pre">parent_id</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.parent_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.ImageVersion.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#arbor_imago.core.types.ImageVersion.version" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, max_length=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, pattern=re.compile(‘^(?!\d{2}$).+$’))]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.NotNullable">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">NotNullable</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#NotNullable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.NotNullable" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.OTP">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">OTP</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#OTP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.OTP" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#arbor_imago.core.types.AuthCredential" title="arbor_imago.core.types.AuthCredential"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthCredential</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.OTP.code">
+<span class="sig-name descname"><span class="pre">code</span></span><a class="headerlink" href="#arbor_imago.core.types.OTP.code" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=6, max_length=6, pattern=re.compile(‘^\d{6}$’))]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.OTP.hashed_code">
+<span class="sig-name descname"><span class="pre">hashed_code</span></span><a class="headerlink" href="#arbor_imago.core.types.OTP.hashed_code" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.OTP.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.OTP.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.PermissionLevel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">PermissionLevel</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#PermissionLevel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.PermissionLevel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.PermissionLevel.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.PermissionLevel.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.PermissionLevel.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#arbor_imago.core.types.PermissionLevel.name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘editor’, ‘viewer’]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Scope">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">Scope</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#Scope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.Scope" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Scope.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.Scope.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.Scope.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#arbor_imago.core.types.Scope.name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘admin’, ‘users.read’, ‘users.write’]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">SharedConfig</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#SharedConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.SharedConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.AUTH_KEY">
+<span class="sig-name descname"><span class="pre">AUTH_KEY</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.AUTH_KEY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.BACKEND_URL">
+<span class="sig-name descname"><span class="pre">BACKEND_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.BACKEND_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.FRONTEND_ROUTES">
+<span class="sig-name descname"><span class="pre">FRONTEND_ROUTES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.FRONTEND_ROUTES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.FRONTEND_URL">
+<span class="sig-name descname"><span class="pre">FRONTEND_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.FRONTEND_URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.GOOGLE_CLIENT_ID">
+<span class="sig-name descname"><span class="pre">GOOGLE_CLIENT_ID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.GOOGLE_CLIENT_ID" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.HEADER_KEYS">
+<span class="sig-name descname"><span class="pre">HEADER_KEYS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.HEADER_KEYS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.OTP_LENGTH">
+<span class="sig-name descname"><span class="pre">OTP_LENGTH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.OTP_LENGTH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.PERMISSION_LEVEL_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">PERMISSION_LEVEL_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'editor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'viewer'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.PERMISSION_LEVEL_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.SCOPE_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">SCOPE_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.read'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.write'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.SCOPE_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">USER_ROLE_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'user'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.USER_ROLE_SCOPES">
+<span class="sig-name descname"><span class="pre">USER_ROLE_SCOPES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'user'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.read'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.write'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.USER_ROLE_SCOPES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.VISIBILITY_LEVEL_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">VISIBILITY_LEVEL_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'public'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'private'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.VISIBILITY_LEVEL_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SignUp">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">SignUp</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#SignUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.SignUp" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#arbor_imago.core.types.AuthCredential" title="arbor_imago.core.types.AuthCredential"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthCredential</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.SignUp.email">
+<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#arbor_imago.core.types.SignUp.email" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">EmailStr</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=1, max_length=254, pattern=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>)]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">User</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#User"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.User" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User.email">
+<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#arbor_imago.core.types.User.email" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">EmailStr</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=1, max_length=254, pattern=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>)]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User.hashed_password">
+<span class="sig-name descname"><span class="pre">hashed_password</span></span><a class="headerlink" href="#arbor_imago.core.types.User.hashed_password" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.User.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User.password">
+<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#arbor_imago.core.types.User.password" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=1, max_length=64, pattern=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>)]</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User.phone_number">
+<span class="sig-name descname"><span class="pre">phone_number</span></span><a class="headerlink" href="#arbor_imago.core.types.User.phone_number" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User.user_role_id">
+<span class="sig-name descname"><span class="pre">user_role_id</span></span><a class="headerlink" href="#arbor_imago.core.types.User.user_role_id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.User.username">
+<span class="sig-name descname"><span class="pre">username</span></span><a class="headerlink" href="#arbor_imago.core.types.User.username" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">StringConstraints</span></code>(strip_whitespace=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_upper=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, to_lower=True, strict=<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>, min_length=3, max_length=20, pattern=re.compile(‘^[<a href="#id1"><span class="problematic" id="id2">a-zA-Z0-9_</span></a>.-]+$’))]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UserAccessToken">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">UserAccessToken</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#UserAccessToken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.UserAccessToken" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#arbor_imago.core.types.AuthCredential" title="arbor_imago.core.types.AuthCredential"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthCredential</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UserAccessToken.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.UserAccessToken.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UserRole">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">UserRole</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#UserRole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.UserRole" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UserRole.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.UserRole.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UserRole.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#arbor_imago.core.types.UserRole.name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘admin’, ‘user’]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.VisibilityLevel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">VisibilityLevel</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#VisibilityLevel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.VisibilityLevel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.VisibilityLevel.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#arbor_imago.core.types.VisibilityLevel.id" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.VisibilityLevel.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#arbor_imago.core.types.VisibilityLevel.name" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘public’, ‘private’]</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="arbor-imago-core-utils-module">
+<h2>arbor_imago.core.utils module<a class="headerlink" href="#arbor-imago-core-utils-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="arbor_imago.auth.html" class="btn btn-neutral float-left" title="arbor_imago.auth package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="arbor_imago.models.html" class="btn btn-neutral float-right" title="arbor_imago.models package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

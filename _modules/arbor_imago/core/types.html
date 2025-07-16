@@ -1,23 +1,23 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>arbor_imago.custom_types &mdash; arbor_imago 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+  <title>arbor_imago.core.types &mdash; arbor_imago 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,11 +28,11 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
+          <a href="../../../index.html" class="icon icon-home">
             arbor_imago
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -41,7 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">arbor_imago</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">arbor_imago</a></li>
 </ul>
 
         </div>
@@ -50,16 +50,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">arbor_imago</a>
+          <a href="../../../index.html">arbor_imago</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">arbor_imago.custom_types</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">arbor_imago.core.types</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,8 +68,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for arbor_imago.custom_types</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">NewType</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+  <h1>Source code for arbor_imago.core.types</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">NewType</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">NotRequired</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmailStr</span><span class="p">,</span> <span class="n">StringConstraints</span><span class="p">,</span> <span class="n">GetCoreSchemaHandler</span><span class="p">,</span> <span class="n">BaseModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">core_schema</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
@@ -83,7 +84,7 @@
 
 
 <div class="viewcode-block" id="PermissionLevel">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.PermissionLevel">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.PermissionLevel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PermissionLevel</span><span class="p">:</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="nb">int</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;viewer&#39;</span><span class="p">]</span></div>
@@ -91,7 +92,7 @@
 
 
 <div class="viewcode-block" id="VisibilityLevel">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.VisibilityLevel">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.VisibilityLevel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">VisibilityLevel</span><span class="p">:</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="nb">int</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;public&#39;</span><span class="p">,</span> <span class="s1">&#39;private&#39;</span><span class="p">]</span></div>
@@ -99,7 +100,7 @@
 
 
 <div class="viewcode-block" id="Scope">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.Scope">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.Scope">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Scope</span><span class="p">:</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="nb">int</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;users.read&#39;</span><span class="p">,</span> <span class="s1">&#39;users.write&#39;</span><span class="p">]</span></div>
@@ -107,7 +108,7 @@
 
 
 <div class="viewcode-block" id="UserRole">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.UserRole">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.UserRole">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserRole</span><span class="p">:</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="nb">int</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">]</span></div>
@@ -118,7 +119,7 @@
 
 
 <div class="viewcode-block" id="User">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.User">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.User">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">:</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="nb">str</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">Email</span>
@@ -137,7 +138,7 @@
 
 
 <div class="viewcode-block" id="AuthCredential">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.AuthCredential">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthCredential">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AuthCredential</span><span class="p">:</span>
     <span class="n">issued</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">datetime_module</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
                        <span class="s1">&#39;The datetime at which the auth credential was issued&#39;</span><span class="p">]</span>
@@ -155,7 +156,7 @@
 
 
 <div class="viewcode-block" id="OTP">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.OTP">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.OTP">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">OTP</span><span class="p">(</span><span class="n">AuthCredential</span><span class="p">):</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">OTPId</span>
     <span class="n">code</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StringConstraints</span><span class="p">(</span>
@@ -168,7 +169,7 @@
 
 
 <div class="viewcode-block" id="UserAccessToken">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.UserAccessToken">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.UserAccessToken">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UserAccessToken</span><span class="p">(</span><span class="n">AuthCredential</span><span class="p">):</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">UserAccessTokenId</span></div>
 
@@ -178,7 +179,7 @@
 
 
 <div class="viewcode-block" id="ApiKey">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.ApiKey">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.ApiKey">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApiKey</span><span class="p">(</span><span class="n">AuthCredential</span><span class="p">):</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">ApiKeyId</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StringConstraints</span><span class="p">(</span>
@@ -188,7 +189,7 @@
 
 
 <div class="viewcode-block" id="SignUp">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.SignUp">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.SignUp">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SignUp</span><span class="p">(</span><span class="n">AuthCredential</span><span class="p">):</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">email</span></div>
 
@@ -198,7 +199,7 @@
 
 
 <div class="viewcode-block" id="Gallery">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.Gallery">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.Gallery">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Gallery</span><span class="p">:</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">GalleryId</span>
     <span class="n">user_id</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">id</span>
@@ -216,7 +217,7 @@
 
 
 <div class="viewcode-block" id="GalleryDateAndName">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.GalleryDateAndName">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.GalleryDateAndName">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GalleryDateAndName</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">date</span><span class="p">:</span> <span class="n">datetime_module</span><span class="o">.</span><span class="n">date</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -230,7 +231,7 @@
 
 
 <div class="viewcode-block" id="GalleryPermissionId">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.GalleryPermissionId">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.GalleryPermissionId">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GalleryPermissionId</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">gallery_id</span><span class="p">:</span> <span class="n">GalleryId</span>
     <span class="n">user_id</span><span class="p">:</span> <span class="n">User</span><span class="o">.</span><span class="n">id</span></div>
@@ -238,7 +239,7 @@
 
 
 <div class="viewcode-block" id="GalleryPermission">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.GalleryPermission">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.GalleryPermission">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GalleryPermission</span><span class="p">(</span><span class="n">_GalleryPermissionBase</span><span class="p">):</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">GalleryPermissionId</span></div>
 
@@ -250,7 +251,7 @@
 
 
 <div class="viewcode-block" id="ApiKeyScopeId">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.ApiKeyScopeId">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.ApiKeyScopeId">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApiKeyScopeId</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">api_key_id</span><span class="p">:</span> <span class="n">ApiKey</span><span class="o">.</span><span class="n">id</span>
     <span class="n">scope_id</span><span class="p">:</span> <span class="n">Scope</span><span class="o">.</span><span class="n">id</span></div>
@@ -258,7 +259,7 @@
 
 
 <div class="viewcode-block" id="ApiKeyScope">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.ApiKeyScope">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.ApiKeyScope">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ApiKeyScope</span><span class="p">(</span><span class="n">_ApiKeyScopeBase</span><span class="p">):</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">ApiKeyScopeId</span></div>
 
@@ -268,7 +269,7 @@
 
 
 <div class="viewcode-block" id="File">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.File">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.File">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">File</span><span class="p">:</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">FileId</span>
     <span class="n">stem</span> <span class="o">=</span> <span class="nb">str</span>
@@ -283,7 +284,7 @@
 
 
 <div class="viewcode-block" id="ImageVersion">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.ImageVersion">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.ImageVersion">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ImageVersion</span><span class="p">:</span>
 
     <span class="nb">id</span> <span class="o">=</span> <span class="n">ImageVersionId</span>
@@ -305,7 +306,7 @@
 
 
 <div class="viewcode-block" id="ImageFileMetadata">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.ImageFileMetadata">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.ImageFileMetadata">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ImageFileMetadata</span><span class="p">:</span>
     <span class="n">file_id</span> <span class="o">=</span> <span class="n">File</span><span class="o">.</span><span class="n">id</span>
     <span class="n">version_id</span> <span class="o">=</span> <span class="n">ImageVersion</span><span class="o">.</span><span class="n">id</span>
@@ -327,7 +328,7 @@
 
 
 <div class="viewcode-block" id="NotNullable">
-<a class="viewcode-back" href="../../arbor_imago.html#arbor_imago.custom_types.NotNullable">[docs]</a>
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.NotNullable">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NotNullable</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__get_pydantic_core_schema__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">handler</span><span class="p">:</span> <span class="n">GetCoreSchemaHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core_schema</span><span class="o">.</span><span class="n">CoreSchema</span><span class="p">:</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">handler</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
@@ -340,8 +341,86 @@
 <span class="n">Omissible</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">NotNullable</span><span class="p">()]</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">_Testing</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">omitted</span><span class="p">:</span> <span class="n">Omissible</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type hinting will work</span>
+<div class="viewcode-block" id="SharedConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.SharedConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SharedConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">BACKEND_URL</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">FRONTEND_URL</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">AUTH_KEY</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">HEADER_KEYS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">FRONTEND_ROUTES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">SCOPE_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+    <span class="n">VISIBILITY_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">VisibilityLevel</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                        <span class="n">VisibilityLevel</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+    <span class="n">PERMISSION_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PermissionLevel</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                        <span class="n">PermissionLevel</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+    <span class="n">USER_ROLE_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                 <span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+    <span class="n">USER_ROLE_SCOPES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                           <span class="nb">list</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span>
+    <span class="n">OTP_LENGTH</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">GOOGLE_CLIENT_ID</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="DbEnv">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.DbEnv">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DbEnv</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">URL</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<span class="n">CredentialNames</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;access_token&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;magic_link&#39;</span><span class="p">,</span> <span class="s1">&#39;request_sign_up&#39;</span><span class="p">,</span> <span class="s1">&#39;otp&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="AuthEnv">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthEnv">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthEnv</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">credential_lifespans</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span>
+                               <span class="n">ISO8601DurationStr</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="AccessTokenCookie">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookie">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AccessTokenCookie</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">secure</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">httponly</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">samesite</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;lax&#39;</span><span class="p">,</span> <span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">]]</span></div>
+
+
+
+<span class="n">OpenAPISchemaKeys</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;gallery&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="BackendConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.BackendConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BackendConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">UVICORN</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="n">DB</span><span class="p">:</span> <span class="n">DbEnv</span>
+    <span class="n">MEDIA_DIR</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">GOOGLE_CLIENT_PATH</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">AUTH</span><span class="p">:</span> <span class="n">AuthEnv</span>
+    <span class="n">OPENAPI_SCHEMA_PATHS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenAPISchemaKeys</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">ACCESS_TOKEN_COOKIE</span><span class="p">:</span> <span class="n">AccessTokenCookie</span></div>
+
+
+
+<div class="viewcode-block" id="AuthConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">credential_lifespans</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span> <span class="n">datetime_module</span><span class="o">.</span><span class="n">timedelta</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="BackendSecrets">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.BackendSecrets">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BackendSecrets</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">JWT_SECRET_KEY</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">JWT_ALGORITHM</span><span class="p">:</span> <span class="nb">str</span></div>
+
 </pre></div>
 
            </div>

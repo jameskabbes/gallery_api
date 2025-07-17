@@ -4,3 +4,6 @@ data/
 dist/
 __pycache__/
 test.ipynb
+
+# symlink
+arbor_imago

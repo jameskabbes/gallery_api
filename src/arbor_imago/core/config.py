@@ -48,7 +48,7 @@ ENV_PATH = None
 if env_env_path is not None:
     ENV_PATH = utils.resolve_path(Path.cwd(), env_env_path)
 else:
-    ENV_PATH = CONFIG_DIR / '.env'
+    ENV_PATH = CONFIG_DIR / 'backend.env'
 
 load_dotenv(ENV_PATH)
 _dotenv_values = dotenv_values(ENV_PATH)

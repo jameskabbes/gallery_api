@@ -1,12 +1,15 @@
+from arbor_imago.core import config, LOGGER
+from arbor_imago.routers import user, auth, user_access_token, api_key_scope, gallery, api_key, pages
+from arbor_imago.auth import utils as auth_utils
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-
-from arbor_imago.core import config
-from arbor_imago.routers import user, auth, user_access_token, api_key_scope, gallery, api_key, pages
-from arbor_imago.auth import utils as auth_utils
+import uvicorn
+from pathlib import Path
+import os
 
 
 @asynccontextmanager
@@ -51,3 +54,25 @@ app.include_router(gallery.GalleryAdminRouter().router)
 app.include_router(user_access_token.UserAccessTokenAdminRouter().router)
 app.include_router(api_key.ApiKeyAdminRouter().router)
 app.include_router(api_key_scope.ApiKeyScopeAdminRouter().router)
+
+
+def run():
+
+    if config.UVICORN.get('use_string_import', False) is True:
+        app_module_path = Path(__file__).resolve()
+        relative_path = app_module_path.relative_to(
+            config.PACKAGE_ENTRY_DIR.parent)
+        module_path = str(relative_path.with_suffix('')).replace(os.sep, '.')
+
+        p = f'{module_path}:app'
+
+        LOGGER.debug(f'Using string import for Uvicorn: {p}')
+        uvicorn.run(p, **config.UVICORN['run_kwargs'])
+
+    else:
+        LOGGER.debug('Using app instance for Uvicorn')
+        uvicorn.run(app, **config.UVICORN['run_kwargs'])
+
+
+if __name__ == '__main__':
+    run()

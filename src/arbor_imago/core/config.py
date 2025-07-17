@@ -7,11 +7,12 @@ import os
 from dotenv import dotenv_values, load_dotenv
 import isodate
 from platformdirs import user_config_dir
-import warnings
 import datetime
+from typing import cast
 
 # /gallery/gallery_api/src/arbor_imago/
-ARBOR_IMAGO_DIR = Path(__file__).parent
+ARBOR_IMAGO_DIR = Path(__file__).parent.parent
+PACKAGE_ENTRY_DIR = ARBOR_IMAGO_DIR
 
 SRC_DIR = ARBOR_IMAGO_DIR.parent
 BACKEND_DIR = SRC_DIR.parent
@@ -76,24 +77,31 @@ SHARED_CONFIG_PATH = utils.resolve_path(
 
 
 # Backend Config
-_backend_config: types.BackendConfig = {}
+_backend_config: types.BackendConfigFromFile = {}
 
 if BACKEND_CONFIG_PATH is not None:
     if BACKEND_CONFIG_PATH.exists():
         _backend_config.update(utils.load_dict_from_file(BACKEND_CONFIG_PATH))
 
-
-DB = _backend_config.get('DB', {
+# DB
+DB: types.DbConfig = {
     'URL': 'sqlite+aiosqlite:///./data/gallery.db'
-})
+}
+DB.update(_backend_config.get('DB', {}))
 
-
-# uvicorn
-UVICORN: types.UvicornConfig = {}
+# UVICORN
+UVICORN: types.UvicornConfig = {
+    'run_kwargs': {}
+}
 if ENV == 'local':
-    UVICORN['reload'] = True
+    UVICORN['run_kwargs']['reload'] = True
 
-UVICORN.update(_backend_config.get('UVICORN', {}))
+UVICORN = cast(types.UvicornConfig, utils.deep_merge_dicts(
+    dict(UVICORN), dict(_backend_config.get('UVICORN', {})))
+)
+
+if 'reload' in UVICORN['run_kwargs'] and 'use_string_import' not in UVICORN and UVICORN['run_kwargs']['reload'] is True:
+    UVICORN['use_string_import'] = True
 
 
 # Media Dir
@@ -109,7 +117,7 @@ else:
 GALLERIES_DIR = MEDIA_DIR / 'galleries'
 
 # Auth
-_auth: types.AuthTextConfig = {}
+_auth: types.AuthConfigFromFile = {}
 _auth.update(_backend_config.get('AUTH', {}))
 
 _auth_credential_lifespans: types.CredentialLifespans = {
@@ -159,6 +167,7 @@ ACCESS_TOKEN_COOKIE: types.AccessTokenCookieConfig = {
     'httponly': True,
     'samesite': 'lax'
 }
+
 _access_token_cookie = _backend_config.get('ACCESS_TOKEN_COOKIE', {})
 ACCESS_TOKEN_COOKIE.update(_access_token_cookie)
 
@@ -166,7 +175,7 @@ LOGGER: types.LoggerConfig = {
     'level': 'DEBUG' if ENV == 'local' else 'INFO',
 }
 
-_shared_config: types.SharedConfig = {}
+_shared_config: types.SharedConfigFromFile = {}
 
 if SHARED_CONFIG_PATH is not None:
     if SHARED_CONFIG_PATH.exists():

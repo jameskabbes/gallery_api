@@ -222,7 +222,7 @@ UserRoleNameScopeNamesList = dict[UserRole.name, list[Scope.name]]
 UserRoleIdScopeIds = dict[UserRole.id, set[Scope.id]]
 
 
-class SharedConfig(TypedDict, total=False):
+class SharedConfigFromFile(TypedDict, total=False):
     BACKEND_URL: str
     FRONTEND_URL: str
     AUTH_KEY: str
@@ -237,7 +237,18 @@ class SharedConfig(TypedDict, total=False):
     GOOGLE_CLIENT_ID: str
 
 
-UvicornConfig = dict
+class UvicornConfig(TypedDict):
+    run_kwargs: dict
+    use_string_import: NotRequired[bool]
+
+
+class UvicornConfigFromFile(TypedDict, total=False):
+    run_kwargs: dict
+    use_string_import: bool
+
+
+class DbConfigFromFile(TypedDict, total=False):
+    URL: str
 
 
 class DbConfig(TypedDict):
@@ -248,7 +259,16 @@ CredentialNames = Literal['access_token',
                           'magic_link', 'request_sign_up', 'otp']
 
 
-class AuthTextConfig(TypedDict, total=False):
+CredentialLifespans = dict[CredentialNames, datetime_module.timedelta]
+
+
+class AuthConfig(TypedDict):
+    credential_lifespans: CredentialLifespans
+    jwt_algorithm: str
+    jwt_secret_key: str
+
+
+class AuthConfigFromFile(TypedDict, total=False):
     credential_lifespans: dict[CredentialNames,
                                ISO8601DurationStr]
     jwt_algorithm: str
@@ -261,32 +281,29 @@ class AccessTokenCookieConfig(TypedDict):
     samesite: NotRequired[Literal['lax', 'strict', 'none']]
 
 
+class AccessTokenCookieConfigFromFile(TypedDict, total=False):
+    key: str
+    secure: bool
+    httponly: bool
+    samesite: Literal['lax', 'strict', 'none']
+
+
 class LoggerConfig(TypedDict, total=False):
     level: Literal['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 
 
 OpenAPISchemaKeys = Literal['gallery']
-
-
-class BackendConfig(TypedDict, total=False):
-    UVICORN: UvicornConfig
-    DB: DbConfig
-    MEDIA_DIR: str
-    GOOGLE_CLIENT_PATH: str
-    AUTH: AuthTextConfig
-    OPENAPI_SCHEMA_PATHS: dict[OpenAPISchemaKeys, os.PathLike[str] | str]
-    ACCESS_TOKEN_COOKIE: AccessTokenCookieConfig
-
-
 OpenAPISchemaPaths = dict[OpenAPISchemaKeys, Path]
 
-CredentialLifespans = dict[CredentialNames, datetime_module.timedelta]
 
-
-class AuthConfig(TypedDict):
-    credential_lifespans: CredentialLifespans
-    jwt_algorithm: str
-    jwt_secret_key: str
+class BackendConfigFromFile(TypedDict, total=False):
+    UVICORN: UvicornConfigFromFile
+    DB: DbConfigFromFile
+    MEDIA_DIR: str
+    GOOGLE_CLIENT_PATH: str
+    AUTH: AuthConfigFromFile
+    OPENAPI_SCHEMA_PATHS: dict[OpenAPISchemaKeys, os.PathLike[str] | str]
+    ACCESS_TOKEN_COOKIE: AccessTokenCookieConfigFromFile
 
 
 EnvVar = Literal[

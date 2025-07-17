@@ -353,9 +353,9 @@
 <span class="n">UserRoleIdScopeIds</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]]</span>
 
 
-<div class="viewcode-block" id="SharedConfig">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.SharedConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SharedConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="SharedConfigFromFile">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.SharedConfigFromFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SharedConfigFromFile</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">BACKEND_URL</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">FRONTEND_URL</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">AUTH_KEY</span><span class="p">:</span> <span class="nb">str</span>
@@ -371,7 +371,27 @@
 
 
 
-<span class="n">UvicornConfig</span> <span class="o">=</span> <span class="nb">dict</span>
+<div class="viewcode-block" id="UvicornConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.UvicornConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UvicornConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">run_kwargs</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="n">use_string_import</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="UvicornConfigFromFile">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.UvicornConfigFromFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UvicornConfigFromFile</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">run_kwargs</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="n">use_string_import</span><span class="p">:</span> <span class="nb">bool</span></div>
+
+
+
+<div class="viewcode-block" id="DbConfigFromFile">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.DbConfigFromFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DbConfigFromFile</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">URL</span><span class="p">:</span> <span class="nb">str</span></div>
+
 
 
 <div class="viewcode-block" id="DbConfig">
@@ -385,9 +405,21 @@
                           <span class="s1">&#39;magic_link&#39;</span><span class="p">,</span> <span class="s1">&#39;request_sign_up&#39;</span><span class="p">,</span> <span class="s1">&#39;otp&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="AuthTextConfig">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthTextConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AuthTextConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="n">CredentialLifespans</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span> <span class="n">datetime_module</span><span class="o">.</span><span class="n">timedelta</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="AuthConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">credential_lifespans</span><span class="p">:</span> <span class="n">CredentialLifespans</span>
+    <span class="n">jwt_algorithm</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">jwt_secret_key</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="AuthConfigFromFile">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthConfigFromFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthConfigFromFile</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">credential_lifespans</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span>
                                <span class="n">ISO8601DurationStr</span><span class="p">]</span>
     <span class="n">jwt_algorithm</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -404,6 +436,16 @@
 
 
 
+<div class="viewcode-block" id="AccessTokenCookieConfigFromFile">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookieConfigFromFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AccessTokenCookieConfigFromFile</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">secure</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">httponly</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">samesite</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;lax&#39;</span><span class="p">,</span> <span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">]</span></div>
+
+
+
 <div class="viewcode-block" id="LoggerConfig">
 <a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.LoggerConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoggerConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -412,32 +454,19 @@
 
 
 <span class="n">OpenAPISchemaKeys</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;gallery&#39;</span><span class="p">]</span>
-
-
-<div class="viewcode-block" id="BackendConfig">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.BackendConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BackendConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">UVICORN</span><span class="p">:</span> <span class="n">UvicornConfig</span>
-    <span class="n">DB</span><span class="p">:</span> <span class="n">DbConfig</span>
-    <span class="n">MEDIA_DIR</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">GOOGLE_CLIENT_PATH</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">AUTH</span><span class="p">:</span> <span class="n">AuthTextConfig</span>
-    <span class="n">OPENAPI_SCHEMA_PATHS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenAPISchemaKeys</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="n">ACCESS_TOKEN_COOKIE</span><span class="p">:</span> <span class="n">AccessTokenCookieConfig</span></div>
-
-
-
 <span class="n">OpenAPISchemaPaths</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenAPISchemaKeys</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
 
-<span class="n">CredentialLifespans</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span> <span class="n">datetime_module</span><span class="o">.</span><span class="n">timedelta</span><span class="p">]</span>
 
-
-<div class="viewcode-block" id="AuthConfig">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AuthConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-    <span class="n">credential_lifespans</span><span class="p">:</span> <span class="n">CredentialLifespans</span>
-    <span class="n">jwt_algorithm</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">jwt_secret_key</span><span class="p">:</span> <span class="nb">str</span></div>
+<div class="viewcode-block" id="BackendConfigFromFile">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.BackendConfigFromFile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BackendConfigFromFile</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">UVICORN</span><span class="p">:</span> <span class="n">UvicornConfigFromFile</span>
+    <span class="n">DB</span><span class="p">:</span> <span class="n">DbConfigFromFile</span>
+    <span class="n">MEDIA_DIR</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">GOOGLE_CLIENT_PATH</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">AUTH</span><span class="p">:</span> <span class="n">AuthConfigFromFile</span>
+    <span class="n">OPENAPI_SCHEMA_PATHS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenAPISchemaKeys</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">ACCESS_TOKEN_COOKIE</span><span class="p">:</span> <span class="n">AccessTokenCookieConfigFromFile</span></div>
 
 
 

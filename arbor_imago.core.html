@@ -129,6 +129,32 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookieConfigFromFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AccessTokenCookieConfigFromFile</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AccessTokenCookieConfigFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookieConfigFromFile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookieConfigFromFile.httponly">
+<span class="sig-name descname"><span class="pre">httponly</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookieConfigFromFile.httponly" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookieConfigFromFile.key">
+<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookieConfigFromFile.key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookieConfigFromFile.samesite">
+<span class="sig-name descname"><span class="pre">samesite</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'lax'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'strict'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'none'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookieConfigFromFile.samesite" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AccessTokenCookieConfigFromFile.secure">
+<span class="sig-name descname"><span class="pre">secure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#arbor_imago.core.types.AccessTokenCookieConfigFromFile.secure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="arbor_imago.core.types.ApiKey">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">ApiKey</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#ApiKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.ApiKey" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#arbor_imago.core.types.AuthCredential" title="arbor_imago.core.types.AuthCredential"><code class="xref py py-class docutils literal notranslate"><span class="pre">AuthCredential</span></code></a></p>
@@ -204,6 +230,22 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthConfigFromFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AuthConfigFromFile</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AuthConfigFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AuthConfigFromFile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthConfigFromFile.credential_lifespans">
+<span class="sig-name descname"><span class="pre">credential_lifespans</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'access_token'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'magic_link'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'request_sign_up'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'otp'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ISO</span> <span class="pre">8601</span> <span class="pre">duration</span> <span class="pre">string'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AuthConfigFromFile.credential_lifespans" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.AuthConfigFromFile.jwt_algorithm">
+<span class="sig-name descname"><span class="pre">jwt_algorithm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.AuthConfigFromFile.jwt_algorithm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="arbor_imago.core.types.AuthCredential">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AuthCredential</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AuthCredential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AuthCredential" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -240,58 +282,42 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="arbor_imago.core.types.AuthTextConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">AuthTextConfig</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#AuthTextConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.AuthTextConfig" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">BackendConfigFromFile</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#BackendConfigFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.AuthTextConfig.credential_lifespans">
-<span class="sig-name descname"><span class="pre">credential_lifespans</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'access_token'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'magic_link'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'request_sign_up'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'otp'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ISO</span> <span class="pre">8601</span> <span class="pre">duration</span> <span class="pre">string'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.AuthTextConfig.credential_lifespans" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile.ACCESS_TOKEN_COOKIE">
+<span class="sig-name descname"><span class="pre">ACCESS_TOKEN_COOKIE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.AccessTokenCookieConfigFromFile" title="arbor_imago.core.types.AccessTokenCookieConfigFromFile"><span class="pre">AccessTokenCookieConfigFromFile</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile.ACCESS_TOKEN_COOKIE" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.AuthTextConfig.jwt_algorithm">
-<span class="sig-name descname"><span class="pre">jwt_algorithm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.AuthTextConfig.jwt_algorithm" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">BackendConfig</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#BackendConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.BackendConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.ACCESS_TOKEN_COOKIE">
-<span class="sig-name descname"><span class="pre">ACCESS_TOKEN_COOKIE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.AccessTokenCookieConfig" title="arbor_imago.core.types.AccessTokenCookieConfig"><span class="pre">AccessTokenCookieConfig</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.ACCESS_TOKEN_COOKIE" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile.AUTH">
+<span class="sig-name descname"><span class="pre">AUTH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.AuthConfigFromFile" title="arbor_imago.core.types.AuthConfigFromFile"><span class="pre">AuthConfigFromFile</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile.AUTH" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.AUTH">
-<span class="sig-name descname"><span class="pre">AUTH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.AuthTextConfig" title="arbor_imago.core.types.AuthTextConfig"><span class="pre">AuthTextConfig</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.AUTH" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile.DB">
+<span class="sig-name descname"><span class="pre">DB</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.DbConfigFromFile" title="arbor_imago.core.types.DbConfigFromFile"><span class="pre">DbConfigFromFile</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile.DB" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.DB">
-<span class="sig-name descname"><span class="pre">DB</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.DbConfig" title="arbor_imago.core.types.DbConfig"><span class="pre">DbConfig</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.DB" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile.GOOGLE_CLIENT_PATH">
+<span class="sig-name descname"><span class="pre">GOOGLE_CLIENT_PATH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile.GOOGLE_CLIENT_PATH" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.GOOGLE_CLIENT_PATH">
-<span class="sig-name descname"><span class="pre">GOOGLE_CLIENT_PATH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.GOOGLE_CLIENT_PATH" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile.MEDIA_DIR">
+<span class="sig-name descname"><span class="pre">MEDIA_DIR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile.MEDIA_DIR" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.MEDIA_DIR">
-<span class="sig-name descname"><span class="pre">MEDIA_DIR</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.MEDIA_DIR" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile.OPENAPI_SCHEMA_PATHS">
+<span class="sig-name descname"><span class="pre">OPENAPI_SCHEMA_PATHS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'gallery'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PathLike</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile.OPENAPI_SCHEMA_PATHS" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.OPENAPI_SCHEMA_PATHS">
-<span class="sig-name descname"><span class="pre">OPENAPI_SCHEMA_PATHS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'gallery'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PathLike</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.OPENAPI_SCHEMA_PATHS" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfig.UVICORN">
-<span class="sig-name descname"><span class="pre">UVICORN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfig.UVICORN" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.BackendConfigFromFile.UVICORN">
+<span class="sig-name descname"><span class="pre">UVICORN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#arbor_imago.core.types.UvicornConfigFromFile" title="arbor_imago.core.types.UvicornConfigFromFile"><span class="pre">UvicornConfigFromFile</span></a></em><a class="headerlink" href="#arbor_imago.core.types.BackendConfigFromFile.UVICORN" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -303,6 +329,17 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="arbor_imago.core.types.DbConfig.URL">
 <span class="sig-name descname"><span class="pre">URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.DbConfig.URL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.DbConfigFromFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">DbConfigFromFile</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#DbConfigFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.DbConfigFromFile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.DbConfigFromFile.URL">
+<span class="sig-name descname"><span class="pre">URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.DbConfigFromFile.URL" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -905,67 +942,67 @@ of the time to include. Valid options are ‘auto’, ‘hours’, ‘minutes’
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">SharedConfig</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#SharedConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.SharedConfig" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">SharedConfigFromFile</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#SharedConfigFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.AUTH_KEY">
-<span class="sig-name descname"><span class="pre">AUTH_KEY</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.AUTH_KEY" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.AUTH_KEY">
+<span class="sig-name descname"><span class="pre">AUTH_KEY</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.AUTH_KEY" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.BACKEND_URL">
-<span class="sig-name descname"><span class="pre">BACKEND_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.BACKEND_URL" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.BACKEND_URL">
+<span class="sig-name descname"><span class="pre">BACKEND_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.BACKEND_URL" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.FRONTEND_ROUTES">
-<span class="sig-name descname"><span class="pre">FRONTEND_ROUTES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.FRONTEND_ROUTES" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.FRONTEND_ROUTES">
+<span class="sig-name descname"><span class="pre">FRONTEND_ROUTES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.FRONTEND_ROUTES" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.FRONTEND_URL">
-<span class="sig-name descname"><span class="pre">FRONTEND_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.FRONTEND_URL" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.FRONTEND_URL">
+<span class="sig-name descname"><span class="pre">FRONTEND_URL</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.FRONTEND_URL" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.GOOGLE_CLIENT_ID">
-<span class="sig-name descname"><span class="pre">GOOGLE_CLIENT_ID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.GOOGLE_CLIENT_ID" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.GOOGLE_CLIENT_ID">
+<span class="sig-name descname"><span class="pre">GOOGLE_CLIENT_ID</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.GOOGLE_CLIENT_ID" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.HEADER_KEYS">
-<span class="sig-name descname"><span class="pre">HEADER_KEYS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.HEADER_KEYS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.HEADER_KEYS">
+<span class="sig-name descname"><span class="pre">HEADER_KEYS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.HEADER_KEYS" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.OTP_LENGTH">
-<span class="sig-name descname"><span class="pre">OTP_LENGTH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.OTP_LENGTH" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.OTP_LENGTH">
+<span class="sig-name descname"><span class="pre">OTP_LENGTH</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.OTP_LENGTH" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.PERMISSION_LEVEL_NAME_MAPPING">
-<span class="sig-name descname"><span class="pre">PERMISSION_LEVEL_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'editor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'viewer'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.PERMISSION_LEVEL_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.PERMISSION_LEVEL_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">PERMISSION_LEVEL_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'editor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'viewer'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.PERMISSION_LEVEL_NAME_MAPPING" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.SCOPE_NAME_MAPPING">
-<span class="sig-name descname"><span class="pre">SCOPE_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.read'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.write'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.SCOPE_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.SCOPE_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">SCOPE_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.read'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.write'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.SCOPE_NAME_MAPPING" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_MAPPING">
-<span class="sig-name descname"><span class="pre">USER_ROLE_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'user'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.USER_ROLE_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">USER_ROLE_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'user'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.USER_ROLE_NAME_MAPPING" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_SCOPE_NAMES">
-<span class="sig-name descname"><span class="pre">USER_ROLE_NAME_SCOPE_NAMES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'user'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.read'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.write'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_SCOPE_NAMES" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.USER_ROLE_NAME_SCOPE_NAMES">
+<span class="sig-name descname"><span class="pre">USER_ROLE_NAME_SCOPE_NAMES</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'user'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'admin'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.read'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'users.write'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.USER_ROLE_NAME_SCOPE_NAMES" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfig.VISIBILITY_LEVEL_NAME_MAPPING">
-<span class="sig-name descname"><span class="pre">VISIBILITY_LEVEL_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'public'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'private'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfig.VISIBILITY_LEVEL_NAME_MAPPING" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="arbor_imago.core.types.SharedConfigFromFile.VISIBILITY_LEVEL_NAME_MAPPING">
+<span class="sig-name descname"><span class="pre">VISIBILITY_LEVEL_NAME_MAPPING</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'public'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'private'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.SharedConfigFromFile.VISIBILITY_LEVEL_NAME_MAPPING" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1057,6 +1094,38 @@ of the time to include. Valid options are ‘auto’, ‘hours’, ‘minutes’
 <span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#arbor_imago.core.types.UserRole.name" title="Link to this definition"></a></dt>
 <dd><p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘admin’, ‘user’]</p>
 </dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UvicornConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">UvicornConfig</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#UvicornConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.UvicornConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UvicornConfig.run_kwargs">
+<span class="sig-name descname"><span class="pre">run_kwargs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#arbor_imago.core.types.UvicornConfig.run_kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UvicornConfig.use_string_import">
+<span class="sig-name descname"><span class="pre">use_string_import</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NotRequired</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#arbor_imago.core.types.UvicornConfig.use_string_import" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UvicornConfigFromFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">arbor_imago.core.types.</span></span><span class="sig-name descname"><span class="pre">UvicornConfigFromFile</span></span><a class="reference internal" href="_modules/arbor_imago/core/types.html#UvicornConfigFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arbor_imago.core.types.UvicornConfigFromFile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDict</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UvicornConfigFromFile.run_kwargs">
+<span class="sig-name descname"><span class="pre">run_kwargs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#arbor_imago.core.types.UvicornConfigFromFile.run_kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="arbor_imago.core.types.UvicornConfigFromFile.use_string_import">
+<span class="sig-name descname"><span class="pre">use_string_import</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#arbor_imago.core.types.UvicornConfigFromFile.use_string_import" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

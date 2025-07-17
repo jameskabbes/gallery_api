@@ -1,11 +1,12 @@
+from arbor_imago import core
+from arbor_imago.app import app as fastapi_app
+from arbor_imago.core import config
+
 import typer
 import asyncio
 import json
 from sqlmodel import SQLModel
 import uvicorn
-from arbor_imago import models
-from arbor_imago.app import app as fastapi_app
-from arbor_imago.core import config
 
 cli = typer.Typer()
 
@@ -19,7 +20,7 @@ def runserver():
 def create_tables():
     """Create all database tables."""
     async def _main():
-        async with config.DB_ASYNC_ENGINE.begin() as conn:
+        async with core.DB_ASYNC_ENGINE.begin() as conn:
             await conn.run_sync(SQLModel.metadata.create_all)
 
     print("Creating tables...")

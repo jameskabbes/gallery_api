@@ -4,6 +4,7 @@ from pydantic import EmailStr, StringConstraints, GetCoreSchemaHandler, BaseMode
 from pydantic_core import core_schema
 import re
 import datetime as datetime_module
+from pathlib import Path
 
 PhoneNumber = str
 Email = Annotated[EmailStr, StringConstraints(
@@ -209,27 +210,37 @@ class NotNullable:
 T = TypeVar("T")
 Omissible = Annotated[Optional[T], NotNullable()]
 
+HeaderKeys = dict[str, str]
+FrontendRoutes = dict[str, str]
+ScopeNameMapping = dict[Scope.name, Scope.id]
+ScopeIdMapping = dict[Scope.id, Scope.name]
+VisibilityLevelNameMapping = dict[VisibilityLevel.name, VisibilityLevel.id]
+PermissionLevelNameMapping = dict[PermissionLevel.name, PermissionLevel.id]
+UserRoleNameMapping = dict[UserRole.name, UserRole.id]
+UserRoleNameScopeNamesSet = dict[UserRole.name, set[Scope.name]]
+UserRoleNameScopeNamesList = dict[UserRole.name, list[Scope.name]]
+UserRoleIdScopeIds = dict[UserRole.id, set[Scope.id]]
 
-class SharedConfig(TypedDict):
+
+class SharedConfig(TypedDict, total=False):
     BACKEND_URL: str
     FRONTEND_URL: str
     AUTH_KEY: str
-    HEADER_KEYS: dict[str, str]
-    FRONTEND_ROUTES: dict[str, str]
-    SCOPE_NAME_MAPPING: dict[Scope.name, Scope.id]
-    VISIBILITY_LEVEL_NAME_MAPPING: dict[VisibilityLevel.name,
-                                        VisibilityLevel.id]
-    PERMISSION_LEVEL_NAME_MAPPING: dict[PermissionLevel.name,
-                                        PermissionLevel.id]
-    USER_ROLE_NAME_MAPPING: dict[UserRole.name,
-                                 UserRole.id]
-    USER_ROLE_SCOPES: dict[UserRole.name,
-                           list[Scope.name]]
+    HEADER_KEYS: HeaderKeys
+    FRONTEND_ROUTES: FrontendRoutes
+    SCOPE_NAME_MAPPING: ScopeNameMapping
+    VISIBILITY_LEVEL_NAME_MAPPING: VisibilityLevelNameMapping
+    PERMISSION_LEVEL_NAME_MAPPING: PermissionLevelNameMapping
+    USER_ROLE_NAME_MAPPING: UserRoleNameMapping
+    USER_ROLE_NAME_SCOPE_NAMES: UserRoleNameScopeNamesList
     OTP_LENGTH: int
     GOOGLE_CLIENT_ID: str
 
 
-class DbEnv(TypedDict):
+UvicornConfig = dict
+
+
+class DbConfig(TypedDict):
     URL: str
 
 
@@ -237,35 +248,52 @@ CredentialNames = Literal['access_token',
                           'magic_link', 'request_sign_up', 'otp']
 
 
-class AuthEnv(TypedDict):
+class AuthTextConfig(TypedDict, total=False):
     credential_lifespans: dict[CredentialNames,
                                ISO8601DurationStr]
+    jwt_algorithm: str
 
 
-class AccessTokenCookie(TypedDict):
+class AccessTokenCookieConfig(TypedDict):
     key: str
     secure: NotRequired[bool]
     httponly: NotRequired[bool]
     samesite: NotRequired[Literal['lax', 'strict', 'none']]
 
 
+class LoggerConfig(TypedDict, total=False):
+    level: Literal['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
+
+
 OpenAPISchemaKeys = Literal['gallery']
 
 
-class BackendConfig(TypedDict):
-    UVICORN: dict
-    DB: DbEnv
+class BackendConfig(TypedDict, total=False):
+    UVICORN: UvicornConfig
+    DB: DbConfig
     MEDIA_DIR: str
     GOOGLE_CLIENT_PATH: str
-    AUTH: AuthEnv
-    OPENAPI_SCHEMA_PATHS: dict[OpenAPISchemaKeys, str | os.PathLike[str]]
-    ACCESS_TOKEN_COOKIE: AccessTokenCookie
+    AUTH: AuthTextConfig
+    OPENAPI_SCHEMA_PATHS: dict[OpenAPISchemaKeys, os.PathLike[str] | str]
+    ACCESS_TOKEN_COOKIE: AccessTokenCookieConfig
+
+
+OpenAPISchemaPaths = dict[OpenAPISchemaKeys, Path]
+
+CredentialLifespans = dict[CredentialNames, datetime_module.timedelta]
 
 
 class AuthConfig(TypedDict):
-    credential_lifespans: dict[CredentialNames, datetime_module.timedelta]
+    credential_lifespans: CredentialLifespans
+    jwt_algorithm: str
+    jwt_secret_key: str
 
 
-class BackendSecrets(TypedDict):
-    JWT_SECRET_KEY: str
-    JWT_ALGORITHM: str
+EnvVar = Literal[
+    'ARBOR_IMAGO_ENV',
+    'ARBOR_IMAGO_CONFIG_DIR',
+    'ARBOR_IMAGO_ENV_PATH',
+    'ARBOR_IMAGO_BACKEND_CONFIG_PATH',
+    'ARBOR_IMAGO_SHARED_CONFIG_PATH',
+    'ARBOR_IMAGO_JWT_SECRET_KEY'
+]

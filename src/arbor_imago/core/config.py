@@ -32,7 +32,7 @@ _env_var_mapping: dict[str, types.EnvVar] = {
 
 # ENV
 env_env = os.getenv(_env_var_mapping['env'])
-ENV = env_env if env_env else 'local'
+ENV = env_env or 'local'
 
 # CONFIG_DIR
 env_config_dir = os.getenv(_env_var_mapping['config_dir'])
@@ -53,16 +53,46 @@ else:
 load_dotenv(ENV_PATH)
 _dotenv_values = dotenv_values(ENV_PATH)
 
-if _env_var_mapping['env'] in _dotenv_values and _dotenv_values[_env_var_mapping['env']] != ENV:
-    raise ValueError(
-        f'ENV in .env file ({_dotenv_values["ENV"]}) does not match ENV environment variable ({ENV}). '
-        'Please ensure they are consistent.'
-    )
+# Prohibit setting env_path from the .env file
 if _env_var_mapping['env_path'] in _dotenv_values:
     raise ValueError(
-        f'ENV_PATH in .env file ({_dotenv_values["ENV_PATH"]}) is not supported. '
-        'Please remove it from the .env file.'
+        f'Setting environment variable `{_env_var_mapping['env_path']}` from the env file is not supported. Remove it from the file ${ENV_PATH}'
     )
+
+# when to prohibit setting ENV from the .env file
+if (_env := _dotenv_values.get(_env_var_mapping['env'])) is not None:
+    def _raise():
+        raise ValueError(
+            f'Mismatched `{_env_var_mapping['env']}` values provided as 1) environment variable and 2) in the env file ${ENV_PATH}'
+        )
+
+    # when set explicity as env var
+    if env_env is not None and _env != env_env:
+        _raise()
+
+    # when the .env file path was completely implied
+    if env_env is None and env_config_dir is None and env_env_path is None:
+        _raise()
+
+    ENV = _env
+
+
+# when to prohibit settings CONFIG_DIR
+if (_config_dir := _dotenv_values.get(_env_var_mapping['config_dir'])) is not None:
+
+    def _raise():
+        raise ValueError(
+            f'Mismatched `{_env_var_mapping['config_dir']}` values provided as 1) environment variable and 2) in the env file ${ENV_PATH}'
+        )
+
+    if env_config_dir is not None and _config_dir != env_config_dir:
+        _raise()
+
+    # an implied config dir is how we got the .env file, can't change it now
+    if env_config_dir is None and env_env is None and env_env_path is None:
+        _raise()
+
+    CONFIG_DIR = utils.resolve_path(Path.cwd(), _config_dir)
 
 
 env_backend_config_path = os.getenv(_env_var_mapping['backend_config_path'])
@@ -134,11 +164,11 @@ _auth_credential_lifespans.update(
 )
 
 _jwt_algorithm = _auth.get('jwt_algorithm', 'HS256')
-_jwt_secret_key = os.getenv('JWT_SECRET_KEY')
+_jwt_secret_key = os.getenv(_env_var_mapping['jwt_secret_key'])
 
 if _jwt_secret_key is None:
     raise ValueError(
-        'JWT_SECRET_KEY must be set as an environment variable.')
+        f'`{_env_var_mapping["jwt_secret_key"]}` must be set as an environment variable.')
 
 
 AUTH: types.AuthConfig = {

@@ -82,6 +82,7 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
  | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -100,7 +101,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.BackendConfig.ACCESS_TOKEN_COOKIE">ACCESS_TOKEN_COOKIE (arbor_imago.core.types.BackendConfig attribute)</a>
 </li>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookie">AccessTokenCookie (class in arbor_imago.core.types)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookieConfig">AccessTokenCookieConfig (class in arbor_imago.core.types)</a>
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.ApiKeyScopeId.api_key_id">api_key_id (arbor_imago.core.types.ApiKeyScopeId attribute)</a>
 </li>
@@ -166,7 +167,7 @@
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthCredential">AuthCredential (class in arbor_imago.core.types)</a>
 </li>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthEnv">AuthEnv (class in arbor_imago.core.types)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthTextConfig">AuthTextConfig (class in arbor_imago.core.types)</a>
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.ImageVersion.average_color">average_color (arbor_imago.core.types.ImageVersion attribute)</a>
 </li>
@@ -178,11 +179,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.SharedConfig.BACKEND_URL">BACKEND_URL (arbor_imago.core.types.SharedConfig attribute)</a>
 </li>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.BackendConfig">BackendConfig (class in arbor_imago.core.types)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.BackendSecrets">BackendSecrets (class in arbor_imago.core.types)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.BackendConfig">BackendConfig (class in arbor_imago.core.types)</a>
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.ImageVersion.base_name">base_name (arbor_imago.core.types.ImageVersion attribute)</a>
 </li>
@@ -199,7 +198,7 @@
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthConfig.credential_lifespans">credential_lifespans (arbor_imago.core.types.AuthConfig attribute)</a>
 
       <ul>
-        <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthEnv.credential_lifespans">(arbor_imago.core.types.AuthEnv attribute)</a>
+        <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthTextConfig.credential_lifespans">(arbor_imago.core.types.AuthTextConfig attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -226,7 +225,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.DbEnv">DbEnv (class in arbor_imago.core.types)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.DbConfig">DbConfig (class in arbor_imago.core.types)</a>
 </li>
       <li><a href="arbor_imago.utils.html#arbor_imago.utils.deep_merge_dicts">deep_merge_dicts() (in module arbor_imago.utils)</a>
 </li>
@@ -344,7 +343,7 @@
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.ImageVersion.datetime.hour">hour (arbor_imago.core.types.ImageVersion.datetime attribute)</a>
 </li>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookie.httponly">httponly (arbor_imago.core.types.AccessTokenCookie attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookieConfig.httponly">httponly (arbor_imago.core.types.AccessTokenCookieConfig attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -408,11 +407,15 @@
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.BackendSecrets.JWT_ALGORITHM">JWT_ALGORITHM (arbor_imago.core.types.BackendSecrets attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthConfig.jwt_algorithm">jwt_algorithm (arbor_imago.core.types.AuthConfig attribute)</a>
+
+      <ul>
+        <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthTextConfig.jwt_algorithm">(arbor_imago.core.types.AuthTextConfig attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.BackendSecrets.JWT_SECRET_KEY">JWT_SECRET_KEY (arbor_imago.core.types.BackendSecrets attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AuthConfig.jwt_secret_key">jwt_secret_key (arbor_imago.core.types.AuthConfig attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -420,7 +423,21 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookie.key">key (arbor_imago.core.types.AccessTokenCookie attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookieConfig.key">key (arbor_imago.core.types.AccessTokenCookieConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.LoggerConfig.level">level (arbor_imago.core.types.LoggerConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="arbor_imago.utils.html#arbor_imago.utils.load_dict_from_file">load_dict_from_file() (in module arbor_imago.utils)</a>
+</li>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.LoggerConfig">LoggerConfig (class in arbor_imago.core.types)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -553,13 +570,15 @@
         <li><a href="arbor_imago.core.html#arbor_imago.core.types.ImageVersion.datetime.resolution">(arbor_imago.core.types.ImageVersion.datetime attribute)</a>
 </li>
       </ul></li>
+      <li><a href="arbor_imago.utils.html#arbor_imago.utils.resolve_path">resolve_path() (in module arbor_imago.utils)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookie.samesite">samesite (arbor_imago.core.types.AccessTokenCookie attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookieConfig.samesite">samesite (arbor_imago.core.types.AccessTokenCookieConfig attribute)</a>
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.ImageFileMetadata.scale">scale (arbor_imago.core.types.ImageFileMetadata attribute)</a>
 </li>
@@ -571,7 +590,7 @@
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.ImageVersion.datetime.second">second (arbor_imago.core.types.ImageVersion.datetime attribute)</a>
 </li>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookie.secure">secure (arbor_imago.core.types.AccessTokenCookie attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookieConfig.secure">secure (arbor_imago.core.types.AccessTokenCookieConfig attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -625,7 +644,7 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.DbEnv.URL">URL (arbor_imago.core.types.DbEnv attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.DbConfig.URL">URL (arbor_imago.core.types.DbConfig attribute)</a>
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.User">User (class in arbor_imago.core.types)</a>
 </li>
@@ -639,7 +658,7 @@
 </li>
       <li><a href="arbor_imago.core.html#arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_MAPPING">USER_ROLE_NAME_MAPPING (arbor_imago.core.types.SharedConfig attribute)</a>
 </li>
-      <li><a href="arbor_imago.core.html#arbor_imago.core.types.SharedConfig.USER_ROLE_SCOPES">USER_ROLE_SCOPES (arbor_imago.core.types.SharedConfig attribute)</a>
+      <li><a href="arbor_imago.core.html#arbor_imago.core.types.SharedConfig.USER_ROLE_NAME_SCOPE_NAMES">USER_ROLE_NAME_SCOPE_NAMES (arbor_imago.core.types.SharedConfig attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>

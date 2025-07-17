@@ -75,6 +75,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">core_schema</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">datetime_module</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">PhoneNumber</span> <span class="o">=</span> <span class="nb">str</span>
 <span class="n">Email</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">EmailStr</span><span class="p">,</span> <span class="n">StringConstraints</span><span class="p">(</span>
@@ -340,32 +341,42 @@
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 <span class="n">Omissible</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">NotNullable</span><span class="p">()]</span>
 
+<span class="n">HeaderKeys</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="n">FrontendRoutes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="n">ScopeNameMapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+<span class="n">ScopeIdMapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+<span class="n">VisibilityLevelNameMapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">VisibilityLevel</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">VisibilityLevel</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+<span class="n">PermissionLevelNameMapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PermissionLevel</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">PermissionLevel</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+<span class="n">UserRoleNameMapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+<span class="n">UserRoleNameScopeNamesSet</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span>
+<span class="n">UserRoleNameScopeNamesList</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span>
+<span class="n">UserRoleIdScopeIds</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]]</span>
+
 
 <div class="viewcode-block" id="SharedConfig">
 <a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.SharedConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SharedConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SharedConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">BACKEND_URL</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">FRONTEND_URL</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">AUTH_KEY</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">HEADER_KEYS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="n">FRONTEND_ROUTES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
-    <span class="n">SCOPE_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
-    <span class="n">VISIBILITY_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">VisibilityLevel</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                                        <span class="n">VisibilityLevel</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
-    <span class="n">PERMISSION_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">PermissionLevel</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                                        <span class="n">PermissionLevel</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
-    <span class="n">USER_ROLE_NAME_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                                 <span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
-    <span class="n">USER_ROLE_SCOPES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                           <span class="nb">list</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span>
+    <span class="n">HEADER_KEYS</span><span class="p">:</span> <span class="n">HeaderKeys</span>
+    <span class="n">FRONTEND_ROUTES</span><span class="p">:</span> <span class="n">FrontendRoutes</span>
+    <span class="n">SCOPE_NAME_MAPPING</span><span class="p">:</span> <span class="n">ScopeNameMapping</span>
+    <span class="n">VISIBILITY_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="n">VisibilityLevelNameMapping</span>
+    <span class="n">PERMISSION_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="n">PermissionLevelNameMapping</span>
+    <span class="n">USER_ROLE_NAME_MAPPING</span><span class="p">:</span> <span class="n">UserRoleNameMapping</span>
+    <span class="n">USER_ROLE_NAME_SCOPE_NAMES</span><span class="p">:</span> <span class="n">UserRoleNameScopeNamesList</span>
     <span class="n">OTP_LENGTH</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">GOOGLE_CLIENT_ID</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
 
-<div class="viewcode-block" id="DbEnv">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.DbEnv">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DbEnv</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="n">UvicornConfig</span> <span class="o">=</span> <span class="nb">dict</span>
+
+
+<div class="viewcode-block" id="DbConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.DbConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DbConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">URL</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
@@ -374,21 +385,29 @@
                           <span class="s1">&#39;magic_link&#39;</span><span class="p">,</span> <span class="s1">&#39;request_sign_up&#39;</span><span class="p">,</span> <span class="s1">&#39;otp&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="AuthEnv">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthEnv">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AuthEnv</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="AuthTextConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthTextConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AuthTextConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">credential_lifespans</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span>
-                               <span class="n">ISO8601DurationStr</span><span class="p">]</span></div>
+                               <span class="n">ISO8601DurationStr</span><span class="p">]</span>
+    <span class="n">jwt_algorithm</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
 
-<div class="viewcode-block" id="AccessTokenCookie">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookie">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AccessTokenCookie</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="AccessTokenCookieConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AccessTokenCookieConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AccessTokenCookieConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">secure</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
     <span class="n">httponly</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
     <span class="n">samesite</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;lax&#39;</span><span class="p">,</span> <span class="s1">&#39;strict&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">]]</span></div>
+
+
+
+<div class="viewcode-block" id="LoggerConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.LoggerConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoggerConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">level</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span> <span class="s1">&#39;INFO&#39;</span><span class="p">,</span> <span class="s1">&#39;WARNING&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">,</span> <span class="s1">&#39;CRITICAL&#39;</span><span class="p">]</span></div>
 
 
 
@@ -397,30 +416,39 @@
 
 <div class="viewcode-block" id="BackendConfig">
 <a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.BackendConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BackendConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-    <span class="n">UVICORN</span><span class="p">:</span> <span class="nb">dict</span>
-    <span class="n">DB</span><span class="p">:</span> <span class="n">DbEnv</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BackendConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">UVICORN</span><span class="p">:</span> <span class="n">UvicornConfig</span>
+    <span class="n">DB</span><span class="p">:</span> <span class="n">DbConfig</span>
     <span class="n">MEDIA_DIR</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">GOOGLE_CLIENT_PATH</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">AUTH</span><span class="p">:</span> <span class="n">AuthEnv</span>
-    <span class="n">OPENAPI_SCHEMA_PATHS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenAPISchemaKeys</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
-    <span class="n">ACCESS_TOKEN_COOKIE</span><span class="p">:</span> <span class="n">AccessTokenCookie</span></div>
+    <span class="n">AUTH</span><span class="p">:</span> <span class="n">AuthTextConfig</span>
+    <span class="n">OPENAPI_SCHEMA_PATHS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenAPISchemaKeys</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">ACCESS_TOKEN_COOKIE</span><span class="p">:</span> <span class="n">AccessTokenCookieConfig</span></div>
 
+
+
+<span class="n">OpenAPISchemaPaths</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">OpenAPISchemaKeys</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
+
+<span class="n">CredentialLifespans</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span> <span class="n">datetime_module</span><span class="o">.</span><span class="n">timedelta</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="AuthConfig">
 <a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.AuthConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AuthConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-    <span class="n">credential_lifespans</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">CredentialNames</span><span class="p">,</span> <span class="n">datetime_module</span><span class="o">.</span><span class="n">timedelta</span><span class="p">]</span></div>
+    <span class="n">credential_lifespans</span><span class="p">:</span> <span class="n">CredentialLifespans</span>
+    <span class="n">jwt_algorithm</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">jwt_secret_key</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
 
-<div class="viewcode-block" id="BackendSecrets">
-<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.BackendSecrets">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BackendSecrets</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
-    <span class="n">JWT_SECRET_KEY</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">JWT_ALGORITHM</span><span class="p">:</span> <span class="nb">str</span></div>
-
+<span class="n">EnvVar</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span>
+    <span class="s1">&#39;ARBOR_IMAGO_ENV&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ARBOR_IMAGO_CONFIG_DIR&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ARBOR_IMAGO_ENV_PATH&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ARBOR_IMAGO_BACKEND_CONFIG_PATH&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ARBOR_IMAGO_SHARED_CONFIG_PATH&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ARBOR_IMAGO_JWT_SECRET_KEY&#39;</span>
+<span class="p">]</span>
 </pre></div>
 
            </div>

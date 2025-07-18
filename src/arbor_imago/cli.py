@@ -34,5 +34,12 @@ def export_api_schema():
         json.dumps(app.app.openapi()))
 
 
+@cli.command()
+def export_shared_config():
+    """Export shared configuration to a file."""
+
+    config.export_shared_config()
+
+
 if __name__ == "__main__":
     cli()

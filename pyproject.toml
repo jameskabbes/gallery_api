@@ -36,6 +36,7 @@ dependencies = [
     "isodate",
     "platformdirs",
     "toml",
+    "tomli-w>=1.2.0",
 ]
 
 

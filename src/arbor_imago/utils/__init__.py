@@ -6,6 +6,7 @@ import os
 import json
 import yaml
 import tomllib
+import tomli_w
 import configparser
 
 
@@ -71,4 +72,26 @@ def load_dict_from_file(config_path: Path) -> dict:
         case _:
             raise ValueError(
                 f'Config file {config_path} has an unsupported extension. Supported extensions are .json, .yaml, .yml'
+            )
+
+
+def write_dict_to_file(config: dict, config_path: Path) -> None:
+    """Write a dictionary to a file in JSON, YAML, TOML, or INI format based on file extension."""
+    suffix = config_path.suffix.lower()
+    match suffix:
+        case '.json':
+            config_path.write_text(json.dumps(config))
+        case '.yaml' | '.yml':
+            config_path.write_text(yaml.dump(config))
+        case '.toml':
+            config_path.write_text(tomli_w.dumps(config))
+        case '.ini':
+            config_parser = configparser.ConfigParser()
+            for section, values in config.items():
+                config_parser[section] = values
+            with config_path.open('w') as f:
+                config_parser.write(f)
+        case _:
+            raise ValueError(
+                f'Config file {config_path} has an unsupported extension. Supported extensions are .json, .yaml, .yml, .toml, .ini'
             )

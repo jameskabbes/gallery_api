@@ -219,7 +219,8 @@ PermissionLevelNameMapping = dict[PermissionLevel.name, PermissionLevel.id]
 UserRoleNameMapping = dict[UserRole.name, UserRole.id]
 UserRoleNameScopeNamesSet = dict[UserRole.name, set[Scope.name]]
 UserRoleNameScopeNamesList = dict[UserRole.name, list[Scope.name]]
-UserRoleIdScopeIds = dict[UserRole.id, set[Scope.id]]
+UserRoleIdScopeIdsSet = dict[UserRole.id, set[Scope.id]]
+UserRoleIdScopeIdsList = dict[UserRole.id, list[Scope.id]]
 
 
 class SharedConfigFromFile(TypedDict, total=False):
@@ -233,6 +234,22 @@ class SharedConfigFromFile(TypedDict, total=False):
     PERMISSION_LEVEL_NAME_MAPPING: PermissionLevelNameMapping
     USER_ROLE_NAME_MAPPING: UserRoleNameMapping
     USER_ROLE_NAME_SCOPE_NAMES: UserRoleNameScopeNamesList
+    OTP_LENGTH: int
+    GOOGLE_CLIENT_ID: str
+
+
+class GeneratedSharedConfig(TypedDict):
+    ENV: str
+    BACKEND_URL: str
+    FRONTEND_URL: str
+    AUTH_KEY: str
+    HEADER_KEYS: HeaderKeys
+    FRONTEND_ROUTES: FrontendRoutes
+    SCOPE_NAME_MAPPING: ScopeNameMapping
+    VISIBILITY_LEVEL_NAME_MAPPING: VisibilityLevelNameMapping
+    PERMISSION_LEVEL_NAME_MAPPING: PermissionLevelNameMapping
+    USER_ROLE_NAME_MAPPING: UserRoleNameMapping
+    USER_ROLE_SCOPES: UserRoleNameScopeNamesList
     OTP_LENGTH: int
     GOOGLE_CLIENT_ID: str
 
@@ -312,5 +329,6 @@ EnvVar = Literal[
     'ARBOR_IMAGO_ENV_PATH',
     'ARBOR_IMAGO_BACKEND_CONFIG_PATH',
     'ARBOR_IMAGO_SHARED_CONFIG_PATH',
+    'ARBOR_IMAGO_GENERATED_SHARED_CONFIG_PATH',
     'ARBOR_IMAGO_JWT_SECRET_KEY'
 ]

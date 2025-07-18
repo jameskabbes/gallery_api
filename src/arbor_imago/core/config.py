@@ -9,6 +9,7 @@ import isodate
 from platformdirs import user_config_dir
 import datetime
 from typing import cast
+import json
 
 # /gallery/gallery_api/src/arbor_imago/
 ARBOR_IMAGO_DIR = Path(__file__).parent.parent
@@ -27,6 +28,7 @@ _env_var_mapping: dict[str, types.EnvVar] = {
     'env_path': 'ARBOR_IMAGO_ENV_PATH',
     'backend_config_path': 'ARBOR_IMAGO_BACKEND_CONFIG_PATH',
     'shared_config_path': 'ARBOR_IMAGO_SHARED_CONFIG_PATH',
+    'generated_shared_config_path': 'ARBOR_IMAGO_GENERATED_SHARED_CONFIG_PATH',
     'jwt_secret_key': 'ARBOR_IMAGO_JWT_SECRET_KEY'
 }
 
@@ -105,6 +107,11 @@ SHARED_CONFIG_PATH = utils.resolve_path(
     Path.cwd(), env_shared_config_path
 ) if env_shared_config_path else None
 
+env_generated_shared_config_path = os.getenv(
+    _env_var_mapping['generated_shared_config_path'])
+GENERATED_SHARED_CONFIG_PATH = utils.resolve_path(
+    Path.cwd(), env_generated_shared_config_path
+) if env_generated_shared_config_path else CONFIG_DIR / 'generated_shared.json'
 
 # Backend Config
 _backend_config: types.BackendConfigFromFile = {}
@@ -273,13 +280,42 @@ USER_ROLE_NAME_SCOPE_NAMES.update(
     {key: set(value) for key, value in _shared_config.get(
         'USER_ROLE_NAME_SCOPE_NAMES', {}).items()}
 )
+_user_role_name_scope_names_list: types.UserRoleNameScopeNamesList = {
+    user_role_name: list(scope_names) for user_role_name, scope_names in USER_ROLE_NAME_SCOPE_NAMES
+    .items()}
 
-USER_ROLE_ID_SCOPE_IDS: types.UserRoleIdScopeIds = {
+USER_ROLE_ID_SCOPE_IDS: types.UserRoleIdScopeIdsSet = {
     USER_ROLE_NAME_MAPPING[user_role_name]: set([
         SCOPE_NAME_MAPPING[scope_name] for scope_name in USER_ROLE_NAME_SCOPE_NAMES[user_role_name]
     ]) for user_role_name in USER_ROLE_NAME_MAPPING
 }
 
+_user_role_id_scope_ids_list: types.UserRoleIdScopeIdsList = {
+    user_role_id: list(scope_ids) for user_role_id, scope_ids in USER_ROLE_ID_SCOPE_IDS.items()
+}
+
 GOOGLE_CLIENT_ID = _shared_config.get(
     'GOOGLE_CLIENT_ID', 'abcdef.apps.googleusercontent.com')
 OTP_LENGTH = _shared_config.get('OTP_LENGTH', 6)
+
+
+def export_shared_config():
+
+    generated_shared_config: types.GeneratedSharedConfig = {
+        'ENV': ENV,
+        'BACKEND_URL': BACKEND_URL,
+        'FRONTEND_URL': FRONTEND_URL,
+        'AUTH_KEY': AUTH_KEY,
+        'HEADER_KEYS': HEADER_KEYS,
+        'FRONTEND_ROUTES': FRONTEND_ROUTES,
+        'SCOPE_NAME_MAPPING': SCOPE_NAME_MAPPING,
+        'VISIBILITY_LEVEL_NAME_MAPPING': VISIBILITY_LEVEL_NAME_MAPPING,
+        'PERMISSION_LEVEL_NAME_MAPPING': PERMISSION_LEVEL_NAME_MAPPING,
+        'USER_ROLE_NAME_MAPPING': USER_ROLE_NAME_MAPPING,
+        'USER_ROLE_SCOPES': _user_role_name_scope_names_list,
+        'OTP_LENGTH': OTP_LENGTH,
+        'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID
+    }
+
+    utils.write_dict_to_file(cast(dict, generated_shared_config),
+                             GENERATED_SHARED_CONFIG_PATH)

@@ -350,7 +350,8 @@
 <span class="n">UserRoleNameMapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
 <span class="n">UserRoleNameScopeNamesSet</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span>
 <span class="n">UserRoleNameScopeNamesList</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">name</span><span class="p">]]</span>
-<span class="n">UserRoleIdScopeIds</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]]</span>
+<span class="n">UserRoleIdScopeIdsSet</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]]</span>
+<span class="n">UserRoleIdScopeIdsList</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UserRole</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Scope</span><span class="o">.</span><span class="n">id</span><span class="p">]]</span>
 
 
 <div class="viewcode-block" id="SharedConfigFromFile">
@@ -366,6 +367,25 @@
     <span class="n">PERMISSION_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="n">PermissionLevelNameMapping</span>
     <span class="n">USER_ROLE_NAME_MAPPING</span><span class="p">:</span> <span class="n">UserRoleNameMapping</span>
     <span class="n">USER_ROLE_NAME_SCOPE_NAMES</span><span class="p">:</span> <span class="n">UserRoleNameScopeNamesList</span>
+    <span class="n">OTP_LENGTH</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">GOOGLE_CLIENT_ID</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="GeneratedSharedConfig">
+<a class="viewcode-back" href="../../../arbor_imago.core.html#arbor_imago.core.types.GeneratedSharedConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeneratedSharedConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">ENV</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">BACKEND_URL</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">FRONTEND_URL</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">AUTH_KEY</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">HEADER_KEYS</span><span class="p">:</span> <span class="n">HeaderKeys</span>
+    <span class="n">FRONTEND_ROUTES</span><span class="p">:</span> <span class="n">FrontendRoutes</span>
+    <span class="n">SCOPE_NAME_MAPPING</span><span class="p">:</span> <span class="n">ScopeNameMapping</span>
+    <span class="n">VISIBILITY_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="n">VisibilityLevelNameMapping</span>
+    <span class="n">PERMISSION_LEVEL_NAME_MAPPING</span><span class="p">:</span> <span class="n">PermissionLevelNameMapping</span>
+    <span class="n">USER_ROLE_NAME_MAPPING</span><span class="p">:</span> <span class="n">UserRoleNameMapping</span>
+    <span class="n">USER_ROLE_SCOPES</span><span class="p">:</span> <span class="n">UserRoleNameScopeNamesList</span>
     <span class="n">OTP_LENGTH</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">GOOGLE_CLIENT_ID</span><span class="p">:</span> <span class="nb">str</span></div>
 
@@ -476,6 +496,7 @@
     <span class="s1">&#39;ARBOR_IMAGO_ENV_PATH&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ARBOR_IMAGO_BACKEND_CONFIG_PATH&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ARBOR_IMAGO_SHARED_CONFIG_PATH&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ARBOR_IMAGO_GENERATED_SHARED_CONFIG_PATH&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ARBOR_IMAGO_JWT_SECRET_KEY&#39;</span>
 <span class="p">]</span>
 </pre></div>
